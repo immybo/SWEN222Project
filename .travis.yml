@@ -1,3 +1,5 @@
 language: java 
-script: mvn -f pom.xml compile
+script:
+  - mvn -f pom.xml compile
+  - mvn test -f pom.xml
 jdk: oraclejdk8
