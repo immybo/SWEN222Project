@@ -67,6 +67,13 @@ public class Server {
 			return;
 		}
 		
+		int connected = 0;
+		/* FIXME magic constant 2 */
+		while (connected != 2) {
+			sock.accept();
+			conntected++;
+		}
+		
 		System.out.println("Server listening on port " + port);
 		cleanup();
 		System.out.println("Server stopped");
