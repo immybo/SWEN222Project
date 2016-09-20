@@ -1,7 +1,9 @@
 package network;
 
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.ServerSocket;
+import java.net.Socket;
 
 public class Server {
 	public static final int DEFAULT_PORT = 11684;
@@ -31,11 +33,13 @@ public class Server {
 	 */
 	private boolean initialise() {
 		try {
-			sock = new ServerSocket(port);
+			sock = new ServerSocket();
+			sock.setReuseAddress(true);
+			sock.bind(new InetSocketAddress(port));
 			return true;
 		} catch (IOException e) {
 			/* FIXME gui popup instead */
-			System.err.println("Error listening on port " + port + ": " + e.getMessage());
+			System.err.println("Error binding on port " + port + ": " + e.getMessage());
 			return false;
 		}
 	}
@@ -61,17 +65,34 @@ public class Server {
 	
 	
 	public void run() {
+		/* FIXME magic constant 2 */
+		int totalPlayers = 2;
+		
+		Socket clientSocks[] = new Socket[totalPlayers];
+		
 		/* try to initialise, bailing altogether if it fails */
 		if (!initialise()) {
 			System.err.println("Initialising failed. Stop.");
 			return;
 		}
 		
+		System.err.println("Server listening on "+port);
+		
 		int connected = 0;
-		/* FIXME magic constant 2 */
-		while (connected != 2) {
-			sock.accept();
-			conntected++;
+		while (connected < clientSocks.length) {
+			try {
+				Socket client = sock.accept();
+				
+				System.err.println("Accepted connection from "+client.getInetAddress());
+				
+				clientSocks[connected] = client;
+				connected++;
+				
+				byte[] data = "Hello\n".getBytes();
+				client.getOutputStream().write(data);
+			} catch (IOException e) {
+				System.err.println("Error accepting client connection: "+e.getMessage());
+			}
 		}
 		
 		System.out.println("Server listening on port " + port);
