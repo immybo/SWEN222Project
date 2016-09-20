@@ -18,7 +18,7 @@ public class PositionTransformation {
 	 * @param offset The flat offset to apply from a world coordinate to a graphics pane coordinate.
 	 * @param factor The factor to apply before the offset is applied.
 	 */
-	public PositionTransformation(double offset, double factor){
+	public PositionTransformation(double factor, double offset){
 		this.offset = offset;
 		this.factor = factor;
 	}
