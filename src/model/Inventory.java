@@ -155,6 +155,23 @@ public class Inventory {
 		return true;
 	}
 	
+	/**
+	 * @return The position of the given item in this inventory, or -1 if it isn't contained.
+	 */
+	public int indexOf(Item item){
+		for(int i = 0; i < storageCapacity; i++){
+			if(items[i] == item) return i;
+		}
+		return -1;
+	}
+	
+	/**
+	 * @return An array of all items in this inventory, with null denoting no item at that index.
+	 */
+	public Item[] getItems(){
+		return items.clone();
+	}
+	
 	private void removeAtIndex(int index){
 		if(index < 0 || index > items.length)
 			throw new IllegalArgumentException("Attempting to remove an item from an inventory at an invalid index.");
