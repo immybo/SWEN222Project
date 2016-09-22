@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Point;
+import java.util.List;
 
 /**
  * A zone is a discrete section of the world.
@@ -12,6 +13,7 @@ import java.awt.Point;
 public class Zone {
 	private String name;
 	private Tile[][] tiles;
+	private List<Item> items;
 	
 	private Zone(String name, Tile[][] tiles){
 		this.name = name;
@@ -30,5 +32,25 @@ public class Zone {
 	@Override
 	public String toString(){
 		return name;
+	}
+	
+	/**
+	 * Adds an item to be contained in (and therefore drawn on)
+	 * this zone.
+	 * 
+	 * @param i The item to be added.
+	 */
+	public void addItem(Item i){
+		items.add(i);
+	}
+	
+	/**
+	 * Removes an item to no longer be contained in (and therefore
+	 * not drawn on) this zone.
+	 * 
+	 * @param i The item to be added.
+	 */
+	public void removeItem(Item i){
+		items.remove(i);
 	}
 }
