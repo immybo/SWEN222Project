@@ -15,11 +15,26 @@ public class Zone {
 	private Tile[][] tiles;
 	private List<Item> items;
 	
+	/**
+	 * Private constructor for a Zone.
+	 * Zones can only be constructed from appropriate
+	 * XML objects.
+	 * 
+	 * @param name The name of the new zone.
+	 * @param tiles The tiles in the new zone.
+	 */
 	private Zone(String name, Tile[][] tiles){
 		this.name = name;
 		this.tiles = tiles;
 	}
 	
+	/**
+	 * Returns the tile at the given point.
+	 * 
+	 * @param point The point to get the tile at.
+	 * @return The tile that is at the given point.
+	 * @throws IllegalArgumentException If the point is out of the bounds of this zone.
+	 */
 	public Tile getTile(Point point){
 		if(point.x > tiles[0].length || point.x < 0)
 			throw new IllegalArgumentException("Trying to get a tile at an invalid X: " + point.getX());
@@ -30,6 +45,9 @@ public class Zone {
 	}
 	
 	@Override
+	/**
+	 * Returns the name of this zone.
+	 */
 	public String toString(){
 		return name;
 	}
