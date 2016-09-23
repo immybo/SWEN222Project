@@ -11,6 +11,7 @@ public class Server {
 	private ServerSocket sock;
 	private int port;
 	private Socket[] clientSocks;
+	private int clientCount;
 	
 	/**
 	 * Simple constructor using default port number
@@ -25,6 +26,7 @@ public class Server {
 	 */
 	public Server(int port) {
 		this.port = port;
+		clientCount = 0;
 	}
 	
 	/**
@@ -125,27 +127,29 @@ public class Server {
 			return;
 		}
 		
-		int connected = 0;
-		while (connected < clientSocks.length) {
+		while (!sock.isClosed() && clientCount < clientSocks.length) {
 			try {
 				Socket client = sock.accept();
 				System.out.println("Accepted connection from "+client.getInetAddress());
 		
 				/* attempt basic sanity-check */
 				if (doHandshake(client)) {
-					clientSocks[connected] = client;
-					connected++;
+					clientSocks[clientCount] = client;
+					clientCount++;
 				} else {
 					System.err.println("Magic phrase exchange failed, disconnecting client");
 					client.close();
 				}
 			} catch (IOException e) {
-				System.err.println("Error with client socket: "+e.getMessage());
+				System.err.println("Error accpeting client: "+e.getMessage());
 			}
 		}
-		
+		if (sock.isClosed()) {
+			stop();
+			return;
+		}
+			
 		System.out.println("All clients connected" + port);
-		stop();
 	}
 	
 	
@@ -156,6 +160,8 @@ public class Server {
 		System.out.println("Server stopping...");
 		if (clientSocks != null) {
 			for (Socket client : clientSocks) {
+				if (client == null)
+					continue;
 				try {
 					client.close();
 				} catch (IOException e) {
@@ -167,8 +173,18 @@ public class Server {
 		System.out.println("Server stopped");
 	}
 	
+	/**
+	 * Get the number of client connections currently on the server
+	 * @return
+	 */
+	public int getConnectedCount() {
+		return clientCount; 
+	}
+	
 	/* temporary */
 	public static void main(String[] args) {
-		(new Server()).run();
+		Server s = new Server();
+		s.run();
+		s.stop();
 	}
 }
