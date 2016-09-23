@@ -15,15 +15,15 @@ public class Server {
 	private Socket[] clientSocks;
 	
 	/**
-	 * Simple constructor uses default port no
+	 * Simple constructor using default port number
 	 */
 	public Server() {
 		this(DEFAULT_PORT);
 	}
 	
 	/**
-	 * Extended constructor specify custom port
-	 * @param port --- custom port to listen on
+	 * Extended constructor taking custom port number
+	 * @param port --- port number to listen on
 	 */
 	public Server(int port) {
 		this.port = port;
