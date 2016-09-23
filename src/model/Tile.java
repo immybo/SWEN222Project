@@ -25,4 +25,12 @@ public abstract class Tile {
 	public Point getPosition(){
 		return position;
 	}
+	
+	/**
+	 * Tiles can either collide with collidable objects,
+	 * or not collide with them.
+	 * 
+	 * @return Whether or not this tile collides with objects.
+	 */
+	public abstract boolean collides();
 }
