@@ -79,11 +79,11 @@ public class Server {
 		DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
 		
 		/* send the server's magic sequence and wait for a reply */
-		out.writeUTF(Protocol.serverMagic);
+		out.writeUTF(Protocol.SERVER_MAGIC);
 		String response = in.readUTF();
 		
 		/* did the client's response match the expected value? */
-		return (response != null && response.equals(Protocol.clientMagic));
+		return (response != null && response.equals(Protocol.CLIENT_MAGIC));
 	}
 	
 	

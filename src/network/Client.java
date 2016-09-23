@@ -27,10 +27,10 @@ public class Client {
 		String response = in.readUTF();
 		
 		/* reply with out magic sequence */
-		out.writeUTF(Protocol.clientMagic);
+		out.writeUTF(Protocol.CLIENT_MAGIC);
 		
 		/* did the client's response match the expected value? */
-		return (response != null && response.equals(Protocol.serverMagic));
+		return (response != null && response.equals(Protocol.SERVER_MAGIC));
 	}
 	
 	public void run() {
