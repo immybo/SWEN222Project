@@ -70,10 +70,10 @@ public class Server {
 	
 	/**
 	 * Check if the server's listener socket is bound
-	 * @return true if bound, false if unbound or no socket present
+	 * @return true if bound, false if unbound, closed, or no socket present
 	 */
 	public boolean isBound() {
-		return sock != null && sock.isBound();
+		return sock != null && !sock.isClosed() && sock.isBound();
 	}
 	
 	
@@ -154,11 +154,13 @@ public class Server {
 	 */
 	public void stop() {
 		System.out.println("Server stopping...");
-		for (Socket client : clientSocks) {
-			try {
-				client.close();
-			} catch (IOException e) {
-				System.err.println("Warning: failed to disconnect a client");
+		if (clientSocks != null) {
+			for (Socket client : clientSocks) {
+				try {
+					client.close();
+				} catch (IOException e) {
+					System.err.println("Warning: failed to disconnect a client");
+				}
 			}
 		}
 		cleanup();
