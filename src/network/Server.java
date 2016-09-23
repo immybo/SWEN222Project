@@ -122,13 +122,13 @@ public class Server {
 				System.out.println("Accepted connection from "+client.getInetAddress());
 		
 				/* attempt basic sanity-check */
-				if (!doHandshake(client)) {
+				if (doHandshake(client)) {
+					clientSocks[connected] = client;
+					connected++;
+				} else {
 					System.err.println("Magic phrase exchange failed, disconnecting client");
 					client.close();
 				}
-				
-				clientSocks[connected] = client;
-				connected++;
 			} catch (IOException e) {
 				System.err.println("Error with client socket: "+e.getMessage());
 			}
