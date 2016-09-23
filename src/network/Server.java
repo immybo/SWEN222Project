@@ -43,6 +43,7 @@ public class Server {
 			sock = new ServerSocket();
 			sock.setReuseAddress(true);
 			sock.bind(new InetSocketAddress(port));
+			System.out.println("Server listening on port "+port);
 			return true;
 		} catch (IOException e) {
 			/* FIXME gui popup instead */
@@ -149,7 +150,7 @@ public class Server {
 			return;
 		}
 			
-		System.out.println("All clients connected" + port);
+		System.out.println("All clients connected");
 	}
 	
 	
@@ -157,7 +158,7 @@ public class Server {
 	 * Stop the server if it is running
 	 */
 	public void stop() {
-		System.out.println("Server stopping...");
+		System.out.print("Server stopping... ");
 		if (clientSocks != null) {
 			for (Socket client : clientSocks) {
 				if (client == null)
@@ -170,7 +171,7 @@ public class Server {
 			}
 		}
 		cleanup();
-		System.out.println("Server stopped");
+		System.out.println("stopped");
 	}
 	
 	/**
