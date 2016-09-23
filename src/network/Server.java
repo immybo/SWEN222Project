@@ -8,8 +8,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
-	public static final int DEFAULT_PORT = 11684;
-	
 	private ServerSocket sock;
 	private int port;
 	private Socket[] clientSocks;
@@ -18,7 +16,7 @@ public class Server {
 	 * Simple constructor using default port number
 	 */
 	public Server() {
-		this(DEFAULT_PORT);
+		this(Protocol.DEFAULT_PORT);
 	}
 	
 	/**
@@ -125,7 +123,7 @@ public class Server {
 		
 				/* attempt basic sanity-check */
 				if (!doHandshake(client)) {
-					System.err.println("Magic number exchange failed, disconnecting client");
+					System.err.println("Magic phrase exchange failed, disconnecting client");
 					client.close();
 				}
 				
@@ -136,7 +134,7 @@ public class Server {
 			}
 		}
 		
-		System.out.println("Server listening on port " + port);
+		System.out.println("All clients connected" + port);
 		cleanup();
 		System.out.println("Server stopped");
 	}
