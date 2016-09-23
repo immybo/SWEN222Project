@@ -13,6 +13,7 @@ import util.*;
  */
 public abstract class Item {
 	private boolean inInventory;
+	private Zone zone;
 	private PointD worldPosition;
 	private Inventory inventory;
 	private double size;
@@ -23,7 +24,8 @@ public abstract class Item {
 	 * @param worldPosition The initial world position of this item.
 	 * @param size The size of this item.
 	 */
-	public Item(PointD worldPosition, double size){
+	public Item(Zone zone, PointD worldPosition, double size){
+		this.zone = zone;
 		this.worldPosition = worldPosition;
 		this.inInventory = false;
 		this.size = size;
@@ -66,6 +68,7 @@ public abstract class Item {
 			throw new IllegalStateException("Attempting to pick up an item that is already contained in an inventory.");
 		inInventory = true;
 		inventory = newInv;
+		zone.removeItem(this);
 	}
 	
 	/**
@@ -73,14 +76,17 @@ public abstract class Item {
 	 * dropped from an inventory into the world.
 	 * This should be called whenever this happens.
 	 * 
+	 * @param newZone The zone for this item to be put in.
 	 * @param worldPos The world position for this item to be put at.
 	 * @throws IllegalStateException If this item isn't in an inventory.
 	 */
-	public void onDrop(PointD worldPos) throws IllegalStateException {
+	public void onDrop(Zone newZone, PointD worldPos) throws IllegalStateException {
 		if(!inInventory())
 			throw new IllegalStateException("Attempting to drop an item that isn't contained in an inventory.");
 		inInventory = false;
 		this.worldPosition = worldPos;
+		this.zone = newZone;
+		zone.addItem(this);
 	}
 	
 	/**
