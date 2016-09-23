@@ -30,9 +30,13 @@ public class Server {
 	/**
 	 * Initialise the server
 	 * 
-	 * @return true on success, false otherwise 
+	 * @return true on success of already initialised, false on error
 	 */
-	private boolean initialise() {
+	public boolean initialise() {
+		/* has the server already been initialised? */
+		if (sock != null && sock.isBound()) {
+			return true;
+		}
 		try {
 			sock = new ServerSocket();
 			sock.setReuseAddress(true);
@@ -62,6 +66,14 @@ public class Server {
 			System.err.println("Error closing server socket: " + e.getMessage());
 			return false;
 		}
+	}
+	
+	/**
+	 * Check if the server's listener socket is bound
+	 * @return true if bound, false if unbound or no socket present
+	 */
+	public boolean isBound() {
+		return sock != null && sock.isBound();
 	}
 	
 	
@@ -113,8 +125,6 @@ public class Server {
 			return;
 		}
 		
-		System.out.println("Server listening on "+port);
-		
 		int connected = 0;
 		while (connected < clientSocks.length) {
 			try {
@@ -135,6 +145,22 @@ public class Server {
 		}
 		
 		System.out.println("All clients connected" + port);
+		stop();
+	}
+	
+	
+	/**
+	 * Stop the server if it is running
+	 */
+	public void stop() {
+		System.out.println("Server stopping...");
+		for (Socket client : clientSocks) {
+			try {
+				client.close();
+			} catch (IOException e) {
+				System.err.println("Warning: failed to disconnect a client");
+			}
+		}
 		cleanup();
 		System.out.println("Server stopped");
 	}
