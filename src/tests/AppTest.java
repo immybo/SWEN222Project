@@ -24,14 +24,8 @@ public class AppTest
      */
     public static Test suite()
     {
-        return new TestSuite( AppTest.class, PointDTest.class, InventoryTests.class );
-    }
-
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
+        return new TestSuite( PointDTest.class,
+        					  InventoryTests.class,
+        					  DataStorageTests.class );
     }
 }

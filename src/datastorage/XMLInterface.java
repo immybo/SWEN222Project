@@ -13,7 +13,10 @@ import java.io.File;
 import java.io.IOException;
 
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
+
+import model.Zone;
 
 /**
  * Allows for writing and reading a game's state
@@ -23,6 +26,48 @@ import org.xml.sax.SAXException;
  */
 public class XMLInterface {
 	private XMLInterface(){}
+	
+	public static void saveToFile(Storable rootElement, File file){
+		try {
+    		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+    		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+    		
+    		Document doc = docBuilder.newDocument();
+    		doc.appendChild(rootElement.toXMLElement(doc));
+
+    		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+    		Transformer transformer = transformerFactory.newTransformer();
+    		DOMSource source = new DOMSource(doc);
+    		
+    		StreamResult result =  new StreamResult(file);
+    		transformer.transform(source, result);
+    	  } catch (ParserConfigurationException pce) {
+    		pce.printStackTrace();
+    	  } catch (TransformerException tfe) {
+    		tfe.printStackTrace();
+    	}
+	}
+	
+	public static <E> E loadFromFile(StorableFactory<E> rootFactory, File file){
+		try{
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+			
+			Document doc = docBuilder.parse(file);
+			return rootFactory.fromXMLElement(doc.getDocumentElement());
+		}
+		catch(IOException e){
+			e.printStackTrace();
+		}
+		catch(SAXException e){
+			e.printStackTrace();
+		}
+		catch(ParserConfigurationException e){
+			e.printStackTrace();
+		}
+		
+		throw new NullPointerException();
+	}
 	
 	/**
 	 * Writes the current game's state to a file in XML

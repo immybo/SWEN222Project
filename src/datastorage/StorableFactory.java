@@ -1,6 +1,6 @@
 package datastorage;
 
-import javax.xml.bind.Element;
+import org.w3c.dom.*;
 
 /**
  * Defines a class which can construct objects from
