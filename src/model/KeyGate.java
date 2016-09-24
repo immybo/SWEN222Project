@@ -15,6 +15,8 @@ public class KeyGate extends Gate {
 	public KeyGate(State initial, Zone zone, Coord worldPosition, double size, String keyID) {
 		super(initial, zone, worldPosition, size);
 		this.keyID = keyID;
+		
+		this.addInteraction(i);
 	}
 
 	/**
@@ -45,5 +47,9 @@ public class KeyGate extends Gate {
 	@Override
 	public boolean isPassable() {
 		return this.passable;
+	}
+
+	public void setPassable(boolean passable) {
+		this.passable = passable;
 	}
 }
