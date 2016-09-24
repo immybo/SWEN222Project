@@ -8,37 +8,42 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
-	public static final int DEFAULT_PORT = 11684;
-	
 	private ServerSocket sock;
 	private int port;
 	private Socket[] clientSocks;
+	private int clientCount;
 	
 	/**
-	 * Simple constructor uses default port no
+	 * Simple constructor using default port number
 	 */
 	public Server() {
-		this(DEFAULT_PORT);
+		this(Protocol.DEFAULT_PORT);
 	}
 	
 	/**
-	 * Extended constructor specify custom port
-	 * @param port --- custom port to listen on
+	 * Extended constructor taking custom port number
+	 * @param port --- port number to listen on
 	 */
 	public Server(int port) {
 		this.port = port;
+		clientCount = 0;
 	}
 	
 	/**
 	 * Initialise the server
 	 * 
-	 * @return true on success, false otherwise 
+	 * @return true on success of already initialised, false on error
 	 */
-	private boolean initialise() {
+	public boolean initialise() {
+		/* has the server already been initialised? */
+		if (sock != null && sock.isBound()) {
+			return true;
+		}
 		try {
 			sock = new ServerSocket();
 			sock.setReuseAddress(true);
 			sock.bind(new InetSocketAddress(port));
+			System.out.println("Server listening on port "+port);
 			return true;
 		} catch (IOException e) {
 			/* FIXME gui popup instead */
@@ -66,6 +71,14 @@ public class Server {
 		}
 	}
 	
+	/**
+	 * Check if the server's listener socket is bound
+	 * @return true if bound, false if unbound, closed, or no socket present
+	 */
+	public boolean isBound() {
+		return sock != null && !sock.isClosed() && sock.isBound();
+	}
+	
 	
 	/**
 	 * Perform a simple sanity-check handshake with a client attached
@@ -81,11 +94,11 @@ public class Server {
 		DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
 		
 		/* send the server's magic sequence and wait for a reply */
-		out.writeUTF(Protocol.serverMagic);
+		out.writeUTF(Protocol.SERVER_MAGIC);
 		String response = in.readUTF();
 		
 		/* did the client's response match the expected value? */
-		return (response != null && response.equals(Protocol.clientMagic));
+		return (response != null && response.equals(Protocol.CLIENT_MAGIC));
 	}
 	
 	
@@ -115,34 +128,64 @@ public class Server {
 			return;
 		}
 		
-		System.out.println("Server listening on "+port);
-		
-		int connected = 0;
-		while (connected < clientSocks.length) {
+		while (!sock.isClosed() && clientCount < clientSocks.length) {
 			try {
 				Socket client = sock.accept();
 				System.out.println("Accepted connection from "+client.getInetAddress());
 		
 				/* attempt basic sanity-check */
-				if (!doHandshake(client)) {
-					System.err.println("Magic number exchange failed, disconnecting client");
+				if (doHandshake(client)) {
+					clientSocks[clientCount] = client;
+					clientCount++;
+				} else {
+					System.err.println("Magic phrase exchange failed, disconnecting client");
 					client.close();
 				}
-				
-				clientSocks[connected] = client;
-				connected++;
 			} catch (IOException e) {
-				System.err.println("Error with client socket: "+e.getMessage());
+				System.err.println("Error accpeting client: "+e.getMessage());
 			}
 		}
-		
-		System.out.println("Server listening on port " + port);
+		if (sock.isClosed()) {
+			stop();
+			return;
+		}
+			
+		System.out.println("All clients connected");
+	}
+	
+	
+	/**
+	 * Stop the server if it is running
+	 */
+	public void stop() {
+		System.out.print("Server stopping... ");
+		if (clientSocks != null) {
+			for (Socket client : clientSocks) {
+				if (client == null)
+					continue;
+				try {
+					client.close();
+				} catch (IOException e) {
+					System.err.println("Warning: failed to disconnect a client");
+				}
+			}
+		}
 		cleanup();
-		System.out.println("Server stopped");
+		System.out.println("stopped");
+	}
+	
+	/**
+	 * Get the number of client connections currently on the server
+	 * @return
+	 */
+	public int getConnectedCount() {
+		return clientCount; 
 	}
 	
 	/* temporary */
 	public static void main(String[] args) {
-		(new Server()).run();
+		Server s = new Server();
+		s.run();
+		s.stop();
 	}
 }

@@ -1,77 +1,55 @@
 package network;
 
-import java.io.DataInputStream;
+
 import java.io.DataOutputStream;
+import java.io.DataInputStream;
 import java.io.IOException;
-import java.net.InetAddress;
 import java.net.Socket;
 
 public class Client {
-
-	private final static int DEFAULT_PORT = 11684;
-
-	private Socket socket;
-
-	private DataOutputStream out;
-	private DataInputStream in;
-
-
-	/**
-	 * Basic client constructor connecting to addr
-	 * @param addr
-	 */
-	public Client(String addr){
-
-		try{
-			InetAddress ip = InetAddress.getByName(addr);
-			this.socket = new Socket(ip, DEFAULT_PORT);
-			this.out = new DataOutputStream(socket.getOutputStream());
-			this.in = new DataInputStream(socket.getInputStream());
-			this.doHandshake();
-		} catch(IOException e){
-			e.printStackTrace();
-		}
+	private String host;
+	private int port;
+	private Socket sock;
+	
+	public Client(String host) {
+		this(host, Protocol.DEFAULT_PORT);
+	}
+	
+	public Client(String host, int port) {
+		this.host = host;
+		this.port = port;
+	}
+	
+	public boolean doHandshake(Socket socket) throws IOException {
+		DataOutputStream out = new DataOutputStream(socket.getOutputStream());
+		DataInputStream in = new DataInputStream(socket.getInputStream());
 		
-
+		/* receive server's greeting */
+		String response = in.readUTF();
+		
+		/* reply with out magic sequence */
+		out.writeUTF(Protocol.CLIENT_MAGIC);
+		
+		/* did the client's response match the expected value? */
+		return (response != null && response.equals(Protocol.SERVER_MAGIC));
 	}
-
-	/**
-	 * Basic client constructor connecting to addr, and given port number
-	 * @param addr
-	 */
-	public Client(String addr, int port){
-
-		try{
-			InetAddress ip = InetAddress.getByName(addr);
-			this.socket = new Socket(ip, port);
-			this.out = new DataOutputStream(socket.getOutputStream());
-			this.in = new DataInputStream(socket.getInputStream());
-			this.doHandshake();
-		} catch(IOException e){
-			e.printStackTrace();
-		}
-	}
-
-	/**
-	 * Perform a simple sanity-check handshake with the server
-	 * based on the protocol set out in the network.Protocol
-	 * class
-	 * @return true if handshake succeeds, false otherwise
-	 * @throws IOException
-	 */
-	private boolean doHandshake()throws IOException{
+	
+	public void run() {
 		try {
-			/* send the server's magic sequence and wait for a reply */
-			String response = in.readUTF();
-			this.out.writeUTF(Protocol.clientMagic);
-
-			/* did the client's response match the expected value? */
-			return (response != null && response.equals(Protocol.serverMagic));
+			sock = new Socket(host, port);
+			if (!doHandshake(sock)) {
+				System.err.println("Handshaking with server failed");
+			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.err.printf("Error connecting to %s:%d : %s\n",
+						host, port,
+						e.getMessage());
 		}
-		return false;
+	}
+	
+	/* temporary */
+	public static void main(String[] args) {
+		(new Client("localhost")).run();
 	}
 
 }

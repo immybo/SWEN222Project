@@ -24,7 +24,7 @@ public class AppTest
      */
     public static Test suite()
     {
-        return new TestSuite( AppTest.class, PointDTest.class, InventoryTests.class );
+        return new TestSuite( AppTest.class, PointDTest.class, InventoryTests.class, NetworkTests.class );
     }
 
     /**
