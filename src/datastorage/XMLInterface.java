@@ -27,27 +27,49 @@ import model.Zone;
 public class XMLInterface {
 	private XMLInterface(){}
 	
+	/**
+	 * Saves the given element to the given file as XML through
+	 * its toXMLElement(Document) method.
+	 * 
+	 * @param rootElement The root element of the XML file.
+	 * @param file The file to save it to. This file will be overriden if it exists.
+	 */
 	public static void saveToFile(Storable rootElement, File file){
 		try {
+			// Build a document
+			
     		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
     		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
     		
     		Document doc = docBuilder.newDocument();
+    		
+    		// Put the XML in the document
+    		
     		doc.appendChild(rootElement.toXMLElement(doc));
 
+    		// Push the document into a file
+    		
     		TransformerFactory transformerFactory = TransformerFactory.newInstance();
     		Transformer transformer = transformerFactory.newTransformer();
     		DOMSource source = new DOMSource(doc);
     		
     		StreamResult result =  new StreamResult(file);
     		transformer.transform(source, result);
-    	  } catch (ParserConfigurationException pce) {
-    		pce.printStackTrace();
-    	  } catch (TransformerException tfe) {
-    		tfe.printStackTrace();
-    	}
+		} catch (ParserConfigurationException | TransformerException e) {
+    		throw new IllegalStateException("Error with saving XML to file: \n" + e);
+		}
 	}
 	
+	/**
+	 * Loads XML from a file, assuming that an instance of type E
+	 * is the root element. For example, a Level could be the root
+	 * element of a file, in which case a LevelFactory would be
+	 * passed.
+	 * 
+	 * @param rootFactory A factory corresponding to the root element of the file.
+	 * @param file The file to read from.
+	 * @return The root element that was read as a Java object.
+	 */
 	public static <E> E loadFromFile(StorableFactory<E> rootFactory, File file){
 		try{
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
@@ -57,16 +79,14 @@ public class XMLInterface {
 			return rootFactory.fromXMLElement(doc.getDocumentElement());
 		}
 		catch(IOException e){
-			e.printStackTrace();
+			throw new IllegalArgumentException("Can't load XML from file: \n" + e);
 		}
 		catch(SAXException e){
-			e.printStackTrace();
+			throw new IllegalStateException("Invalid XML in file " + file.getName() + ": \n" + e);
 		}
 		catch(ParserConfigurationException e){
-			e.printStackTrace();
+			throw new IllegalStateException("Error with loading XML from file: \n" + e);
 		}
-		
-		throw new NullPointerException();
 	}
 	
 	/**
@@ -97,23 +117,5 @@ public class XMLInterface {
 		// TODO take a World/etc
 		
 		File file = new File(filename);
-		
-		// http://stackoverflow.com/questions/4561734/how-to-save-parsed-and-changed-dom-document-in-xml-file
-		try {
-			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			DocumentBuilder builder = factory.newDocumentBuilder();
-			Document doc = builder.parse(file);
-			
-			Transformer transformer = TransformerFactory.newInstance().newTransformer();
-			Result output = new StreamResult(file);
-			Source input = new DOMSource(doc);
-
-			transformer.transform(input, output);
-		} catch (TransformerFactoryConfigurationError | ParserConfigurationException |
-				 TransformerException | SAXException e) {
-			// We really shouldn't have any exceptions here; they are exceptions with the code
-			// in here, so it's best to just crash.
-			throw new RuntimeException(e);
-		}
 	}
 }

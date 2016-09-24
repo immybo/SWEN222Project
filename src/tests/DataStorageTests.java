@@ -15,7 +15,7 @@ import junit.framework.TestCase;
 
 public class DataStorageTests extends TestCase {
 	@Test
-	public void testLevelStorage1(){
+	public void testLevelStorage(){
 		Tile[][] tiles1 = generateTiles(5, 5);
 		Tile[][] tiles2 = generateTiles(4, 4);
 		
@@ -29,7 +29,23 @@ public class DataStorageTests extends TestCase {
 		Level importedLevel = XMLInterface.loadFromFile(new Level.LevelFactory(), new File("testxml.xml"));
 		
 		assertEquals(level, importedLevel);
+		deleteTestXMLFile();
+	}
+	
+	@Test
+	public void testZoneStorage(){
+		Tile[][] tiles = generateTiles(10,10);
 		
+		Zone zone = new Zone("zone", tiles);
+		XMLInterface.saveToFile(zone,  new File("testxml.xml"));
+		
+		Zone importedZone = XMLInterface.loadFromFile(new Zone.ZoneFactory(), new File("testxml.xml"));
+		
+		assertEquals(zone, importedZone);
+		deleteTestXMLFile();
+	}
+	
+	public void deleteTestXMLFile(){
 		try {
 			Files.deleteIfExists(FileSystems.getDefault().getPath("testxml.xml"));
 		} catch (IOException e) {
