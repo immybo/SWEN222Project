@@ -16,7 +16,7 @@ public class KeyGate extends Gate {
 		super(initial, zone, worldPosition, size);
 		this.keyID = keyID;
 		
-		this.addInteraction(i);
+		//this.addInteraction(i);
 	}
 
 	/**
