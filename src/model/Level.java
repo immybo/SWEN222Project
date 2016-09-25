@@ -29,6 +29,10 @@ public class Level implements Storable {
 		this.name = name;
 		this.zones = zones;
 	}
+	
+	public Zone[] getZones(){
+		return zones.clone();
+	}
 
 	@Override
 	public Element toXMLElement(Document doc) {

@@ -14,16 +14,9 @@ import util.*;
  * 
  * @author Robert Campbell
  */
-public abstract class Item {
-	// If an item is in an inventory, it has an inventory.
-	// Otherwise, it has a zone and world position.
+public abstract class Item implements Storable {
 	private boolean inInventory;
-	
-	private Zone zone;
 	private PointD worldPosition;
-	
-	private Inventory inventory;
-	
 	private double size;
 	
 	// Unique identifier for this item
@@ -36,8 +29,7 @@ public abstract class Item {
 	 * @param worldPosition The initial world position of this item.
 	 * @param size The size of this item.
 	 */
-	public Item(Zone zone, PointD worldPosition, double size){
-		this.zone = zone;
+	public Item(PointD worldPosition, double size){
 		this.worldPosition = worldPosition;
 		this.inInventory = false;
 		this.size = size;
@@ -48,15 +40,28 @@ public abstract class Item {
 	/**
 	 * Creates an item that initially resides in an inventory.
 	 * 
-	 * @param inventory The inventory that this item initially resides in.
 	 * @param size The size of this item.
 	 */
-	public Item(Inventory inventory, double size){
-		this.inventory = inventory;
+	public Item(double size){
 		this.inInventory = true;
 		this.size = size;
 		
 		this.id = nextID++;
+	}
+	
+	/**
+	 * Constructor to create an item from an XML element.
+	 */
+	protected Item(Element elem){
+		this.inInventory = Boolean.parseBoolean(elem.getAttribute("inInventory"));
+		this.id = Long.parseLong(elem.getAttribute("ID"));
+		this.size = Double.parseDouble(elem.getAttribute("size"));
+		if(!inInventory){
+			this.worldPosition = new PointD(
+					Double.parseDouble(elem.getAttribute("worldX")),
+					Double.parseDouble(elem.getAttribute("worldY"))
+				);
+		}
 	}
 	
 	/**
@@ -76,15 +81,12 @@ public abstract class Item {
 	 * picked up from the world into an inventory.
 	 * This should be called whenever this happens.
 	 * 
-	 * @param newInv The inventory for this item to be placed into.
 	 * @throws IllegalStateException If this item is in an inventory.
 	 */
-	public void onPickUp(Inventory newInv){
+	public void onPickUp(){
 		if(inInventory())
 			throw new IllegalStateException("Attempting to pick up an item that is already contained in an inventory.");
 		inInventory = true;
-		inventory = newInv;
-		zone.removeItem(this);
 	}
 	
 	/**
@@ -101,8 +103,6 @@ public abstract class Item {
 			throw new IllegalStateException("Attempting to drop an item that isn't contained in an inventory.");
 		inInventory = false;
 		this.worldPosition = worldPos;
-		this.zone = newZone;
-		zone.addItem(this);
 	}
 	
 	/**
@@ -116,18 +116,6 @@ public abstract class Item {
 		if(inInventory())
 			throw new IllegalStateException("Attempting to get the world position of an item which is contained in an inventory.");
 		return worldPosition;
-	}
-	
-	/**
-	 * Returns the inventory which this item is contained in.
-	 * 
-	 * @return The inventory which this item is contained in.
-	 * @throws IllegalStateException If this item isn't in an inventory.
-	 */
-	public Inventory getInventory() throws IllegalStateException {
-		if(!inInventory())
-			throw new IllegalStateException("Attempting to get the inventory of an item which isn't contained in an inventory.");
-		return inventory;
 	}
 	
 	/**
@@ -155,5 +143,26 @@ public abstract class Item {
 	 */
 	public long getID(){
 		return id;
+	}
+	
+	@Override
+	public Element toXMLElement(Document doc){
+		Element elem = doc.createElement("item");
+		elem.setAttribute("inInventory", inInventory+"");
+		elem.setAttribute("ID", id+"");
+		elem.setAttribute("size", size+"");
+		if(!inInventory){
+			elem.setAttribute("worldX", worldPosition.X+"");
+			elem.setAttribute("worldY", worldPosition.Y+"");
+		}
+		return elem;
+	}
+	
+	@Override
+	public boolean equals(Object other){
+		if(other instanceof Item){
+			return ((Item)other).id == this.id; // Simple ID check for equal items
+		}
+		return false;
 	}
 }
