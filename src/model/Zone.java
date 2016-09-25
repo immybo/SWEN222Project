@@ -1,7 +1,7 @@
 package model;
 
 import java.awt.Point;
-import java.util.List;
+import java.util.*;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -22,6 +22,7 @@ public class Zone implements Storable {
 	private String name;
 	private Tile[][] tiles;
 	private List<Item> items;
+	private List<Entity> entities;
 	
 	/**
 	 * Zones should usually only be constructed from
@@ -33,6 +34,9 @@ public class Zone implements Storable {
 	public Zone(String name, Tile[][] tiles){
 		this.name = name;
 		this.tiles = tiles;
+		
+		items = new ArrayList<Item>();
+		entities = new ArrayList<Entity>();
 	}
 	
 	/**
@@ -73,10 +77,30 @@ public class Zone implements Storable {
 	 * Removes an item to no longer be contained in (and therefore
 	 * not drawn on) this zone.
 	 * 
-	 * @param i The item to be added.
+	 * @param i The item to be removed.
 	 */
 	public void removeItem(Item i){
 		items.remove(i);
+	}
+	
+	/**
+	 * Adds an entity to be contained in (and therefore drawn on)
+	 * this zone.
+	 * 
+	 * @param e The entity to be added.
+	 */
+	public void addEntity(Entity e){
+		entities.add(e);
+	}
+	
+	/**
+	 * Removes an entity to no longer be contained in (and therefore
+	 * not drawn on) this zone.
+	 * 
+	 * @param e The entity to be removed.
+	 */
+	public void removeEntity(Entity e){
+		entities.remove(e);
 	}
 
 	@Override

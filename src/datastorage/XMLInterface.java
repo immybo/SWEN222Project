@@ -108,6 +108,7 @@ public class XMLInterface {
 	}
 	
 	/**
+	 * 
 	 * Writes the current game's state to a file in XML
 	 * format and saves it on disk.
 	 * @param filename The name of the file to create.

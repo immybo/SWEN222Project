@@ -1,6 +1,12 @@
 package model;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+import datastorage.StorableFactory;
 import util.PointD;
+
+import controller.Game;
 
 public class Key extends Item {
 	public Key(Inventory inventory, double size) {

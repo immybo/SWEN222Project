@@ -1,5 +1,8 @@
 package model;
 
+import org.w3c.dom.*;
+
+import datastorage.*;
 import util.*;
 
 /**
@@ -12,11 +15,20 @@ import util.*;
  * @author Robert Campbell
  */
 public abstract class Item {
+	// If an item is in an inventory, it has an inventory.
+	// Otherwise, it has a zone and world position.
 	private boolean inInventory;
+	
 	private Zone zone;
 	private PointD worldPosition;
+	
 	private Inventory inventory;
+	
 	private double size;
+	
+	// Unique identifier for this item
+	private long id;
+	private static long nextID = 0;
 	
 	/**
 	 * Creates an item that initially resides in the world.
@@ -29,6 +41,8 @@ public abstract class Item {
 		this.worldPosition = worldPosition;
 		this.inInventory = false;
 		this.size = size;
+		
+		this.id = nextID++;
 	}
 	
 	/**
@@ -41,6 +55,8 @@ public abstract class Item {
 		this.inventory = inventory;
 		this.inInventory = true;
 		this.size = size;
+		
+		this.id = nextID++;
 	}
 	
 	/**
@@ -132,5 +148,12 @@ public abstract class Item {
 	 */
 	public double getSize(){
 		return size;
+	}
+	
+	/**
+	 * @return The unique ID of this item.
+	 */
+	public long getID(){
+		return id;
 	}
 }
