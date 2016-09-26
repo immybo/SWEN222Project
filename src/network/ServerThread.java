@@ -18,7 +18,7 @@ public class ServerThread extends Thread {
 	/* back reference to our parent/controlling Server object */
 	private Server parentServer;
 	
-	/* socket connected to clinet and its streams */
+	/* socket connected to client and its streams */
 	private Socket socket;
 	private DataInputStream in;
 	private DataOutputStream out;
