@@ -15,14 +15,18 @@ import java.io.IOException;
  */
 public class ServerThread extends Thread {
 	
+	/* back reference to our parent/controlling Server object */
+	private Server parentServer;
+	
 	/* socket connected to clinet and its streams */
 	private Socket socket;
 	private DataInputStream in;
 	private DataOutputStream out;
 	
 	/* FIXME need to pass in object for game state? */
-	public ServerThread(Socket s) {
-		this.socket = s;
+	public ServerThread(Server server, Socket socket) {
+		this.socket = socket;
+		this.parentServer = server;
 	}
 	
 	@Override
@@ -31,7 +35,8 @@ public class ServerThread extends Thread {
 			in = new DataInputStream(socket.getInputStream());
 			out = new DataOutputStream(socket.getOutputStream());
 		} catch (IOException e) {
-			System.err.println("Some error; bailing");
+			System.err.println("Error occurred; stopping the server:"+e.getMessage());
+			parentServer.stop();
 		}
 	}
 }
