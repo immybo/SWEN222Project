@@ -1,6 +1,6 @@
 package datastorage;
 
-import javax.xml.bind.Element;
+import org.w3c.dom.*;
 
 /**
  * Defines a class whose objects can be stored in an
@@ -12,7 +12,8 @@ public interface Storable {
 	/**
 	 * Writes this object to an XML element.
 	 * 
+	 * @param doc The parent document.
 	 * @return The XML element that was produced.
 	 */
-	public Element toXMLElement();
+	public Element toXMLElement(Document doc);
 }

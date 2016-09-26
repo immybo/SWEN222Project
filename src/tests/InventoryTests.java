@@ -14,7 +14,7 @@ public class InventoryTests extends TestCase {
 		Inventory inventory = new Inventory(5);
 		Item[] items = new Item[5];
 		for(int i = 0; i < items.length; i++){
-			items[i] = new TestItem(inventory, 1);
+			items[i] = new TestItem(1);
 			inventory.addItem(items[i], i);
 		}
 		
@@ -32,7 +32,7 @@ public class InventoryTests extends TestCase {
 		Inventory inventory = new Inventory(5);
 		Item[] items = new Item[3];
 		for(int i = 0; i < items.length; i++){
-			items[i] = new TestItem(inventory, 1);
+			items[i] = new TestItem(1);
 		}
 		inventory.addItem(items[0]);
 		inventory.addItem(items[1], 2);
@@ -52,7 +52,7 @@ public class InventoryTests extends TestCase {
 	public void testLargerStorageCapaacity(){
 		Inventory inventory = new Inventory(0);
 		assertTrue(inventory.changeStorageCapacity(1));
-		inventory.addItem(new TestItem(inventory, 1));
+		inventory.addItem(new TestItem(1));
 		assertTrue(inventory.changeStorageCapacity(2));
 		assertTrue(inventory.changeStorageCapacity(1));
 		assertTrue(inventory.changeStorageCapacity(5));
@@ -65,7 +65,7 @@ public class InventoryTests extends TestCase {
 		Inventory inventory = new Inventory(0);
 		assertTrue(inventory.changeStorageCapacity(0));
 		assertTrue(inventory.changeStorageCapacity(1));
-		inventory.addItem(new TestItem(inventory, 1));
+		inventory.addItem(new TestItem(1));
 		assertTrue(inventory.changeStorageCapacity(1));
 		
 		assertEquals(1, inventory.getStorageCapacity());

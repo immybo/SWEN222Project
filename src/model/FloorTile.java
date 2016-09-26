@@ -9,8 +9,8 @@ import java.awt.Point;
  * @author Robert Campbell
  */
 public class FloorTile extends Tile {
-	public FloorTile(Zone zone, Point position) {
-		super(zone, position);
+	public FloorTile(Point position) {
+		super(position);
 	}
 	
 	public boolean collides(){

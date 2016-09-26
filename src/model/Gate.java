@@ -1,5 +1,8 @@
 package model;
 
+import util.Coord;
+import util.PointD;
+
 /**
  * Defines an entity which is passable in certain
  * states, and impassable in others. Specifically,
@@ -10,7 +13,7 @@ package model;
  * 
  * @author Robert Campbell
  */
-public abstract class Gate {
+public abstract class Gate extends Entity{
 	public enum State {
 		OPEN,
 		CLOSED,
@@ -19,12 +22,9 @@ public abstract class Gate {
 	
 	private State state;
 	
-	public Gate(){
-		state = State.LOCKED;
-	}
-	
-	public Gate(State initialState){
-		state = initialState;
+	public Gate(State initial, Zone zone, Coord worldPosition, double size){
+		super(zone, worldPosition, null, size);
+		state = initial;
 	}
 	
 	public State state(){
