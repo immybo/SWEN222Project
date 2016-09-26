@@ -22,13 +22,17 @@ public class ServerThread extends Thread {
 	 * sending to the client */
 	private boolean postFlag = false;
 	
+	/* player id */
+	private int playerId;
+	
 	/* socket connected to client and its streams */
 	private Socket socket;
 	private DataInputStream in;
 	private DataOutputStream out;
 	
 	/* FIXME need to pass in object for game state? */
-	public ServerThread(Server server, Socket socket) {
+	public ServerThread(int playerId, Server server, Socket socket) {
+		this.playerId = playerId;
 		this.socket = socket;
 		this.parentServer = server;
 	}
@@ -58,7 +62,29 @@ public class ServerThread extends Thread {
 	 * Process any data being sent to us from the client
 	 */
 	private void processUpstream() {
-		/* FIXME do something here */
+		/* FIXME receive and decode packet here */
+		/* FIXME dummy initialisation, remove me */
+		Protocol.Event packetType = Protocol.Event.INTERACT;
+		
+		/* FIXME implement these */
+		switch (packetType) {
+		case EAST:
+			break;
+		case INTERACT:
+			break;
+		case LEVEL_UPDATE:
+			break;
+		case NORTH:
+			break;
+		case SOUTH:
+			break;
+		case WEST:
+			break;
+		default:
+			System.err.println("Unhandled event : "+packetType);
+			break;
+		}
+		
 	}
 	
 	@Override
