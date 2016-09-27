@@ -77,7 +77,7 @@ public class Server {
 	 * Check if the server's listener socket is bound
 	 * @return true if bound, false if unbound, closed, or no socket present
 	 */
-	public boolean isBound() {
+	synchronized public boolean isBound() {
 		return sock != null && !sock.isClosed() && sock.isBound();
 	}
 	

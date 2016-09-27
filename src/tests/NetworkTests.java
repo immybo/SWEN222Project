@@ -7,7 +7,7 @@ import network.Server;
 import network.Client;
 
 public class NetworkTests extends TestCase {
-	private class ServerThread extends Thread {
+	private class BackgroundServer extends Thread {
 		public Server s;
 		@Override
 		public void run() {
@@ -16,7 +16,7 @@ public class NetworkTests extends TestCase {
 			s.stop();
 		}
 	}
-	private class ClientThread extends Thread {
+	private class BackgroundClient extends Thread {
 		public Client c;
 		@Override
 		public void run() {
@@ -72,7 +72,7 @@ public class NetworkTests extends TestCase {
 	
 	@Test
 	public void testHandshake() {
-		ServerThread server = new ServerThread();
+		BackgroundServer server = new BackgroundServer();
 		
 		/* start server and wait for it to be bound */
 		server.start();
@@ -83,7 +83,7 @@ public class NetworkTests extends TestCase {
 		/* FIXME magic constant 2, should be derived from elsewhere */
 		int clientCount = 2;
 		for (int i = 0; i < clientCount; i++)
-			(new ClientThread()).start();
+			(new BackgroundClient()).start();
 			
 		try {
 			/* give some time for clients to connect (or not) */
