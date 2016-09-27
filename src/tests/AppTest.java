@@ -26,6 +26,7 @@ public class AppTest
     {
         return new TestSuite( PointDTest.class,
         					  InventoryTests.class,
-        					  DataStorageTests.class );
+        					  DataStorageTests.class,
+        					  NetworkTests.class);
     }
 }
