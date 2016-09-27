@@ -8,10 +8,14 @@ import network.Client;
 
 public class NetworkTests extends TestCase {
 	private class BackgroundServer extends Thread {
-		public Server s;
+		private Server s;
+		
+		public BackgroundServer(Server s) {
+			this.s = s;
+		}
+		
 		@Override
 		public void run() {
-			s = new Server();
 			s.run();
 			s.stop();
 		}
@@ -72,12 +76,13 @@ public class NetworkTests extends TestCase {
 	
 	@Test
 	public void testHandshake() {
-		BackgroundServer server = new BackgroundServer();
+		Server server = new Server();
+		assertTrue(server.initialise());
+		assertTrue(server.isBound());
+		BackgroundServer serverThread = new BackgroundServer(server);
 		
-		/* start server and wait for it to be bound */
-		server.start();
-		while(server.s == null || !server.s.isBound())
-			;
+		/* start server as background thread */
+		serverThread.start();
 		
 		/* start two clients */
 		/* FIXME magic constant 2, should be derived from elsewhere */
@@ -87,14 +92,14 @@ public class NetworkTests extends TestCase {
 			
 		try {
 			/* give some time for clients to connect (or not) */
-			server.join(5000);
-			if (server.s.getConnectedCount() != clientCount)
+			serverThread.join(5000);
+			if (server.getConnectedCount() != clientCount)
 				fail("Server didn't accept all connections");
 		} catch (Exception e) {
 			throw new Error(e);
 		} finally {
 			/* stop the server */
-			server.s.stop();
+			server.stop();
 		}
 	}
 }
