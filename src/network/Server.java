@@ -8,6 +8,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Server {
+	
+	private ServerThread[] serverThreads;
 	private ServerSocket sock;
 	private int port;
 	private Socket[] clientSocks;
@@ -149,8 +151,14 @@ public class Server {
 			stop();
 			return;
 		}
-			
 		System.out.println("All clients connected");
+		
+		/* spawn a thread for each client */ 
+		serverThreads = new ServerThread[totalPlayers];
+		for (int i = 0; i < totalPlayers; i++) {
+			serverThreads[i] = new ServerThread(i, this, clientSocks[i]);
+			serverThreads[i].start();
+		}
 	}
 	
 	
@@ -159,6 +167,10 @@ public class Server {
 	 */
 	public void stop() {
 		System.out.print("Server stopping... ");
+		for (int i = 0; i < clientCount; i++) {
+			serverThreads[i].shutdown();
+		}
+		System.out.print(" Notified... ");
 		if (clientSocks != null) {
 			for (Socket client : clientSocks) {
 				if (client == null)

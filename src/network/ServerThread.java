@@ -18,6 +18,9 @@ public class ServerThread extends Thread {
 	/* back reference to our parent/controlling Server object */
 	private Server parentServer;
 	
+	/* is the server thread still supposed to be running its loop? */
+	private boolean running;
+	
 	/* flag to indicate whether or not there is game state which requires
 	 * sending to the client */
 	private boolean postFlag = false;
@@ -87,13 +90,18 @@ public class ServerThread extends Thread {
 		
 	}
 	
+	synchronized private boolean isRunning() {
+		return running;
+	}
+	
 	@Override
 	public void run() {
 		try {
 			in = new DataInputStream(socket.getInputStream());
 			out = new DataOutputStream(socket.getOutputStream());
 			
-			while(true) {
+			running = true;
+			while(isRunning()) {
 				/* muh non-blocking-ness */
 				/* FIXME check if processing only one upstream packet before processing downstream traffic hurts performace.
 				 * Might be better to, say, process between 0 and 5 upstream packets if they are there
@@ -104,9 +112,19 @@ public class ServerThread extends Thread {
 				}
 				processDownstream();
 			}
+			
 		} catch (IOException e) {
-			System.err.println("Error occurred; stopping the server:"+e.getMessage());
-			parentServer.stop();
+			if (isRunning()) {
+				System.err.println("server thread "+playerId+": fatal error: "+e.getMessage());
+				parentServer.stop();
+			}
 		}
+	}
+
+	/**
+	 * Notify the thread to stop running
+	 */
+	synchronized public void shutdown() {
+		this.running = false;
 	}
 }
