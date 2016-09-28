@@ -31,7 +31,11 @@ public class World {
 		//key, i have no idea what size does atm. 
 		zones[1].addItem(new Key(new PointD(1,3), 0.5, "testKey"));
 		zones[1].addEntity(new KeyGate(Gate.State.LOCKED, zones[1], new Coord(new Direction(0), new PointD (1,5)), 1, "testKey"));
+		//characters
+		Character pupo = new MainCharacter(zones[1], new Point(1,0), true);
+		Character yelo = new MainCharacter(zones[1], new Point(1,9), false);
 		
+		return new World(zones, pupo, yelo);
 	}
 	
 	
