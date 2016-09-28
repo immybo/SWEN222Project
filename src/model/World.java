@@ -29,11 +29,97 @@ public class World {
 			tiles[1][i] = new FloorTile(new Point(i,1));
 		}
 		//key, i have no idea what size does atm. 
-		zones[1].addItem(new Key(new PointD(1,3), 0.5, "testKey"));
-		zones[1].addEntity(new KeyGate(Gate.State.LOCKED, zones[1], new Coord(new Direction(0), new PointD (1,5)), 1, "testKey"));
-		
+		zones[1].addItem(new Key(new PointD(1,2), 0.5, "testKey"));
+		zones[1].addEntity(new KeyGate(Gate.State.LOCKED, zones[1], new Coord(new Direction(Direction.NORTH), new Point (1,4)), 1, "testKey"));
+		//characters
+				Character pupo = new PlayableCharacter(zones[1], new Coord(new Direction(Direction.NORTH), new Point(1,0)), true);
+				Character yelo = new PlayableCharacter(zones[1], new Coord(new Direction(Direction.SOUTH),new Point(1,8)), false);
+				
+				return new World(zones, pupo, yelo);
 	}
 	
 	
+	/**
+	 * Will take a character and move that character 1 square forward
+	 * 
+	 * @param character The character to be moved
+	 * @return boolean representing if movement was succesful
+	 */
+	public boolean moveCharacterForward(Character character){
+		Coord origin = character.getCoord();
+		Point oriP = origin.getPoint();
+		Direction oriD = origin.getFacing();
+		Point prospectivePoint = Direction.move(oriP, oriD, 1); // get resulting position if character were to move
+		Zone zone = character.getZone();
+		if(checkForObstruction(zone, prospectivePoint)){ // check new point for obstacle
+			return false;
+		}
+		character.setCoord(new Coord(oriD, prospectivePoint));
+		return true;
+		
+	}
+	
+	/**
+	 * Will take a character and move that character 1 square backward
+	 * 
+	 * @param character The character to be moved
+	 * @return boolean representing if movement was succesful
+	 */
+	public boolean moveCharacterBackward(Character character){
+		Coord origin = character.getCoord();
+		Point oriP = origin.getPoint();
+		Direction oriD = origin.getFacing();
+		Point prospectivePoint = Direction.move(oriP, oriD, -1); // get resulting position if character were to move
+		Zone zone = character.getZone();
+		if(checkForObstruction(zone, prospectivePoint)){ // check new point for obstacle
+			return false;
+		}
+		character.setCoord(new Coord(oriD, prospectivePoint));
+		return true;
+	}
+	
+	/**
+	 * Will take a character and rotate the character to the given direction of rotation
+	 * 
+	 * @param isClockwise Boolean representing the direction of rotation, True for clockwise
+	 * @param character The Character to be rotated
+	 */
+	public void rotateCharacter(boolean isClockwise, Character character){
+		int dirValue = character.getCoord().getFacing().getDirection();
+		if(isClockwise == true) dirValue = dirValue + 1;
+		else dirValue = dirValue - 1;
+		if(dirValue == 5) dirValue = 1;
+		if(dirValue == 0) dirValue = 4;
+		Direction newDirection = new Direction(dirValue);
+		Point point = character.getCoord().getPoint();
+		Coord newCoord = new Coord(newDirection, point);
+		character.setCoord(newCoord);
+	}	
+	
+	
+	/**
+	 * Checks if a point in a particular zone is obstructed by characters, objects or tiles themselves
+	 * @param zone The zone to check 
+	 * @param point The point inside the zone to check
+	 * @return True if obstacle exists, false otherwise
+	 */
+	public boolean checkForObstruction(Zone zone, Point point){
+		if(zone.getTile(point).collides()){
+			return true;
+		}
+		for(Entity e: zone.getEntities()){
+			if(e.getWorldPosition().getPoint().equals(point)){ // check if entity same position
+				if(!e.isPassable()){ // check if not passable
+					return true;
+				}
+			}
+		}
+		for(Character c: zone.getCharacters()){
+			if(c.getCoord().getPoint().equals(point)){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 }

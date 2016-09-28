@@ -36,9 +36,38 @@ public class Direction {
 		
 		throw new IllegalArgumentException(direction + " is not a valid direction!");
 	}
-	
-	public static Point move (Point initial, int direction, int amount){
-		PointD moved = move(new PointD(initial.x, initial.y), direction, amount);
-		return new Point((int)moved.X, (int)moved.Y);
+	/**
+	 * Returns a point after the point has been moved in the given direction
+	 * 
+	 * @param initial Original point 
+	 * @param direction Direction to move
+	 * @param amount Amount to move
+	 * @return point after movement
+	 */
+	public static Point move(Point initial, Direction direction, int amount){
+		if(direction.direction == NORTH)
+			return new Point(initial.x, initial.y - amount);
+		else if(direction.direction == EAST)
+			return new Point(initial.x - amount, initial.y);
+		else if(direction.direction == SOUTH)
+			return new Point(initial.x, initial.y + amount);
+		else if(direction.direction == WEST)
+			return new Point(initial.x + amount, initial.y);
+		
+		throw new IllegalArgumentException(direction + " is not a valid direction!");
 	}
+	
+	/**
+	 * Given a direction, returns the opposite direction
+	 * @param direction Original direction
+	 * @return opposite direction
+	 */
+	public static Direction oppositeDirection(Direction direction){
+		if(direction.getDirection() == 1) return new Direction(3);
+		if(direction.getDirection() == 2) return new Direction(4);
+		if(direction.getDirection() == 3) return new Direction(1);
+		if(direction.getDirection() == 4) return new Direction(2);
+		throw new IllegalArgumentException(direction.getDirection() + " is not a valid direction!");
+	}
+	
 }

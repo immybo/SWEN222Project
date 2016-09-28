@@ -23,6 +23,7 @@ public class Zone implements Storable {
 	private Tile[][] tiles;
 	private List<Item> items;
 	private List<Entity> entities;
+	private List<Character> characters; // characters not including main characters
 	
 	/**
 	 * Zones should usually only be constructed from
@@ -37,6 +38,14 @@ public class Zone implements Storable {
 		
 		items = new ArrayList<Item>();
 		entities = new ArrayList<Entity>();
+	}
+	
+	public List<Entity> getEntities(){
+		return this.entities;
+	}
+	
+	public List<Character> getCharacters(){
+		return this.characters;
 	}
 	
 	/**
@@ -54,6 +63,7 @@ public class Zone implements Storable {
 		
 		return tiles[point.y][point.x];
 	}
+
 	
 	@Override
 	/**

@@ -23,7 +23,10 @@ public abstract class Entity implements Interactable {
 	private double size;
 	
 	
-	
+	/**
+	 * Teleports this entity to another position
+	 * @param coord The position to teleport this entity to. 
+	 */
 	public void teleportTo(Coord coord){
 		this.worldPosition = coord;
 	}
@@ -32,7 +35,9 @@ public abstract class Entity implements Interactable {
 		return worldPosition;
 	}
 	
-	abstract public boolean isPassable();
+	
+	
+	public abstract boolean isPassable();
 	
 	//TODO Player not done yet
 	//abstract public void onCollision(Player p);
