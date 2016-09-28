@@ -126,11 +126,4 @@ public class World implements Storable {
 		}
 		return false;
 	}
-
-	@Override
-	public Element toXMLElement(Document doc) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
 }

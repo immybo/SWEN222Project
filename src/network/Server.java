@@ -1,11 +1,16 @@
 package network;
 
 import java.io.IOException;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+
+import model.World;
+import model.Character;
+import model.PlayableCharacter;
 
 public class Server {
 	
@@ -14,6 +19,8 @@ public class Server {
 	private int port;
 	private Socket[] clientSocks;
 	private int clientCount;
+	private World world;
+	private Character[] characters;
 	
 	/**
 	 * Simple constructor using default port number
@@ -29,6 +36,14 @@ public class Server {
 	public Server(int port) {
 		this.port = port;
 		clientCount = 0;
+		
+		
+		
+		/* FIXME HACK set up world and players */
+		world = (new World(null, null, null)).testWorld();
+		characters[0] = world.getPupo();
+		characters[1] = world.getYelo();
+		
 	}
 	
 	/**
@@ -156,9 +171,13 @@ public class Server {
 		/* spawn a thread for each client */ 
 		serverThreads = new ServerThread[totalPlayers];
 		for (int i = 0; i < totalPlayers; i++) {
-			serverThreads[i] = new ServerThread(i, this, clientSocks[i]);
+			serverThreads[i] = new ServerThread(i, this, clientSocks[i], characters[i]);
 			serverThreads[i].start();
 		}
+	}
+	
+	protected World getWorld() {
+		return this.world;
 	}
 	
 	
