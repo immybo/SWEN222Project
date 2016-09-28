@@ -70,10 +70,8 @@ public class ServerThread extends Thread {
 	/**
 	 * Process any data being sent to us from the client
 	 */
-	private void processUpstream() {
-		/* FIXME receive and decode packet here */
-		/* FIXME dummy initialisation, remove me */
-		Protocol.Event packetType = Protocol.Event.FORWARD;
+	private void processUpstream() throws IOException {
+		Protocol.Event packetType = Protocol.Event.values()[in.readInt()];
 		
 		/* FIXME implement these */
 		switch (packetType) {
@@ -84,8 +82,10 @@ public class ServerThread extends Thread {
 			parentServer.getWorld().moveCharacterBackward(character);
 			break;
 		case ROTATE_CLOCKWISE:
+			parentServer.getWorld().rotateCharacter(true, character);
 			break;
 		case ROTATE_ANTICLOCKWISE:
+			parentServer.getWorld().rotateCharacter(false, character);
 			break;
 		default:
 			System.err.println("Unhandled event : "+packetType);

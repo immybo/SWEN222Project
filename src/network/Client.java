@@ -5,11 +5,18 @@ import java.io.DataOutputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import javax.swing.OverlayLayout;
 
 public class Client {
 	private String host;
 	private int port;
 	private Socket sock;
+	private DataOutputStream out;
+	private DataInputStream in;
 	
 	/**
 	 * Simple constructor connecting to host using default port number
@@ -38,9 +45,6 @@ public class Client {
 	 * @throws IOException
 	 */
 	public boolean doHandshake(Socket socket) throws IOException {
-		DataOutputStream out = new DataOutputStream(socket.getOutputStream());
-		DataInputStream in = new DataInputStream(socket.getInputStream());
-		
 		/* receive server's greeting */
 		String response = in.readUTF();
 		
@@ -58,14 +62,41 @@ public class Client {
 	public void run() {
 		try {
 			sock = new Socket(host, port);
+			out = new DataOutputStream(sock.getOutputStream());
+			in = new DataInputStream(sock.getInputStream());
 			if (!doHandshake(sock)) {
 				System.err.println("Handshaking with server failed");
+				sock.close();
+				return;
 			}
 		} catch (IOException e) {
 			System.err.printf("Error connecting to %s:%d : %s\n",
 						host, port,
 						e.getMessage());
 		}
+	}
+	
+	private void sendEvent(Protocol.Event e) throws IOException {
+		List<Protocol.Event> events = Arrays.asList(e.values());
+		int index = events.indexOf(e);
+		out.writeInt(index);
+		
+	}
+	
+	public void moveForward() throws IOException {
+		sendEvent(Protocol.Event.FORWARD);
+	}
+	
+	public void moveBackward() throws IOException {
+		sendEvent(Protocol.Event.BACKWARD);
+	}
+	
+	public void rotateClockwise() throws IOException {
+		sendEvent(Protocol.Event.ROTATE_CLOCKWISE);
+	}
+	
+	public void rotateAnticlockwise() throws IOException {
+		sendEvent(Protocol.Event.ROTATE_ANTICLOCKWISE);
 	}
 	
 	/* temporary */
