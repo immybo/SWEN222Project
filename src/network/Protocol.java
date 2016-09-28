@@ -24,11 +24,12 @@ public class Protocol {
 	
 	/* Events that can be communicated between client and server */
 	public static enum Event {
-		/* movement in cardinal directions */
-		NORTH, EAST, SOUTH, WEST,
+		/* movement */
+		FORWARD, BACKWARD,
 		
-		/* interaction */
-		INTERACT,
+		/* rotation */
+		ROTATE_CLOCKWISE,
+		ROTATE_ANTICLOCKWISE,
 		
 		/* inform client of new world/level state */
 		LEVEL_UPDATE,

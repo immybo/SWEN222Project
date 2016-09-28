@@ -121,5 +121,13 @@ public class World {
 		}
 		return false;
 	}
+
+	public Character getPupo() {
+		return Pupo;
+	}
+	public Character getYelo() {
+		return Yelo;
+	}
+	
 	
 }

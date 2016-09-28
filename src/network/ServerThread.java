@@ -1,9 +1,13 @@
 package network;
 
 import java.net.Socket;
+
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+
+import model.Character;
+import model.PlayableCharacter;
 
 /**
  * Server worker thread for handling a single client
@@ -27,6 +31,7 @@ public class ServerThread extends Thread {
 	
 	/* player id */
 	private int playerId;
+	private Character character;
 	
 	/* socket connected to client and its streams */
 	private Socket socket;
@@ -34,10 +39,11 @@ public class ServerThread extends Thread {
 	private DataOutputStream out;
 	
 	/* FIXME need to pass in object for game state? */
-	public ServerThread(int playerId, Server server, Socket socket) {
+	public ServerThread(int playerId, Server server, Socket socket, Character character) {
 		this.playerId = playerId;
 		this.socket = socket;
 		this.parentServer = server;
+		this.character = character;
 	}
 	
 	/**
@@ -67,21 +73,19 @@ public class ServerThread extends Thread {
 	private void processUpstream() {
 		/* FIXME receive and decode packet here */
 		/* FIXME dummy initialisation, remove me */
-		Protocol.Event packetType = Protocol.Event.INTERACT;
+		Protocol.Event packetType = Protocol.Event.FORWARD;
 		
 		/* FIXME implement these */
 		switch (packetType) {
-		case EAST:
+		case FORWARD:
+			parentServer.getWorld().moveCharacterForward(character);
 			break;
-		case INTERACT:
+		case BACKWARD:
+			parentServer.getWorld().moveCharacterBackward(character);
 			break;
-		case LEVEL_UPDATE:
+		case ROTATE_CLOCKWISE:
 			break;
-		case NORTH:
-			break;
-		case SOUTH:
-			break;
-		case WEST:
+		case ROTATE_ANTICLOCKWISE:
 			break;
 		default:
 			System.err.println("Unhandled event : "+packetType);
