@@ -1,22 +1,32 @@
 package model;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
+import datastorage.Storable;
+import datastorage.StorableFactory;
+import model.Zone.ZoneFactory;
 import util.Coord;
 import util.Direction;
 import util.PointD;
 
-public class World {
+public class World implements Storable {
+	private String name;
 	private Zone[] zones;
 	private Character Pupo;
 	private Character Yelo;
 	
-	public World(Zone[] zones, Character pupo, Character yelo){
+	public World( String name, Zone[] zones, Character pupo, Character yelo){
 		this.zones = zones;
 	}
 	
-	public World testWorld(){
-		zones = new Zone[1];
+	public static World testWorld(){
+		Zone[] newZones = new Zone[1];
 		//make just a test zone 3x9 big
 		Tile[][] tiles = new Tile[9][3];
 		for(int x = 0; x<3; x++){
@@ -29,13 +39,13 @@ public class World {
 			tiles[1][i] = new FloorTile(new Point(i,1));
 		}
 		//key, i have no idea what size does atm. 
-		zones[1].addItem(new Key(new PointD(1,2), 0.5, "testKey"));
-		zones[1].addEntity(new KeyGate(Gate.State.LOCKED, zones[1], new Coord(new Direction(Direction.NORTH), new Point (1,4)), 1, "testKey"));
+		newZones[1].addItem(new Key(new PointD(1,2), 0.5, "testKey"));
+		newZones[1].addEntity(new KeyGate(Gate.State.LOCKED, newZones[1], new Coord(new Direction(Direction.NORTH), new Point (1,4)), 1, "testKey"));
 		//characters
-				Character pupo = new PlayableCharacter(zones[1], new Coord(new Direction(Direction.NORTH), new Point(1,0)), true);
-				Character yelo = new PlayableCharacter(zones[1], new Coord(new Direction(Direction.SOUTH),new Point(1,8)), false);
+				Character pupo = new PlayableCharacter(newZones[1], new Coord(new Direction(Direction.NORTH), new Point(1,0)), true);
+				Character yelo = new PlayableCharacter(newZones[1], new Coord(new Direction(Direction.SOUTH),new Point(1,8)), false);
 				
-				return new World(zones, pupo, yelo);
+				return new World("test",newZones, pupo, yelo);
 	}
 	
 	
@@ -122,12 +132,18 @@ public class World {
 		return false;
 	}
 
+	@Override
+	public Element toXMLElement(Document doc) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	public Character getPupo() {
 		return Pupo;
 	}
+	
 	public Character getYelo() {
+		// TODO Auto-generated method stub
 		return Yelo;
 	}
-	
-	
 }
