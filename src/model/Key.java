@@ -7,16 +7,19 @@ import datastorage.StorableFactory;
 import util.PointD;
 
 public class Key extends Item {
-	public Key(double size) {
-		super(size);
-	}
+	private String keyID;
 
-	public Key(PointD worldPosition, double size) {
+	public Key(PointD worldPosition, double size, String keyID) {
 		super(worldPosition, size);
+		this.keyID = keyID;
 	}
 	
 	protected Key(Element elem){
 		super(elem);
+	}
+	
+	public String getKeyID(){
+		return this.keyID;
 	}
 	
 	public static class KeyFactory implements StorableFactory<Key> {

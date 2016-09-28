@@ -13,6 +13,17 @@ public class Direction {
 	public static final int SOUTH = 2;
 	public static final int WEST = 3;
 	
+	private int direction;
+	public Direction(int direction){
+		this.direction = direction;
+	}
+	public int getDirection(){
+		return this.direction;
+	}
+	public void setDirection(int direction){
+		this.direction = direction;
+	}
+	
 	public static PointD move(PointD initial, int direction, double amount){
 		if(direction == NORTH)
 			return initial.add(0, -amount);
