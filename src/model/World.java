@@ -1,11 +1,16 @@
 package model;
 
 import java.awt.Point;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 
 import datastorage.Storable;
+import datastorage.StorableFactory;
+import model.Zone.ZoneFactory;
 import util.Coord;
 import util.Direction;
 import util.PointD;
@@ -125,5 +130,20 @@ public class World implements Storable {
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public Element toXMLElement(Document doc) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public Character getPupo() {
+		return Pupo;
+	}
+	
+	public Character getYelo() {
+		// TODO Auto-generated method stub
+		return Yelo;
 	}
 }
