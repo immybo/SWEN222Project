@@ -6,9 +6,5 @@ public class Main {
         GameFrame g = new GameFrame();
         g.setZone(World.testWorld().getZones()[0]);
         g.show();
-        
-        
     }
-    
-    
 }
