@@ -46,9 +46,9 @@ public class World implements Storable {
 		newZones[0].addItem(new Key(new PointD(1,2), 0.5, "testKey"));
 		newZones[0].addEntity(new KeyGate(Gate.State.LOCKED, newZones[0], new Coord(new Direction(Direction.NORTH), new Point (1,4)), 1, "testKey"));
 		//characters
-				Character pupo = new PlayableCharacter(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1,0)), true);
-				Character yelo = new PlayableCharacter(newZones[0], new Coord(new Direction(Direction.SOUTH),new Point(1,8)), false);
-				
+				Character pupo = new PlayableCharacter(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1,1)), true);
+				Character yelo = new PlayableCharacter(newZones[0], new Coord(new Direction(Direction.SOUTH),new Point(1,7)), false);
+				newZones[0].setPupo(pupo);
 				return new World("test",newZones, pupo, yelo);
 	}
 	
