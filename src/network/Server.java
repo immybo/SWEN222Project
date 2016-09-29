@@ -41,6 +41,7 @@ public class Server {
 		
 		/* FIXME HACK set up world and players */
 		world = World.testWorld();
+		this.characters = new Character[2];
 		characters[0] = world.getPupo();
 		characters[1] = world.getYelo();
 		
@@ -135,7 +136,7 @@ public class Server {
 	 */
 	public void run() {
 		/* FIXME magic constant 2 */
-		int totalPlayers = 2;
+		int totalPlayers = 1;
 		
 		clientSocks = new Socket[totalPlayers];
 		
@@ -173,6 +174,9 @@ public class Server {
 		for (int i = 0; i < totalPlayers; i++) {
 			serverThreads[i] = new ServerThread(i, this, clientSocks[i], characters[i]);
 			serverThreads[i].start();
+		}
+		while(true){
+			
 		}
 	}
 	

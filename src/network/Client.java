@@ -44,8 +44,10 @@ public class Client {
 	public Client(String host){
 		this(host, Protocol.DEFAULT_PORT);
 		this.game = new GameFrame();
-		this.game.setZone(World.testWorld().getZones()[0]);
+		this.world = World.testWorld();
+		this.game.setZone(this.world.getZones()[0]);
 		this.game.show();
+		
 	}
 	
 	/**
@@ -143,7 +145,7 @@ public class Client {
 	
 	/* temporary */
 	public static void main(String[] args) {
-		(new Client("localhost")).run();
+		(new Client(args[0])).run();
 	}
 
 }
