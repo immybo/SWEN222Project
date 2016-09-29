@@ -22,6 +22,7 @@ public class InformationPanel extends JPanel {
 	private JButton loadButton;
 	//HACKS
 	private JButton moveButton;
+	
 	private Client client;
 	
 	public InformationPanel(){
@@ -61,6 +62,7 @@ public class InformationPanel extends JPanel {
 		buttonPanel.add(saveButton, 0);
 		buttonPanel.add(loadButton, 1);
 		buttonPanel.add(exitButton, 2);
+		buttonPanel.add(moveButton, 3);
 		
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
