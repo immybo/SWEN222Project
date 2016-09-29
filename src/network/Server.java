@@ -180,6 +180,10 @@ public class Server {
 		return this.world;
 	}
 	
+	public void playerLocation(int x, int y){
+		this.serverThreads[0].setPlayer(x,y);
+	}
+	
 	
 	/**
 	 * Stop the server if it is running

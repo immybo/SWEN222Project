@@ -1,7 +1,6 @@
 package network;
 
 import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -36,9 +35,13 @@ public class ClientThread extends Thread{
 		switch(packetType){
 			case LEVEL_UPDATE:
 				/*Parent Client Update window*/
+				int x = this.in.readInt();
+				int y = this.in.readInt();
+				this.parentClient.updatePlayer(x,y);
 				break;
 			case DISCONNECT:
 				this.parentClient.disconnect();
+				break;
 		}
 	}
 	

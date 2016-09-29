@@ -114,6 +114,10 @@ public class Client {
 		sendEvent(Protocol.Event.ROTATE_ANTICLOCKWISE);
 	}
 	
+	public void updatePlayer(int x, int y){
+		/*FIXME tell the window where the player is*/
+	}
+	
 	/* temporary */
 	public static void main(String[] args) {
 		(new Client("localhost")).run();

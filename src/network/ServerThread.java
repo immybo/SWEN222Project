@@ -1,7 +1,8 @@
 package network;
 
 import java.net.Socket;
-
+import java.util.Arrays;
+import java.util.List;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -38,6 +39,10 @@ public class ServerThread extends Thread {
 	private DataInputStream in;
 	private DataOutputStream out;
 	
+	/* player coordinates */
+	private int playerX;
+	private int playerY;
+	
 	/* FIXME need to pass in object for game state? */
 	public ServerThread(int playerId, Server server, Socket socket, Character character) {
 		this.playerId = playerId;
@@ -54,16 +59,26 @@ public class ServerThread extends Thread {
 		postFlag = true;
 	}
 	
+	synchronized public void setPlayer(int x, int y){
+		this.playerX = x;
+		this.playerY = y;
+	}
+	
 	/**
 	 * If required by a previous uncleared post, send the game
 	 * state to the client and clear the post request
+	 * @throws IOException 
 	 */
-	synchronized private void processDownstream() {
+	synchronized private void processDownstream() throws IOException {
 		if (!postFlag)
 			return;
 		
 		/* FIXME send the updated game state to the client */
-	
+		List<Protocol.Event> events = Arrays.asList(Protocol.Event.LEVEL_UPDATE.values());
+		int index = events.indexOf(Protocol.Event.LEVEL_UPDATE);
+		this.out.write(index);
+		this.out.write(playerX);
+		this.out.write(playerY);
 		postFlag = false;
 	}
 	
