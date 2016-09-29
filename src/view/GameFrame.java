@@ -3,6 +3,7 @@ package view;
 import javax.swing.*;
 
 import model.Zone;
+import network.Client;
 
 import java.awt.*;
 
@@ -23,6 +24,7 @@ public class GameFrame extends JFrame {
     // Shows the player information about the current game -
     // For example, their inventory, health
     private JPanel informationPanel;
+    private Client client;
 
     public GameFrame(){
         setSizeDefault();
@@ -37,7 +39,22 @@ public class GameFrame extends JFrame {
         pack();
     }
     
-    public void setZone(Zone z){
+    public GameFrame(Client client) {
+    	setSizeDefault();
+        this.setLayout(new BorderLayout());
+        this.client = client;
+
+        canvas = new RenderPanel();
+        informationPanel = new InformationPanel(client);
+
+        this.add(canvas, BorderLayout.WEST);
+        this.add(informationPanel, BorderLayout.EAST);
+
+        pack();
+		
+	}
+
+	public void setZone(Zone z){
     	RenderPanel panel = (RenderPanel)canvas;
     	panel.setZone(z);
     }
@@ -84,4 +101,6 @@ public class GameFrame extends JFrame {
         int height = screen.getDisplayMode().getHeight();
         return new Dimension(width, height);
     }
+    
+    
 }

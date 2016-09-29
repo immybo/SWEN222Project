@@ -3,9 +3,12 @@ package view;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import network.Client;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 /**
  * The panel which displays information that can't be
@@ -17,6 +20,9 @@ public class InformationPanel extends JPanel {
 	private JButton exitButton;
 	private JButton saveButton;
 	private JButton loadButton;
+	//HACKS
+	private JButton moveButton;
+	private Client client;
 	
 	public InformationPanel(){
 		this.setLayout(new BorderLayout());
@@ -42,6 +48,13 @@ public class InformationPanel extends JPanel {
 				loadGame();
 		});
 		
+		
+		// HACKS
+		moveButton = new JButton("Move");
+		moveButton.addActionListener((ActionEvent e)->{
+			move();
+		});
+		
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(2, 2));
 		
@@ -52,7 +65,12 @@ public class InformationPanel extends JPanel {
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 	
-    @Override
+    public InformationPanel(Client client) {
+		this();
+		this.client = client;
+	}
+
+	@Override
     public void paint(Graphics g){
         super.paint(g);
     }
@@ -67,5 +85,14 @@ public class InformationPanel extends JPanel {
     
     private void saveGame(){
     	System.out.println("Save game button pressed");
+    }
+    
+    private void move(){
+    	try {
+			client.moveForward();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
 }

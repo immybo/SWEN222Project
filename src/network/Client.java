@@ -43,7 +43,7 @@ public class Client {
 	 */
 	public Client(String host){
 		this(host, Protocol.DEFAULT_PORT);
-		this.game = new GameFrame();
+		this.game = new GameFrame(this);
 		this.world = World.testWorld();
 		this.game.setZone(this.world.getZones()[0]);
 		this.game.show();
