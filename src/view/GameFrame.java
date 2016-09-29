@@ -25,7 +25,7 @@ public class GameFrame extends JFrame {
         setSizeDefault();
         this.setLayout(new BorderLayout());
 
-        canvas = new CanvasPanel();
+        canvas = new RenderPanel();
         informationPanel = new InformationPanel();
 
         this.add(canvas, BorderLayout.WEST);

@@ -1,9 +1,14 @@
 package view;
 import model.Zone;
+import model.ZoneDrawInfo;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Created by Hamish Brown on 28/09/2016.
@@ -31,12 +36,32 @@ public class RenderPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g; //so we can do the fancy transform stuff
+//        g2.setTransform(isoTransform);
+//        for (int i = 0;i < 10; i++) {
+//            for (int j = 0; j < 10; j++) {
+//                g2.drawRect(i*20,j*20,20,20);
+//            }
+//        }
+        
+        
+        
+        //DRAFT IMAGE
+        ZoneDrawInfo info = zone.getDrawInformation();
+        String[][] tileInfo = info.getTileInfo();
         g2.setTransform(isoTransform);
-        for (int i = 0;i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
-                g2.drawRect(i*20,j*20,20,20);
-            }
-        }
+        for(int x = 0; x < tileInfo[0].length; x++){
+			for(int y = 0; y < tileInfo.length; y++){
+				BufferedImage img;
+				try {
+					img = ImageIO.read(new File("images/" + tileInfo[y][x] + ".png"));
+					g2.drawImage(img, x*20, y*20, 20, 20, null);
+				} catch (IOException e) {
+					//do nothing cos i dont know man
+				}
+				
+			}
+		}
+        //DRAFT IMAGE
 
     }
 

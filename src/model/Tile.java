@@ -16,7 +16,7 @@ import datastorage.StorableFactory;
  * 
  * @author Robert Campbell
  */
-public abstract class Tile implements Storable {
+public abstract class Tile  extends Drawable implements Storable{
 	private Point position;
 	
 	public Tile(Point position){
