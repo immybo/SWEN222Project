@@ -1,4 +1,5 @@
 package view;
+import model.Inventory;
 import model.Zone;
 import model.ZoneDrawInfo;
 import util.PointD;
@@ -17,6 +18,7 @@ import java.io.IOException;
  */
 public class RenderPanel extends JPanel {
     private volatile Zone zone;
+    private volatile Inventory inventory;
     private AffineTransform isoTransform;
 
     public Zone getZone() {
@@ -25,6 +27,10 @@ public class RenderPanel extends JPanel {
 
     public void setZone(Zone zone) {
         this.zone = zone;
+    }
+    
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
     }
 
     public RenderPanel() {

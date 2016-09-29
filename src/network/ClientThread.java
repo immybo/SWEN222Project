@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
+import model.Inventory;
 import model.Zone;
 import network.Protocol.Event;
 import view.GameFrame;
@@ -36,14 +37,19 @@ public class ClientThread extends Thread{
 	 * @throws ClassNotFoundException 
 	 */
 	private void processDownstream() throws IOException, ClassNotFoundException {
-		System.err.println("Waiting for update");
 		Object readObj = in.readObject();
-		
-		System.err.println("Zone update!");
-		readObj = in.readObject();
-		Zone newZone = (Zone)readObj;
 		RenderPanel panel = frame.getRenderPanel();
-		panel.setZone(newZone);
+		int updateCount = 0;
+		do {
+			if (readObj instanceof Zone) {
+				Zone newZone = (Zone)readObj;
+				panel.setZone(newZone);
+			} else if (readObj instanceof Inventory) {
+				Inventory newInv = (Inventory)readObj;
+				panel.setInventory(newInv);
+			}
+			updateCount++;
+		} while (in.available() > 0 && updateCount < 5);
 		panel.repaint();
 		return;
 	}
