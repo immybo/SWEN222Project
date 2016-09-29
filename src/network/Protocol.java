@@ -28,10 +28,14 @@ public class Protocol {
 	/* Events that can be communicated between client and server */
 	public static enum Event {
 		/* movement */
-		FORWARD, BACKWARD,
+		FORWARD,
+		BACKWARD,
 		
 		/* rotation */
 		ROTATE_CLOCKWISE,
 		ROTATE_ANTICLOCKWISE,
+		
+		/* interaction */
+		INTERACT,
 	};
 }
