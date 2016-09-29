@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 import util.Coord;
 import util.PointD;
 
@@ -8,7 +10,9 @@ import util.PointD;
  * 
  * @author Martin Chau
  */
-public abstract class Entity extends Drawable implements Interactable {
+public abstract class Entity extends Drawable implements Interactable, Serializable {
+	
+	public Entity(){}
 	
 	public Entity(Zone zone, Coord worldPosition, Inventory inventory, double size) {
 		this.zone = zone;
