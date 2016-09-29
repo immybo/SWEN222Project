@@ -1,6 +1,8 @@
 package model;
 
-public abstract class Drawable{
+import java.io.Serializable;
+
+public abstract class Drawable implements Serializable {
 	private String drawID;
 
 	public String getDrawID() {
