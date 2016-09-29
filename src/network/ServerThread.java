@@ -26,11 +26,7 @@ public class ServerThread extends Thread {
 	/* is the server thread still supposed to be running its loop? */
 	private boolean running;
 	
-	/* flag to indicate whether or not there is game state which requires
-	 * sending to the client */
-	private boolean postFlag = false;
-	
-	/* player id */
+	/* character for the client this thread is managing */
 	private Character character;
 	
 	/* socket connected to client and its streams */
@@ -38,46 +34,16 @@ public class ServerThread extends Thread {
 	private DataInputStream in;
 	private DataOutputStream out;
 	
-	/* player coordinates */
-	private int playerX;
-	private int playerY;
-	
-	/* FIXME need to pass in object for game state? */
+	/**
+	 * Construct a ServerThread object
+	 * @param parentServer -- back reference to server object
+	 * @param socket -- socket on which to communicate with client
+	 * @param character -- in-game character this thread's client controls
+	 */
 	public ServerThread(Server parentServer, Socket socket, Character character) {
 		this.socket = socket;
 		this.parentServer = parentServer;
 		this.character = character;
-	}
-	
-	/**
-	 * Post a notification of a change made to the game state
-	 * that needs sending to the client
-	 */
-	synchronized public void post() {
-		postFlag = true;
-	}
-	
-	synchronized public void setPlayer(int x, int y){
-		this.playerX = x;
-		this.playerY = y;
-	}
-	
-	/**
-	 * If required by a previous uncleared post, send the game
-	 * state to the client and clear the post request
-	 * @throws IOException 
-	 */
-	synchronized private void processDownstream() throws IOException {
-		if (!postFlag)
-			return;
-		
-		/* FIXME send the updated game state to the client */
-		List<Protocol.Event> events = Arrays.asList(Protocol.Event.LEVEL_UPDATE.values());
-		int index = events.indexOf(Protocol.Event.LEVEL_UPDATE);
-		this.out.write(index);
-		this.out.write(playerX);
-		this.out.write(playerY);
-		postFlag = false;
 	}
 	
 	/**
@@ -86,7 +52,6 @@ public class ServerThread extends Thread {
 	private void processUpstream() throws IOException {
 		Protocol.Event packetType = Protocol.Event.values()[in.readInt()];
 		
-		/* FIXME implement these */
 		switch (packetType) {
 		case FORWARD:
 			parentServer.getWorld().moveCharacterForward(character);
@@ -119,15 +84,7 @@ public class ServerThread extends Thread {
 			
 			running = true;
 			while(isRunning()) {
-				/* muh non-blocking-ness */
-				/* FIXME check if processing only one upstream packet before processing downstream traffic hurts performace.
-				 * Might be better to, say, process between 0 and 5 upstream packets if they are there
-				 * before going on to process downstream. Dunno.
-				 */
-				if (in.available() > 0) {
-					processUpstream();
-				}
-				processDownstream();
+				processUpstream();
 			}
 			
 		} catch (IOException e) {
