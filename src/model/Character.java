@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 import util.Coord;
 
@@ -9,7 +10,7 @@ import util.Coord;
  * 
  * @author Robert Campbell
  */
-public abstract class Character {
+public abstract class Character implements Serializable {
 	private Coord coord;
 	private Zone zone;
 	

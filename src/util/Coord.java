@@ -1,6 +1,7 @@
 package util;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 /**
  * Represents a combination of Point for position and Direction for facing
@@ -8,7 +9,7 @@ import java.awt.Point;
  * @author Martin Chau
  *
  */
-public class Coord {
+public class Coord implements Serializable {
 	public Coord(Direction facing, Point point) {
 		this.facing = facing;
 		this.point = point;

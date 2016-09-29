@@ -8,6 +8,7 @@ import java.net.Socket;
 import model.Zone;
 import network.Protocol.Event;
 import view.GameFrame;
+import view.RenderPanel;
 
 /**
  * Client worker thread for listening to the server's socket, with client sending stuff to the server
@@ -48,8 +49,9 @@ public class ClientThread extends Thread{
 				System.err.println("Zone update!");
 				readObj = in.readObject();
 				Zone newZone = (Zone)readObj;
-				frame.getRenderPanel().setZone(newZone);
-				frame.getRenderPanel().repaint();
+				RenderPanel panel = frame.getRenderPanel();
+				panel.setZone(newZone);
+				panel.repaint();
 				break;
 			case DISCONNECT:
 				this.parentClient.disconnect();

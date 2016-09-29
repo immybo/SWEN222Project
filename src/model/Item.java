@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 import org.w3c.dom.*;
 
 import datastorage.*;
@@ -14,7 +16,7 @@ import util.*;
  * 
  * @author Robert Campbell
  */
-public abstract class Item extends Drawable implements Storable {
+public abstract class Item extends Drawable implements Storable, Serializable {
 	private boolean inInventory;
 	private PointD worldPosition;
 	private double size;

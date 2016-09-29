@@ -1,12 +1,14 @@
 package util;
 
+import java.io.Serializable;
+
 /**
  * Defines a 2D point with coordinates represented 
  * as doubles.
  * 
  * @author Robert Campbell
  */
-public class PointD {
+public class PointD implements Serializable {
 	public final double X;
 	public final double Y;
 	

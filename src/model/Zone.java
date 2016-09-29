@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.*;
 
 import org.w3c.dom.Document;
@@ -20,7 +21,7 @@ import util.PointD;
  * 
  * @author Robert Campbell
  */
-public class Zone implements Storable {
+public class Zone implements Storable, Serializable {
 	private String name;
 	private Tile[][] tiles;
 	private List<Item> items;

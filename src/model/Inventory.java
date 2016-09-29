@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 /**
  * Defines something which can contain a certain
  * amount of items. Items can usually be taken out
@@ -7,7 +9,7 @@ package model;
  * 
  * @author Robert Campbell
  */
-public class Inventory {
+public class Inventory implements Serializable {
 	private int currentNumItems;
 	private Item[] items;
 	private int storageCapacity;

@@ -1,7 +1,7 @@
 package network;
 
 import java.io.IOException;
-
+import java.io.ObjectOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.InetSocketAddress;
@@ -20,6 +20,7 @@ public class Server {
 	private int clientCount;
 	private World world;
 	private Character[] characters;
+	private ServerSpamThread[] gameStateThreads;
 	
 	/**
 	 * Simple constructor using default port number
@@ -166,10 +167,18 @@ public class Server {
 		}
 		System.out.println("All clients connected");
 		
-		/* spawn a thread for each client */ 
+		/* spawn two threads for each client */ 
 		serverThreads = new ServerThread[totalPlayers];
+		gameStateThreads = new ServerSpamThread[totalPlayers];
 		for (int i = 0; i < totalPlayers; i++) {
 			serverThreads[i] = new ServerThread(i, this, clientSocks[i], characters[i]);
+			try {
+				ObjectOutputStream out = new ObjectOutputStream(clientSocks[i].getOutputStream());
+				gameStateThreads[i] = new ServerSpamThread(world, characters[i], out);
+				gameStateThreads[i].start();
+			} catch (IOException e) {
+				System.err.println("Asdf");
+			}
 			serverThreads[i].start();
 		}
 	}

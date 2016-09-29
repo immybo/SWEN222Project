@@ -2,6 +2,7 @@ package model;
 
 import java.awt.*;
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.w3c.dom.*;
 import java.lang.reflect.*;
@@ -16,7 +17,7 @@ import datastorage.StorableFactory;
  * 
  * @author Robert Campbell
  */
-public abstract class Tile  extends Drawable implements Storable{
+public abstract class Tile  extends Drawable implements Storable,Serializable {
 	private Point position;
 	
 	public Tile(Point position){

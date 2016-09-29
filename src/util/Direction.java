@@ -1,13 +1,14 @@
 package util;
 
 import java.awt.Point;
+import java.io.Serializable;
 
 /**
  * Defines one of the four cardinal directions that can be moved in.
  * 
  * @author Robert Campbell
  */
-public class Direction {
+public class Direction implements Serializable {
 	public static final int NORTH = 0;
 	public static final int EAST = 1;
 	public static final int SOUTH = 2;

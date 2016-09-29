@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 import util.Coord;
 import util.PointD;
 
@@ -8,7 +10,7 @@ import util.PointD;
  * 
  * @author Robert Campbell
  */
-public class KeyGate extends Gate {
+public class KeyGate extends Gate implements Serializable {
 	private String keyID;
 	private boolean passable;
 	
