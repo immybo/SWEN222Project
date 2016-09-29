@@ -1,6 +1,9 @@
 package view;
 
 import javax.swing.*;
+
+import model.Zone;
+
 import java.awt.*;
 
 /**
@@ -32,6 +35,11 @@ public class GameFrame extends JFrame {
         this.add(informationPanel, BorderLayout.EAST);
 
         pack();
+    }
+    
+    public void setZone(Zone z){
+    	RenderPanel panel = (RenderPanel)canvas;
+    	panel.setZone(z);
     }
 
     /**

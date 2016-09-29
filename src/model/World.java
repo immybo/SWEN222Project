@@ -37,16 +37,17 @@ public class World implements Storable {
 			}
 		}
 		//1x7 corridor in middle
-		for(int i = 7; i<7; i++){
-			tiles[1][i] = new FloorTile(new Point(i,1));
-			tiles[1][i].setDrawID("testFloorB");
+		for(int i = 1; i<8; i++){
+			tiles[i][1] = new FloorTile(new Point(1,i));
+			tiles[i][1].setDrawID("testFloorB");
 		}
+		newZones[0] = new Zone("testZone", tiles);
 		//key, i have no idea what size does atm. 
-		newZones[1].addItem(new Key(new PointD(1,2), 0.5, "testKey"));
-		newZones[1].addEntity(new KeyGate(Gate.State.LOCKED, newZones[1], new Coord(new Direction(Direction.NORTH), new Point (1,4)), 1, "testKey"));
+		newZones[0].addItem(new Key(new PointD(1,2), 0.5, "testKey"));
+		newZones[0].addEntity(new KeyGate(Gate.State.LOCKED, newZones[0], new Coord(new Direction(Direction.NORTH), new Point (1,4)), 1, "testKey"));
 		//characters
-				Character pupo = new PlayableCharacter(newZones[1], new Coord(new Direction(Direction.NORTH), new Point(1,0)), true);
-				Character yelo = new PlayableCharacter(newZones[1], new Coord(new Direction(Direction.SOUTH),new Point(1,8)), false);
+				Character pupo = new PlayableCharacter(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1,0)), true);
+				Character yelo = new PlayableCharacter(newZones[0], new Coord(new Direction(Direction.SOUTH),new Point(1,8)), false);
 				
 				return new World("test",newZones, pupo, yelo);
 	}
@@ -147,6 +148,10 @@ public class World implements Storable {
 	
 	public Character getYelo() {
 		return Yelo;
+	}
+	
+	public Zone[] getZones(){
+		return this.zones;
 	}
 	
 	
