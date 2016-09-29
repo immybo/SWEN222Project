@@ -15,6 +15,7 @@ import javax.swing.OverlayLayout;
 import model.PlayableCharacter;
 import model.World;
 import util.Coord;
+import view.GameFrame;
 
 public class Client {
 	private String host;
@@ -25,6 +26,8 @@ public class Client {
 	private ClientThread clientThread;
 	private World world;
 	
+	private GameFrame game;
+	
 	/**
 	 * Simple constructor connecting to host using default port number
 	 * @param host --- host name
@@ -32,6 +35,17 @@ public class Client {
 	public Client(String host, World world) {
 		this(host, Protocol.DEFAULT_PORT);
 		this.world = world;
+	}
+	
+	/**
+	 * Constructor that also creates a window for the game
+	 * @param host
+	 */
+	public Client(String host){
+		this(host, Protocol.DEFAULT_PORT);
+		this.game = new GameFrame();
+		this.game.setZone(World.testWorld().getZones()[0]);
+		this.game.show();
 	}
 	
 	/**
