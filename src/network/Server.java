@@ -10,7 +10,6 @@ import java.net.Socket;
 
 import model.World;
 import model.Character;
-import model.PlayableCharacter;
 
 public class Server {
 	
@@ -36,8 +35,6 @@ public class Server {
 	public Server(int port) {
 		this.port = port;
 		clientCount = 0;
-		
-		
 		
 		/* FIXME HACK set up world and players */
 		world = World.testWorld();
@@ -136,7 +133,7 @@ public class Server {
 	 */
 	public void run() {
 		/* FIXME magic constant 2 */
-		int totalPlayers = 1;
+		int totalPlayers = 2;
 		
 		clientSocks = new Socket[totalPlayers];
 		
@@ -175,17 +172,25 @@ public class Server {
 			serverThreads[i] = new ServerThread(i, this, clientSocks[i], characters[i]);
 			serverThreads[i].start();
 		}
-		while(true){
-			
+		
+		/* wait for server threads to exit/error-out/whatever */
+		for (int i = 0; i < totalPlayers; i++) {
+			try {
+				serverThreads[i].join();
+			} catch (InterruptedException e) {
+				/* we don't really care */
+				e.printStackTrace();
+			}
 		}
 	}
 	
+	
+	/**
+	 * Get the world of the hosted game
+	 * @return
+	 */
 	protected World getWorld() {
 		return this.world;
-	}
-	
-	public void playerLocation(int x, int y){
-		this.serverThreads[0].setPlayer(x,y);
 	}
 	
 	
@@ -221,10 +226,16 @@ public class Server {
 		return clientCount; 
 	}
 	
-	/* temporary */
+	/**
+	 * Run the server standalone
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		Server s = new Server();
+		/* run server */
 		s.run();
+		
+		/* stop + cleanup if not already done */
 		s.stop();
 	}
 }
