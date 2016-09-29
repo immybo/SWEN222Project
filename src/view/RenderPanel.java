@@ -16,7 +16,7 @@ import java.io.IOException;
  * Created by Hamish Brown on 28/09/2016.
  */
 public class RenderPanel extends JPanel {
-    private Zone zone;
+    private volatile Zone zone;
     private AffineTransform isoTransform;
 
     public Zone getZone() {
@@ -48,20 +48,23 @@ public class RenderPanel extends JPanel {
         
         
         //DRAFT IMAGE
-        if (zone == null)
+        if (zone == null) {
+        	System.err.println("Zone is null; bail");
         	return;
+        }
         ZoneDrawInfo info = zone.getDrawInformation();
         String[][] tileInfo = info.getTileInfo();
         //g2.setTransform(isoTransform);
         for(int x = 0; x < tileInfo[0].length; x++){
 			for(int y = 0; y < tileInfo.length; y++){
 				BufferedImage img;
+				String filename = "images/" + tileInfo[y][x] + "Iso.png";
 				try {
 					Point2D drawPoint = applyTransform(x*42,y*42);
-					img = ImageIO.read(new File("images/" + tileInfo[y][x] + "Iso.png"));
+					img = ImageIO.read(new File(filename));
 					g2.drawImage(img, (int)drawPoint.getX(), (int)drawPoint.getY(), 64, 36, null);
 				} catch (IOException e) {
-					System.err.println("Image not found for thing");
+					System.err.println("Renderer: Image "+filename+" not found");
 				}
 				
 			}
