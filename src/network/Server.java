@@ -172,16 +172,6 @@ public class Server {
 			serverThreads[i] = new ServerThread(i, this, clientSocks[i], characters[i]);
 			serverThreads[i].start();
 		}
-		
-		/* wait for server threads to exit/error-out/whatever */
-		for (int i = 0; i < totalPlayers; i++) {
-			try {
-				serverThreads[i].join();
-			} catch (InterruptedException e) {
-				/* we don't really care */
-				e.printStackTrace();
-			}
-		}
 	}
 	
 	
@@ -219,6 +209,21 @@ public class Server {
 	}
 	
 	/**
+	 * Wait for all clients to disconnect
+	 */
+	public void waitForDisconnect() {
+	/* wait for server threads to exit/error-out/whatever */
+		for (int i = 0; i < clientCount; i++) {
+			try {
+				serverThreads[i].join();
+			} catch (InterruptedException e) {
+				/* we don't really care */
+				e.printStackTrace();
+			}
+		}	
+	}
+	
+	/**
 	 * Get the number of client connections currently on the server
 	 * @return
 	 */
@@ -234,6 +239,7 @@ public class Server {
 		Server s = new Server();
 		/* run server */
 		s.run();
+		s.waitForDisconnect();
 		
 		/* stop + cleanup if not already done */
 		s.stop();

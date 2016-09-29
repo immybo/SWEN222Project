@@ -46,6 +46,8 @@ public class RenderPanel extends JPanel {
         
         
         //DRAFT IMAGE
+        if (zone == null)
+        	return;
         ZoneDrawInfo info = zone.getDrawInformation();
         String[][] tileInfo = info.getTileInfo();
         g2.setTransform(isoTransform);

@@ -24,7 +24,7 @@ public class NetworkTests extends TestCase {
 		public Client c;
 		@Override
 		public void run() {
-			c = new Client("localhost");
+			c = new Client(null, "localhost");
 			c.run();
 		}
 	}

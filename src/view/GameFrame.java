@@ -20,7 +20,7 @@ public class GameFrame extends JFrame {
     private static final double INFORMATION_PANEL_WIDTH = 0.3;
 
     // Shows the actual game map, entities, etc.
-    private JPanel canvas;
+    private RenderPanel canvas;
     // Shows the player information about the current game -
     // For example, their inventory, health
     private JPanel informationPanel;
@@ -31,32 +31,12 @@ public class GameFrame extends JFrame {
         this.setLayout(new BorderLayout());
 
         canvas = new RenderPanel();
-        informationPanel = new InformationPanel();
+        informationPanel = new InformationPanel(this);
 
         this.add(canvas, BorderLayout.WEST);
         this.add(informationPanel, BorderLayout.EAST);
 
         pack();
-    }
-    
-    public GameFrame(Client client) {
-    	setSizeDefault();
-        this.setLayout(new BorderLayout());
-        this.client = client;
-
-        canvas = new RenderPanel();
-        informationPanel = new InformationPanel(client);
-
-        this.add(canvas, BorderLayout.WEST);
-        this.add(informationPanel, BorderLayout.EAST);
-
-        pack();
-		
-	}
-
-	public void setZone(Zone z){
-    	RenderPanel panel = (RenderPanel)canvas;
-    	panel.setZone(z);
     }
 
     /**
@@ -102,5 +82,7 @@ public class GameFrame extends JFrame {
         return new Dimension(width, height);
     }
     
-    
+    public RenderPanel getRenderPanel() {
+    	return canvas;
+    }
 }

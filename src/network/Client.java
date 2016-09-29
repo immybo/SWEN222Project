@@ -2,19 +2,12 @@ package network;
 
 
 import java.io.DataOutputStream;
-import java.awt.Point;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.swing.OverlayLayout;
-
-import model.PlayableCharacter;
-import model.World;
-import util.Coord;
 import view.GameFrame;
 
 public class Client {
@@ -24,30 +17,16 @@ public class Client {
 	private DataOutputStream out;
 	private DataInputStream in;
 	private ClientThread clientThread;
-	private World world;
-	
-	private GameFrame game;
-	
-	/**
-	 * Simple constructor connecting to host using default port number
-	 * @param host --- host name
-	 */
-	public Client(String host, World world) {
-		this(host, Protocol.DEFAULT_PORT);
-		this.world = world;
-	}
+
+	private GameFrame frame;
 	
 	/**
 	 * Constructor that also creates a window for the game
 	 * @param host
 	 */
-	public Client(String host){
+	public Client(GameFrame frame, String host){
 		this(host, Protocol.DEFAULT_PORT);
-		this.game = new GameFrame(this);
-		this.world = World.testWorld();
-		this.game.setZone(this.world.getZones()[0]);
-		this.game.show();
-		
+		this.frame = frame;
 	}
 	
 	/**
@@ -94,7 +73,7 @@ public class Client {
 				return;
 			}
 			else{
-				this.clientThread = new ClientThread(this, this.sock);
+				this.clientThread = new ClientThread(this, this.sock, this.frame);
 			}
 		} catch (IOException e) {
 			System.err.printf("Error connecting to %s:%d : %s\n",
@@ -106,7 +85,6 @@ public class Client {
 	public void disconnect(){
 		System.out.println("Disconnecting from server");
 		this.clientThread.shutdown();
-		this.clientThread.stop();
 		try {
 			this.sock.close();
 		} catch (IOException e) {
@@ -136,16 +114,4 @@ public class Client {
 	public void rotateAnticlockwise() throws IOException {
 		sendEvent(Protocol.Event.ROTATE_ANTICLOCKWISE);
 	}
-	
-	public void updatePlayer(int x, int y){
-		PlayableCharacter c = (PlayableCharacter)world.getPupo();
-		Coord origin = c.getCoord();
-		c.setCoord(new Coord(origin.getFacing(),new Point(x,y)));
-	}
-	
-	/* temporary */
-	public static void main(String[] args) {
-		(new Client(args[0])).run();
-	}
-
 }

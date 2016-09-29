@@ -2,7 +2,12 @@ package network;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.net.Socket;
+
+import model.Zone;
+import network.Protocol.Event;
+import view.GameFrame;
 
 /**
  * Client worker thread for listening to the server's socket, with client sending stuff to the server
@@ -15,32 +20,42 @@ public class ClientThread extends Thread{
 
 	/* socket connected to server and input stream */
 	private Socket socket;
-	private DataInputStream in;
+	private ObjectInputStream in;
+	private GameFrame frame;
 	
 	private boolean running;
 
-	public ClientThread(Client client, Socket socket) {
+	public ClientThread(Client client, Socket socket, GameFrame frame) {
 		this.socket = socket;
 		this.parentClient = client;
+		this.frame = frame;
 	}
 
 
 	/**
 	 * Process data sent by the server
 	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
-	private void processUpStream() throws IOException {
-		/* FIXME receive and decode packet here */
-		Protocol.Event packetType = Protocol.Event.values()[in.readInt()];
-		switch(packetType){
+	private void processUpStream() throws IOException, ClassNotFoundException {
+		Object readObj = in.readObject();
+		
+		/* FIXME potentially dangerous cast */
+		Event packetType = (Event)readObj;
+		
+		switch (packetType) {
 			case LEVEL_UPDATE:
-				/*Parent Client Update window*/
-				int x = this.in.readInt();
-				int y = this.in.readInt();
-				this.parentClient.updatePlayer(x,y);
+				System.err.println("Zone update!");
+				readObj = in.readObject();
+				Zone newZone = (Zone)readObj;
+				frame.getRenderPanel().setZone(newZone);
+				frame.getRenderPanel().repaint();
 				break;
 			case DISCONNECT:
 				this.parentClient.disconnect();
+				break;
+			default:
+				System.err.println("Unhandled packet type received from server: "+packetType);
 				break;
 		}
 	}
@@ -55,14 +70,14 @@ public class ClientThread extends Thread{
 	@Override
 	public void run() {
 		try {
-			this.in = new DataInputStream(socket.getInputStream());
+			this.in = new ObjectInputStream(socket.getInputStream());
 			this.running = true;
 			while(isRunning()){
 				if(in.available() > 0){
 					processUpStream();
 				}
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

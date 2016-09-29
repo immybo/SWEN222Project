@@ -20,13 +20,26 @@ public class InformationPanel extends JPanel {
 	private JButton exitButton;
 	private JButton saveButton;
 	private JButton loadButton;
+	private JButton connectButton;
 	//HACKS
 	private JButton moveButton;
 	
 	private Client client;
+	private GameFrame gameFrame;
 	
-	public InformationPanel(){
+	public InformationPanel(GameFrame gameFrame){
+		this.gameFrame = gameFrame;
 		this.setLayout(new BorderLayout());
+		
+		connectButton = new JButton("Connect");
+		connectButton.addActionListener((ActionEvent e)->{
+			String host = JOptionPane.showInputDialog("Server hostame or ip:");
+			System.err.println("Host is: "+host);
+			if(host != null && client == null) {
+				client = new Client(gameFrame, host);
+				client.run();
+			}
+		});
 		
 		exitButton = new JButton("Exit");
 		exitButton.addActionListener((ActionEvent e)->{
@@ -57,19 +70,15 @@ public class InformationPanel extends JPanel {
 		});
 		
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridLayout(2, 2));
+		buttonPanel.setLayout(new GridLayout(2, 3));
 		
 		buttonPanel.add(saveButton, 0);
 		buttonPanel.add(loadButton, 1);
 		buttonPanel.add(exitButton, 2);
 		buttonPanel.add(moveButton, 3);
+		buttonPanel.add(connectButton, 4);
 		
 		this.add(buttonPanel, BorderLayout.SOUTH);
-	}
-	
-    public InformationPanel(Client client) {
-		this();
-		this.client = client;
 	}
 
 	@Override
@@ -78,6 +87,8 @@ public class InformationPanel extends JPanel {
     }
     
     private void exitGame(){
+    	if (client != null)
+    		client.disconnect();
     	System.exit(0);
     }
     
