@@ -56,7 +56,7 @@ public class RenderPanel extends JPanel {
 					img = ImageIO.read(new File("images/" + tileInfo[y][x] + ".png"));
 					g2.drawImage(img, x*60, y*60, 60, 60, null);
 				} catch (IOException e) {
-					//do nothing cos i dont know man
+					System.err.println("Image not found for thing");
 				}
 				
 			}
