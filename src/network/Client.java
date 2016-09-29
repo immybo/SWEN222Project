@@ -72,9 +72,9 @@ public class Client {
 				sock.close();
 				return;
 			}
-			else{
-				this.clientThread = new ClientThread(this, this.sock, this.frame);
-			}
+			System.err.println("Starting client thread");
+			this.clientThread = new ClientThread(this, this.sock, this.frame);
+			this.clientThread.start();
 		} catch (IOException e) {
 			System.err.printf("Error connecting to %s:%d : %s\n",
 						host, port,
