@@ -21,6 +21,9 @@ public class Protocol {
 	 */
 	public static final String SERVER_MAGIC = "Yes helo does the mcborger contain vegetal\n";
 	public static final String CLIENT_MAGIC = "no\n";
+
+	/* delay between game state updates (milliseconds) */
+	public static final long UPDATE_DELAY = 1000;
 	
 	/* Events that can be communicated between client and server */
 	public static enum Event {

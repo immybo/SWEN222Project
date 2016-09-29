@@ -1,55 +1,36 @@
 package network;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.net.Socket;
 
-import javax.xml.bind.Element;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.w3c.dom.Document;
-
-import model.World;
 import model.Character;
 
 public class ServerSpamThread extends Thread {
-	private World world;
 	private Character character;
 	private ObjectOutputStream out;
-	private Document doc;
+	private Server parentServer;
 	
-	public ServerSpamThread(World world, Character character, ObjectOutputStream out) {
-		this.world = world;
+	public ServerSpamThread(Server parentServer, Socket socket, Character character) throws IOException {
 		this.character = character;
-		this.out = out;
+		this.parentServer = parentServer;
 		
-	
-		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder docBuilder = null;
-		
-		try {
-			docBuilder = docFactory.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-    	doc = docBuilder.newDocument();
+		/* create an ObjectOutputStream for pushing updates */
+		this.out = new ObjectOutputStream(socket.getOutputStream());
 	}
 	
 	@Override
 	public void run() {
-		while(true) {			
+		boolean running = true;
+		while(running) {
 			try {
-				System.err.println("Sending level update");
 				out.writeObject(character.getZone());
-				sleep(1000);
+				sleep(Protocol.UPDATE_DELAY);
 			} catch (InterruptedException | IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
+				running = false;
 			}
 		}
+		parentServer.stop();
 	}
 }

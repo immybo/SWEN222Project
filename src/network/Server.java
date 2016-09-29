@@ -171,14 +171,16 @@ public class Server {
 		serverThreads = new ServerThread[totalPlayers];
 		gameStateThreads = new ServerSpamThread[totalPlayers];
 		for (int i = 0; i < totalPlayers; i++) {
-			serverThreads[i] = new ServerThread(i, this, clientSocks[i], characters[i]);
 			try {
-				ObjectOutputStream out = new ObjectOutputStream(clientSocks[i].getOutputStream());
-				gameStateThreads[i] = new ServerSpamThread(world, characters[i], out);
-				gameStateThreads[i].start();
+				gameStateThreads[i] = new ServerSpamThread(this, clientSocks[i], characters[i]);
 			} catch (IOException e) {
-				System.err.println("Asdf");
+				e.printStackTrace();
+				System.err.println("Error creating game state updater thread, bailing");
+				stop();
 			}
+			gameStateThreads[i].start();
+			
+			serverThreads[i] = new ServerThread(this, clientSocks[i], characters[i]);
 			serverThreads[i].start();
 		}
 	}

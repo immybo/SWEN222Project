@@ -31,7 +31,6 @@ public class ServerThread extends Thread {
 	private boolean postFlag = false;
 	
 	/* player id */
-	private int playerId;
 	private Character character;
 	
 	/* socket connected to client and its streams */
@@ -44,10 +43,9 @@ public class ServerThread extends Thread {
 	private int playerY;
 	
 	/* FIXME need to pass in object for game state? */
-	public ServerThread(int playerId, Server server, Socket socket, Character character) {
-		this.playerId = playerId;
+	public ServerThread(Server parentServer, Socket socket, Character character) {
 		this.socket = socket;
-		this.parentServer = server;
+		this.parentServer = parentServer;
 		this.character = character;
 	}
 	
@@ -134,7 +132,7 @@ public class ServerThread extends Thread {
 			
 		} catch (IOException e) {
 			if (isRunning()) {
-				System.err.println("server thread "+playerId+": fatal error: "+e.getMessage());
+				e.printStackTrace();
 				parentServer.stop();
 			}
 		}
