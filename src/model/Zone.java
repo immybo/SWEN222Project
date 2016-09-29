@@ -26,6 +26,8 @@ public class Zone implements Storable {
 	private List<Item> items;
 	private List<Entity> entities;
 	private List<Character> characters; // characters not including main characters
+	private Character Pupo;
+	private Character Yelo;
 	
 	/**
 	 * Zones should usually only be constructed from
@@ -195,5 +197,21 @@ public class Zone implements Storable {
 			itemInfo.put(i.getPosition(), i.getDrawID());
 		}
 		return new ZoneDrawInfo(tileInfo, entityInfo, itemInfo);
+	}
+
+	public Character getPupo() {
+		return Pupo;
+	}
+
+	public void setPupo(Character pupo) {
+		Pupo = pupo;
+	}
+
+	public Character getYelo() {
+		return Yelo;
+	}
+
+	public void setYelo(Character yelo) {
+		Yelo = yelo;
 	}
 }

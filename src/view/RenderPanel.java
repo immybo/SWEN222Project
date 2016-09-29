@@ -61,6 +61,8 @@ public class RenderPanel extends JPanel {
 				
 			}
 		}
+        
+        
         //DRAFT IMAGE
 
     }
