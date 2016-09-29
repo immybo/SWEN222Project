@@ -1,11 +1,13 @@
 package view;
 import model.Zone;
 import model.ZoneDrawInfo;
+import util.PointD;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -48,13 +50,14 @@ public class RenderPanel extends JPanel {
         //DRAFT IMAGE
         ZoneDrawInfo info = zone.getDrawInformation();
         String[][] tileInfo = info.getTileInfo();
-        g2.setTransform(isoTransform);
+        //g2.setTransform(isoTransform);
         for(int x = 0; x < tileInfo[0].length; x++){
 			for(int y = 0; y < tileInfo.length; y++){
 				BufferedImage img;
 				try {
-					img = ImageIO.read(new File("images/" + tileInfo[y][x] + ".png"));
-					g2.drawImage(img, x*60, y*60, 60, 60, null);
+					Point2D drawPoint = applyTransform(x*42,y*42);
+					img = ImageIO.read(new File("images/" + tileInfo[y][x] + "Iso.png"));
+					g2.drawImage(img, (int)drawPoint.getX(), (int)drawPoint.getY(), 64, 36, null);
 				} catch (IOException e) {
 					System.err.println("Image not found for thing");
 				}
@@ -64,6 +67,7 @@ public class RenderPanel extends JPanel {
         BufferedImage img;
         try {
 			img = ImageIO.read(new File("images/pupo.png"));
+			
 			g2.drawImage(img, zone.getPupo().getCoord().getPoint().x*60, zone.getPupo().getCoord().getPoint().y*60, 60, 60, null);
 		} catch (IOException e) {
 			//do nothing cos i dont know man
@@ -72,6 +76,12 @@ public class RenderPanel extends JPanel {
         
         //DRAFT IMAGE
 
+    }
+    
+    private Point2D applyTransform(double x, double y) {
+    	Point2D trans = new Point2D.Double();
+    	isoTransform.transform(new Point2D.Double(x,y), trans);
+    	return trans;
     }
 
     public static void testRender() {
