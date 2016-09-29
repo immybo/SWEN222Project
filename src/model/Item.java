@@ -14,7 +14,7 @@ import util.*;
  * 
  * @author Robert Campbell
  */
-public abstract class Item implements Storable {
+public abstract class Item extends Drawable implements Storable {
 	private boolean inInventory;
 	private PointD worldPosition;
 	private double size;

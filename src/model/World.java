@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.w3c.dom.Document;
@@ -32,11 +33,13 @@ public class World implements Storable {
 		for(int x = 0; x<3; x++){
 			for(int y = 0; y<9; y++){
 				tiles[y][x] = new WallTile(new Point(x,y));
+				tiles[y][x].setDrawID("testFloorA");
 			}
 		}
 		//1x7 corridor in middle
 		for(int i = 7; i<7; i++){
 			tiles[1][i] = new FloorTile(new Point(i,1));
+			tiles[1][i].setDrawID("testFloorB");
 		}
 		//key, i have no idea what size does atm. 
 		newZones[1].addItem(new Key(new PointD(1,2), 0.5, "testKey"));
@@ -143,7 +146,21 @@ public class World implements Storable {
 	}
 	
 	public Character getYelo() {
-		// TODO Auto-generated method stub
 		return Yelo;
+	}
+	
+	
+	/**
+	 * This returns the ZoneDrawInfo for each zone, which contains enough information about the map, entities etc for a renderer to output to a player. 
+	 * 
+	 * @return
+	 */
+	public List<ZoneDrawInfo> getDrawInformation(){
+		List<ZoneDrawInfo> drawInformation = new ArrayList<ZoneDrawInfo>();
+		for(Zone z: zones){
+			drawInformation.add(z.getDrawInformation());
+		}
+		return drawInformation;
+		
 	}
 }

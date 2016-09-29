@@ -10,6 +10,8 @@ import org.w3c.dom.NodeList;
 import datastorage.Storable;
 import datastorage.StorableFactory;
 import model.Tile.TileFactory;
+import util.Coord;
+import util.PointD;
 
 /**
  * A zone is a discrete section of the world.
@@ -174,5 +176,24 @@ public class Zone implements Storable {
 	@Override
 	public int hashCode(){
 		return name.hashCode();
+	}
+
+	public ZoneDrawInfo getDrawInformation() {
+		//compile drawIDs of all tiles 
+		String[][] tileInfo = new String[tiles.length][tiles[0].length];
+		for(int x = 0; x < tiles[0].length; x++){
+			for(int y = 0; y < tiles.length; y++){
+				tileInfo[y][x] = tiles[y][x].getDrawID();
+			}
+		}
+		HashMap<Coord, String> entityInfo = new HashMap<Coord, String>();
+		for(Entity e: entities){
+			entityInfo.put(e.getWorldPosition(), e.getDrawID());
+		}
+		HashMap<PointD, String> itemInfo = new HashMap<PointD, String>();
+		for(Item i: items){
+			itemInfo.put(i.getPosition(), i.getDrawID());
+		}
+		return new ZoneDrawInfo(tileInfo, entityInfo, itemInfo);
 	}
 }
