@@ -49,17 +49,6 @@ public class ClientThread extends Thread{
 		panel.setZone(newZone);
 		panel.repaint();
 		return;
-				/*
-		switch (packetType) {
-			case LEVEL_UPDATE:
-				
-			case DISCONNECT:
-				this.parentClient.disconnect();
-				break;
-			default:
-				System.err.println("Unhandled packet type received from server: "+packetType);
-				break;
-		}*/
 	}
 	
 	public boolean isRunning(){

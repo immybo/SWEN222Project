@@ -2,8 +2,7 @@ package network;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.ObjectInputStream;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -106,12 +105,26 @@ public class Server {
 	 */
 	public boolean doHandshake(Socket clientSocket) throws IOException {
 		/* DataInputStream and co. make sending packets of varied data types easy */
-		DataInputStream in = new DataInputStream(clientSocket.getInputStream());
-		DataOutputStream out = new DataOutputStream(clientSocket.getOutputStream());
+		ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
+		ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
 		
 		/* send the server's magic sequence and wait for a reply */
-		out.writeUTF(Protocol.SERVER_MAGIC);
-		String response = in.readUTF();
+		out.writeObject(Protocol.SERVER_MAGIC);
+		
+		/* receive the object from the other side, bailing if it cannot be reconstructed */
+		Object rawResponse = null;
+		try {
+			rawResponse = in.readObject();
+		} catch (ClassNotFoundException e) {
+			/* definitely not a String if ClassNotFound */
+			return false;
+		}
+		
+		/* check that the object is a String instance before casting */
+		if (!(rawResponse instanceof String))
+			return false;
+		
+		String response = (String)rawResponse;
 		
 		/* did the client's response match the expected value? */
 		return (response != null && response.equals(Protocol.CLIENT_MAGIC));
@@ -151,6 +164,7 @@ public class Server {
 		
 				/* attempt basic sanity-check */
 				if (doHandshake(client)) {
+					System.out.println("Magic phrase exchange succeeded");
 					clientSocks[clientCount] = client;
 					clientCount++;
 				} else {

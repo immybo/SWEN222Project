@@ -1,14 +1,12 @@
 package network;
 
 import java.net.Socket;
-import java.util.Arrays;
-import java.util.List;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import model.Character;
-import model.PlayableCharacter;
+import network.Protocol.Event;
 
 /**
  * Server worker thread for handling a single client
@@ -29,10 +27,9 @@ public class ServerThread extends Thread {
 	/* character for the client this thread is managing */
 	private Character character;
 	
-	/* socket connected to client and its streams */
+	/* socket connected to client and its inward stream */
 	private Socket socket;
-	private DataInputStream in;
-	private DataOutputStream out;
+	private ObjectInputStream in;
 	
 	/**
 	 * Construct a ServerThread object
@@ -49,9 +46,9 @@ public class ServerThread extends Thread {
 	/**
 	 * Process any data being sent to us from the client
 	 */
-	private void processUpstream() throws IOException {
-		Protocol.Event packetType = Protocol.Event.values()[in.readInt()];
-		
+	private void processUpstream() throws IOException, ClassNotFoundException {
+		Object readObj = in.readObject();
+		Event packetType = (Event)readObj;
 		switch (packetType) {
 		case FORWARD:
 			parentServer.getWorld().moveCharacterForward(character);
@@ -79,15 +76,14 @@ public class ServerThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			in = new DataInputStream(socket.getInputStream());
-			out = new DataOutputStream(socket.getOutputStream());
+			in = new ObjectInputStream(socket.getInputStream());
 			
 			running = true;
 			while(isRunning()) {
 				processUpstream();
 			}
 			
-		} catch (IOException e) {
+		} catch (IOException | ClassNotFoundException e) {
 			if (isRunning()) {
 				e.printStackTrace();
 				parentServer.stop();

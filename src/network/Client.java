@@ -1,21 +1,22 @@
 package network;
 
 
-import java.io.DataOutputStream;
-import java.io.DataInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.Arrays;
 import java.util.List;
 
 import view.GameFrame;
+import network.Protocol.Event;
 
 public class Client {
 	private String host;
 	private int port;
 	private Socket sock;
-	private DataOutputStream out;
-	private DataInputStream in;
+	private ObjectOutputStream out;
+	private ObjectInputStream in;
 	private ClientThread clientThread;
 
 	private GameFrame frame;
@@ -49,10 +50,22 @@ public class Client {
 	 */
 	public boolean doHandshake(Socket socket) throws IOException {
 		/* receive server's greeting */
-		String response = in.readUTF();
+		Object rawResponse;
 		
-		/* reply with out magic sequence */
-		out.writeUTF(Protocol.CLIENT_MAGIC);
+		/* receive from the other end, failing if no such local class */
+		try {
+			rawResponse = in.readObject();
+		} catch (ClassNotFoundException e) {
+			return false;
+		}
+		
+		if (!(rawResponse instanceof String))
+			return false;
+		
+		String response = (String)rawResponse;
+		
+		/* reply with our magic sequence */
+		out.writeObject(Protocol.CLIENT_MAGIC);
 		
 		/* did the client's response match the expected value? */
 		return (response != null && response.equals(Protocol.SERVER_MAGIC));
@@ -65,8 +78,8 @@ public class Client {
 	public void run() {
 		try {
 			sock = new Socket(host, port);
-			out = new DataOutputStream(sock.getOutputStream());
-			in = new DataInputStream(sock.getInputStream());
+			out = new ObjectOutputStream(sock.getOutputStream());
+			in = new ObjectInputStream(sock.getInputStream());
 			if (!doHandshake(sock)) {
 				System.err.println("Handshaking with server failed");
 				sock.close();
@@ -88,30 +101,28 @@ public class Client {
 		try {
 			this.sock.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
+			/* we don't care */
 			e.printStackTrace();
 		}
 	}
 	
-	private void sendEvent(Protocol.Event e) throws IOException {
-		List<Protocol.Event> events = Arrays.asList(e.values());
-		int index = events.indexOf(e);
-		out.writeInt(index);
+	private void sendEvent(Event e) throws IOException {
+		out.writeObject(e);
 	}
 	
 	public void moveForward() throws IOException {
-		sendEvent(Protocol.Event.FORWARD);
+		sendEvent(Event.FORWARD);
 	}
 	
 	public void moveBackward() throws IOException {
-		sendEvent(Protocol.Event.BACKWARD);
+		sendEvent(Event.BACKWARD);
 	}
 	
 	public void rotateClockwise() throws IOException {
-		sendEvent(Protocol.Event.ROTATE_CLOCKWISE);
+		sendEvent(Event.ROTATE_CLOCKWISE);
 	}
 	
 	public void rotateAnticlockwise() throws IOException {
-		sendEvent(Protocol.Event.ROTATE_ANTICLOCKWISE);
+		sendEvent(Event.ROTATE_ANTICLOCKWISE);
 	}
 }
