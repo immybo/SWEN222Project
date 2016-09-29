@@ -23,7 +23,10 @@ public class World implements Storable {
 	private Character Yelo;
 	
 	public World( String name, Zone[] zones, Character pupo, Character yelo){
+		this.name = name;
 		this.zones = zones;
+		this.Pupo = pupo;
+		this.Yelo = yelo;
 	}
 	
 	public static World testWorld(){
