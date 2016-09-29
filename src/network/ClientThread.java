@@ -38,28 +38,28 @@ public class ClientThread extends Thread{
 	 * @throws IOException 
 	 * @throws ClassNotFoundException 
 	 */
-	private void processUpStream() throws IOException, ClassNotFoundException {
+	private void processDownstream() throws IOException, ClassNotFoundException {
+		System.err.println("Waiting for update");
 		Object readObj = in.readObject();
 		
-		/* FIXME potentially dangerous cast */
-		Event packetType = (Event)readObj;
-		
+		System.err.println("Zone update!");
+		readObj = in.readObject();
+		Zone newZone = (Zone)readObj;
+		RenderPanel panel = frame.getRenderPanel();
+		panel.setZone(newZone);
+		panel.repaint();
+		return;
+				/*
 		switch (packetType) {
 			case LEVEL_UPDATE:
-				System.err.println("Zone update!");
-				readObj = in.readObject();
-				Zone newZone = (Zone)readObj;
-				RenderPanel panel = frame.getRenderPanel();
-				panel.setZone(newZone);
-				panel.repaint();
-				break;
+				
 			case DISCONNECT:
 				this.parentClient.disconnect();
 				break;
 			default:
 				System.err.println("Unhandled packet type received from server: "+packetType);
 				break;
-		}
+		}*/
 	}
 	
 	public boolean isRunning(){
@@ -75,9 +75,7 @@ public class ClientThread extends Thread{
 			this.in = new ObjectInputStream(socket.getInputStream());
 			this.running = true;
 			while(isRunning()){
-				if(in.available() > 0){
-					processUpStream();
-				}
+				processDownstream();
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
