@@ -33,5 +33,8 @@ public class Protocol {
 		
 		/* inform client of new world/level state */
 		LEVEL_UPDATE,
+		
+		/* Server shut down, disconnect Clients */
+		DISCONNECT,
 	};
 }

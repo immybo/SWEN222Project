@@ -17,6 +17,7 @@ public class Client {
 	private Socket sock;
 	private DataOutputStream out;
 	private DataInputStream in;
+	private ClientThread clientThread;
 	
 	/**
 	 * Simple constructor connecting to host using default port number
@@ -69,6 +70,9 @@ public class Client {
 				sock.close();
 				return;
 			}
+			else{
+				this.clientThread = new ClientThread(this, this.sock);
+			}
 		} catch (IOException e) {
 			System.err.printf("Error connecting to %s:%d : %s\n",
 						host, port,
@@ -76,11 +80,22 @@ public class Client {
 		}
 	}
 	
+	public void disconnect(){
+		System.out.println("Disconnecting from server");
+		this.clientThread.shutdown();
+		this.clientThread.stop();
+		try {
+			this.sock.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	private void sendEvent(Protocol.Event e) throws IOException {
 		List<Protocol.Event> events = Arrays.asList(e.values());
 		int index = events.indexOf(e);
 		out.writeInt(index);
-		
 	}
 	
 	public void moveForward() throws IOException {

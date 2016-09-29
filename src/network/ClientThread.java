@@ -5,50 +5,71 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
 
+/**
+ * Client worker thread for listening to the server's socket, with client sending stuff to the server
+ * @author karam
+ *
+ */
 public class ClientThread extends Thread{
 
 	private Client parentClient;
-	
-	/* socket connected to server and its streams */
+
+	/* socket connected to server and input stream */
 	private Socket socket;
 	private DataInputStream in;
-	private DataOutputStream out;
 	
+	private boolean running;
+
 	public ClientThread(Client client, Socket socket) {
 		this.socket = socket;
 		this.parentClient = client;
 	}
-	
-	/**
-	 * Send server movement details
-	 */
-	private void processDownStream() {
-		/* FIXME send server movement info */
-	}
-	
+
+
 	/**
 	 * Process data sent by the server
+	 * @throws IOException 
 	 */
-	private void processUpStream() {
+	private void processUpStream() throws IOException {
 		/* FIXME receive and decode packet here */
-		/* FIXME details of how map gamestate will be received */
+		Protocol.Event packetType = Protocol.Event.values()[in.readInt()];
+		switch(packetType){
+			case LEVEL_UPDATE:
+				/*Parent Client Update window*/
+				break;
+			case DISCONNECT:
+				this.parentClient.disconnect();
+		}
 	}
 	
-	
+	public boolean isRunning(){
+		return this.running;
+	}
+
+	/**
+	 * Listens to server socket while running
+	 */
 	@Override
 	public void run() {
 		try {
 			this.in = new DataInputStream(socket.getInputStream());
-			this.out = new DataOutputStream(socket.getOutputStream());
-			
-			if(in.available() > 0){
-				processUpStream();
+			this.running = true;
+			while(isRunning()){
+				if(in.available() > 0){
+					processUpStream();
+				}
 			}
-			processDownStream();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
+	/**
+	 * Notify the thread to stop running
+	 */
+	public void shutdown(){
+		this.running = false;
+	}
+
 }
