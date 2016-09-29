@@ -2,6 +2,7 @@ package network;
 
 
 import java.io.DataOutputStream;
+import java.awt.Point;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -11,6 +12,10 @@ import java.util.List;
 
 import javax.swing.OverlayLayout;
 
+import model.PlayableCharacter;
+import model.World;
+import util.Coord;
+
 public class Client {
 	private String host;
 	private int port;
@@ -18,13 +23,15 @@ public class Client {
 	private DataOutputStream out;
 	private DataInputStream in;
 	private ClientThread clientThread;
+	private World world;
 	
 	/**
 	 * Simple constructor connecting to host using default port number
 	 * @param host --- host name
 	 */
-	public Client(String host) {
+	public Client(String host, World world) {
 		this(host, Protocol.DEFAULT_PORT);
+		this.world = world;
 	}
 	
 	/**
@@ -115,7 +122,9 @@ public class Client {
 	}
 	
 	public void updatePlayer(int x, int y){
-		/*FIXME tell the window where the player is*/
+		PlayableCharacter c = (PlayableCharacter)world.getPupo();
+		Coord origin = c.getCoord();
+		c.setCoord(new Coord(origin.getFacing(),new Point(x,y)));
 	}
 	
 	/* temporary */

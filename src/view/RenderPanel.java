@@ -61,6 +61,13 @@ public class RenderPanel extends JPanel {
 				
 			}
 		}
+        BufferedImage img;
+        try {
+			img = ImageIO.read(new File("images/pupo.png"));
+			g2.drawImage(img, zone.getPupo().getCoord().getPoint().x*60, zone.getPupo().getCoord().getPoint().y*60, 60, 60, null);
+		} catch (IOException e) {
+			//do nothing cos i dont know man
+		}
         
         
         //DRAFT IMAGE
