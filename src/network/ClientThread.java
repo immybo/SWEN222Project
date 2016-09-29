@@ -17,8 +17,6 @@ import view.RenderPanel;
  */
 public class ClientThread extends Thread{
 
-	private Client parentClient;
-
 	/* socket connected to server and input stream */
 	private Socket socket;
 	private ObjectInputStream in;
@@ -26,9 +24,8 @@ public class ClientThread extends Thread{
 	
 	private boolean running;
 
-	public ClientThread(Client client, Socket socket, GameFrame frame) {
+	public ClientThread(Socket socket, GameFrame frame) {
 		this.socket = socket;
-		this.parentClient = client;
 		this.frame = frame;
 	}
 
