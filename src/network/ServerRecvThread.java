@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import model.Character;
+import model.Interaction;
 import network.Protocol.Event;
 
 /**
@@ -16,7 +17,7 @@ import network.Protocol.Event;
  * @author David Phillips
  *
  */
-public class ServerThread extends Thread {
+public class ServerRecvThread extends Thread {
 	
 	/* back reference to our parent/controlling Server object */
 	private Server parentServer;
@@ -37,7 +38,7 @@ public class ServerThread extends Thread {
 	 * @param socket -- socket on which to communicate with client
 	 * @param character -- in-game character this thread's client controls
 	 */
-	public ServerThread(Server parentServer, Socket socket, Character character) {
+	public ServerRecvThread(Server parentServer, Socket socket, Character character) {
 		this.socket = socket;
 		this.parentServer = parentServer;
 		this.character = character;
@@ -49,6 +50,7 @@ public class ServerThread extends Thread {
 	private void processUpstream() throws IOException, ClassNotFoundException {
 		Object readObj = in.readObject();
 		Event packetType = (Event)readObj;
+		/* FIXME repeating getWorld() a lot here lol */
 		switch (packetType) {
 		case FORWARD:
 			parentServer.getWorld().moveCharacterForward(character);
@@ -61,6 +63,15 @@ public class ServerThread extends Thread {
 			break;
 		case ROTATE_ANTICLOCKWISE:
 			parentServer.getWorld().rotateCharacter(false, character);
+			break;
+		case INTERACT:
+			readObj = in.readObject();
+			if (!(readObj instanceof Interaction)) {
+				System.err.println("Received malformed interaction from "+socket.getRemoteSocketAddress());
+				break;
+			}
+			Interaction interaction = (Interaction)readObj;
+			parentServer.getWorld().interact(interaction, character);
 			break;
 		default:
 			System.err.println("Unhandled event : "+packetType);

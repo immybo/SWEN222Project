@@ -37,6 +37,7 @@ public class ClientThread extends Thread{
 	 * @throws ClassNotFoundException 
 	 */
 	private void processDownstream() throws IOException, ClassNotFoundException {
+		/* FIXME catch EOFException on this read ? */
 		Object readObj = in.readObject();
 		RenderPanel panel = frame.getRenderPanel();
 		int updateCount = 0;
@@ -81,5 +82,4 @@ public class ClientThread extends Thread{
 	public void shutdown(){
 		this.running = false;
 	}
-
 }

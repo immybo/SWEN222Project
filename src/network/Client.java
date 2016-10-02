@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.util.Arrays;
 import java.util.List;
 
+import model.Interaction;
 import view.GameFrame;
 import network.Protocol.Event;
 
@@ -106,23 +107,49 @@ public class Client {
 		}
 	}
 	
-	private void sendEvent(Event e) throws IOException {
-		out.writeObject(e);
-	}
-	
+	/**
+	 * Ask the server to move the player forwards (in
+	 * their facing direction)
+	 * @throws IOException
+	 */
 	public void moveForward() throws IOException {
-		sendEvent(Event.FORWARD);
+		out.writeObject(Event.FORWARD);
 	}
 	
+	/**
+	 * Ask the server to move the player backward (away from
+	 * their facing direction)
+	 * @throws IOException
+	 */
 	public void moveBackward() throws IOException {
-		sendEvent(Event.BACKWARD);
+		out.writeObject(Event.BACKWARD);
 	}
 	
+	/**
+	 * Ask the server to rotate the player 90° clockwise,
+	 * when looking top-down
+	 * @throws IOException
+	 */
 	public void rotateClockwise() throws IOException {
-		sendEvent(Event.ROTATE_CLOCKWISE);
+		out.writeObject(Event.ROTATE_CLOCKWISE);
 	}
 	
+	/**
+	 * Ask the server to rotate the player 90° anti-clockwise
+	 * when looking top-down
+	 * @throws IOException
+	 */
 	public void rotateAnticlockwise() throws IOException {
-		sendEvent(Event.ROTATE_ANTICLOCKWISE);
+		out.writeObject(Event.ROTATE_ANTICLOCKWISE);
+	}
+	
+	/**
+	 * Ask the server to execute the specified interaction
+	 * @param interaction
+	 * @throws IOException
+	 */
+	public void interact(Interaction interaction) throws IOException {
+		out.writeObject(Event.INTERACT);
+		out.writeObject(interaction);
 	}
 }

@@ -12,14 +12,13 @@ import model.Character;
 
 public class Server {
 	
-	private ServerThread[] serverThreads;
 	private ServerSocket sock;
 	private int port;
 	private Socket[] clientSocks;
 	private int clientCount;
 	private World world;
 	private Character[] characters;
-	private ServerSpamThread[] gameStateThreads;
+	private Thread[] workerThreads;
 	
 	/**
 	 * Simple constructor using default port number
@@ -182,20 +181,25 @@ public class Server {
 		System.out.println("All clients connected");
 		
 		/* spawn two threads for each client */ 
-		serverThreads = new ServerThread[totalPlayers];
-		gameStateThreads = new ServerSpamThread[totalPlayers];
+		workerThreads = new Thread[2*totalPlayers];
 		for (int i = 0; i < totalPlayers; i++) {
+			Thread sendThread;
+			Thread recvThread;
 			try {
-				gameStateThreads[i] = new ServerSpamThread(this, clientSocks[i], characters[i]);
+				sendThread = new ServerSendThread(this, clientSocks[i], characters[i]); 
 			} catch (IOException e) {
 				e.printStackTrace();
 				System.err.println("Error creating game state updater thread, bailing");
 				stop();
+				return;
 			}
-			gameStateThreads[i].start();
 			
-			serverThreads[i] = new ServerThread(this, clientSocks[i], characters[i]);
-			serverThreads[i].start();
+			recvThread = new ServerRecvThread(this, clientSocks[i], characters[i]);
+			
+			sendThread.start();
+			recvThread.start();
+			workerThreads[(2 * i)] = sendThread;
+			workerThreads[(2 * i) + 1] = recvThread;
 		}
 	}
 	
@@ -214,10 +218,6 @@ public class Server {
 	 */
 	public void stop() {
 		System.out.print("Server stopping... ");
-		for (int i = 0; i < clientCount; i++) {
-			serverThreads[i].shutdown();
-		}
-		System.out.print(" Notified... ");
 		if (clientSocks != null) {
 			for (Socket client : clientSocks) {
 				if (client == null)
@@ -240,7 +240,7 @@ public class Server {
 	/* wait for server threads to exit/error-out/whatever */
 		for (int i = 0; i < clientCount; i++) {
 			try {
-				serverThreads[i].join();
+				workerThreads[i].join();
 			} catch (InterruptedException e) {
 				/* we don't really care */
 				e.printStackTrace();
