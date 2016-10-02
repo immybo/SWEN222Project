@@ -17,23 +17,6 @@ import util.PointD;
 import junit.framework.TestCase;
 
 public class DataStorageTests extends TestCase {
-	@Test
-	public void testLevelStorage(){
-		Tile[][] tiles1 = generateTiles(5, 5);
-		Tile[][] tiles2 = generateTiles(4, 4);
-		
-		Zone zone1 = new Zone("zone1", tiles1);
-		Zone zone2 = new Zone("zone2", tiles2);
-		
-		Level level = new Level("level", new Zone[]{ zone1, zone2 });
-		
-		XMLInterface.saveToFile(level, new File("testxml.xml"));
-		
-		Level importedLevel = XMLInterface.loadFromFile(new Level.LevelFactory(), new File("testxml.xml"));
-		
-		assertEquals(level, importedLevel);
-		deleteTestXMLFile();
-	}
 	
 	@Test
 	public void testZoneStorage(){
