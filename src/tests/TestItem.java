@@ -1,14 +1,15 @@
 package tests;
 
+import java.awt.Point;
+
 import model.*;
 import util.*;
 
 public class TestItem extends Item {
-	public TestItem(PointD worldPosition, double size){
-		super(worldPosition, size);
+	public TestItem(Point worldPosition){
+		super(worldPosition);
 	}
 	
-	public TestItem(double size){
-		super(size);
+	public TestItem(){
 	}
 }

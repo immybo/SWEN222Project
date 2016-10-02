@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.Point;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -9,8 +11,8 @@ import util.PointD;
 public class Key extends Item {
 	private String keyID;
 
-	public Key(PointD worldPosition, double size, String keyID) {
-		super(worldPosition, size);
+	public Key(Point worldPosition, String keyID) {
+		super(worldPosition);
 		this.keyID = keyID;
 	}
 	

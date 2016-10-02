@@ -46,7 +46,7 @@ public class World implements Storable {
 		}
 		newZones[0] = new Zone("testZone", tiles);
 		//key, i have no idea what size does atm. 
-		newZones[0].addItem(new Key(new PointD(1,2), 0.5, "testKey"));
+		newZones[0].addItem(new Key(new Point(1,2), "testKey"));
 		newZones[0].addEntity(new KeyGate(Gate.State.LOCKED, newZones[0], new Coord(new Direction(Direction.NORTH), new Point (1,4)), 1, "testKey"));
 		//characters
 				Player pupo = new Player(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1,1)), true);

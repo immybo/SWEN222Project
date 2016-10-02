@@ -6,4 +6,4 @@
 .idea/
 /bin/
 testxml.xml
-/src/tests/testfiles/
+/src/tests/testfiles/*

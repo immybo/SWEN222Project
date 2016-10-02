@@ -257,7 +257,7 @@ public class Zone implements Storable, Serializable {
 		for(Entity e: entities){
 			entityInfo.put(e.getWorldPosition(), e.getDrawID());
 		}
-		HashMap<PointD, String> itemInfo = new HashMap<PointD, String>();
+		HashMap<Point, String> itemInfo = new HashMap<Point, String>();
 		for(Item i: items){
 			itemInfo.put(i.getPosition(), i.getDrawID());
 		}

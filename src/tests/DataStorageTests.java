@@ -50,12 +50,11 @@ public class DataStorageTests extends TestCase {
 	
 	@Test
 	public void testKeyStorage(){
-		Key key = new Key(new PointD(5, 5), 1, "testKey");
+		Key key = new Key(new Point(5, 5), "testKey");
 		XMLInterface.saveToFile(key, new File("testxml.xml"));
 		Key importedKey = XMLInterface.loadFromFile(new Key.KeyFactory(), new File("testxml.xml"));
 		
 		assertEquals(key, importedKey);
-		assertEquals(key.getSize(), importedKey.getSize());
 		assertEquals(key.inInventory(), importedKey.inInventory());
 		assertEquals(key.getPosition(), importedKey.getPosition());
 	}
