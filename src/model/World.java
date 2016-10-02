@@ -19,10 +19,10 @@ import util.PointD;
 public class World implements Storable {
 	private String name;
 	private Zone[] zones;
-	private Character Pupo;
-	private Character Yelo;
+	private PlayableCharacter Pupo;
+	private PlayableCharacter Yelo;
 	
-	public World( String name, Zone[] zones, Character pupo, Character yelo){
+	public World( String name, Zone[] zones, PlayableCharacter pupo, PlayableCharacter yelo){
 		this.name = name;
 		this.zones = zones;
 		this.Pupo = pupo;
@@ -49,8 +49,8 @@ public class World implements Storable {
 		newZones[0].addItem(new Key(new PointD(1,2), 0.5, "testKey"));
 		newZones[0].addEntity(new KeyGate(Gate.State.LOCKED, newZones[0], new Coord(new Direction(Direction.NORTH), new Point (1,4)), 1, "testKey"));
 		//characters
-				Character pupo = new PlayableCharacter(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1,1)), true);
-				Character yelo = new PlayableCharacter(newZones[0], new Coord(new Direction(Direction.SOUTH),new Point(1,7)), false);
+				PlayableCharacter pupo = new PlayableCharacter(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1,1)), true);
+				PlayableCharacter yelo = new PlayableCharacter(newZones[0], new Coord(new Direction(Direction.SOUTH),new Point(1,7)), false);
 				newZones[0].setPupo(pupo);
 				return new World("test",newZones, pupo, yelo);
 	}
