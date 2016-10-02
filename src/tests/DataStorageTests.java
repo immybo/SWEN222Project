@@ -64,8 +64,8 @@ public class DataStorageTests extends TestCase {
 	public void testPlayableCharacterStorage(){
 		Zone zone1 = new Zone("zone1", generateTiles(3,3));
 		Zone zone2 = new Zone("zone2", generateTiles(5,5));
-		PlayableCharacter pupo = new PlayableCharacter(zone1, new Coord(new Direction(0), new Point(1,1)), true);
-		PlayableCharacter yelo = new PlayableCharacter(zone2, new Coord(new Direction(3), new Point(0,0)), false);
+		Player pupo = new Player(zone1, new Coord(new Direction(0), new Point(1,1)), true);
+		Player yelo = new Player(zone2, new Coord(new Direction(3), new Point(0,0)), false);
 
 		XMLInterface.saveToFile(zone1, new File("src/tests/testfiles/testxml1.xml"));
 		XMLInterface.saveToFile(zone2, new File("src/tests/testfiles/testxml2.xml"));
@@ -75,8 +75,8 @@ public class DataStorageTests extends TestCase {
 		Zone importedZone1 = XMLInterface.loadFromFile(new Zone.ZoneFactory(), new File("src/tests/testfiles/testxml1.xml"));
 		Zone importedZone2 = XMLInterface.loadFromFile(new Zone.ZoneFactory(), new File("src/tests/testfiles/testxml2.xml"));
 		Zone[] importedZones = new Zone[]{importedZone1, importedZone2};
-		PlayableCharacter importedPupo = XMLInterface.loadFromFile(new PlayableCharacter.Factory(importedZones), new File("src/tests/testfiles/testxml3.xml"));
-		PlayableCharacter importedYelo = XMLInterface.loadFromFile(new PlayableCharacter.Factory(importedZones), new File("src/tests/testfiles/testxml4.xml"));
+		Player importedPupo = XMLInterface.loadFromFile(new Player.Factory(importedZones), new File("src/tests/testfiles/testxml3.xml"));
+		Player importedYelo = XMLInterface.loadFromFile(new Player.Factory(importedZones), new File("src/tests/testfiles/testxml4.xml"));
 		
 		assertEquals(zone1, importedPupo.getZone());
 		assertEquals(zone2, importedYelo.getZone());

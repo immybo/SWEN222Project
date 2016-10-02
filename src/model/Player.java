@@ -7,23 +7,23 @@ import org.w3c.dom.*;
 
 import util.Coord;
 
-public class PlayableCharacter extends Character implements Storable {
+public class Player extends Character implements Storable {
 	public final boolean pupo; //!pupo --> yelo
 	
-	public PlayableCharacter(Zone zone, Coord coord, boolean isPupo) {
+	public Player(Zone zone, Coord coord, boolean isPupo) {
 		super (zone, coord);
 		this.pupo = isPupo;
 	}
 	
-	private PlayableCharacter(Zone[] zones, Element elem){
+	private Player(Zone[] zones, Element elem){
 		super(elem, zones);
 		this.pupo = Boolean.parseBoolean(elem.getAttribute("pupo"));
 	}
 	
 	@Override
 	public boolean equals(Object other){
-		if(other instanceof PlayableCharacter){
-			return ((PlayableCharacter)other).pupo == pupo && super.equals(other);
+		if(other instanceof Player){
+			return ((Player)other).pupo == pupo && super.equals(other);
 		}
 		return false;
 	}
@@ -36,7 +36,7 @@ public class PlayableCharacter extends Character implements Storable {
 		return elem;
 	}
 	
-	public static class Factory implements StorableFactory<PlayableCharacter> {
+	public static class Factory implements StorableFactory<Player> {
 		private Zone[] zones;
 		
 		public Factory(Zone[] zones){
@@ -44,8 +44,8 @@ public class PlayableCharacter extends Character implements Storable {
 		}
 		
 		@Override
-		public PlayableCharacter fromXMLElement(Element elem) {
-			return new PlayableCharacter(zones, elem);
+		public Player fromXMLElement(Element elem) {
+			return new Player(zones, elem);
 		}
 	}
 }
