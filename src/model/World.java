@@ -113,6 +113,16 @@ public class World implements Storable {
 		character.setCoord(newCoord);
 	}
 
+	/**
+	 * Execute an interaction as a specific character
+	 * @param interaction
+	 * @param character
+	 */
+	public void interact(Interaction interaction, Character character) {
+		/* FIXME unimplemented */
+		System.err.println("FIXME: World.interact() unimplemented");
+	}
+
 	@Override
 	public Element toXMLElement(Document doc) {
 		// TODO Auto-generated method stub

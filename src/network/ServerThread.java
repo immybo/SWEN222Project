@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import model.Character;
+import model.Interaction;
 import network.Protocol.Event;
 
 /**
@@ -49,6 +50,7 @@ public class ServerThread extends Thread {
 	private void processUpstream() throws IOException, ClassNotFoundException {
 		Object readObj = in.readObject();
 		Event packetType = (Event)readObj;
+		/* FIXME repeating getWorld() a lot here lol */
 		switch (packetType) {
 		case FORWARD:
 			parentServer.getWorld().moveCharacterForward(character);
@@ -61,6 +63,15 @@ public class ServerThread extends Thread {
 			break;
 		case ROTATE_ANTICLOCKWISE:
 			parentServer.getWorld().rotateCharacter(false, character);
+			break;
+		case INTERACT:
+			readObj = in.readObject();
+			if (!(readObj instanceof Interaction)) {
+				System.err.println("Received malformed interaction from "+socket.getRemoteSocketAddress());
+				break;
+			}
+			Interaction interaction = (Interaction)readObj;
+			parentServer.getWorld().interact(interaction, character);
 			break;
 		default:
 			System.err.println("Unhandled event : "+packetType);

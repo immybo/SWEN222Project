@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.util.Arrays;
 import java.util.List;
 
+import model.Interaction;
 import view.GameFrame;
 import network.Protocol.Event;
 
@@ -140,5 +141,15 @@ public class Client {
 	 */
 	public void rotateAnticlockwise() throws IOException {
 		out.writeObject(Event.ROTATE_ANTICLOCKWISE);
+	}
+	
+	/**
+	 * Ask the server to execute the specified interaction
+	 * @param interaction
+	 * @throws IOException
+	 */
+	public void interact(Interaction interaction) throws IOException {
+		out.writeObject(Event.INTERACT);
+		out.writeObject(interaction);
 	}
 }
