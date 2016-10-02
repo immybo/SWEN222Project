@@ -71,4 +71,16 @@ public class Direction implements Serializable {
 		throw new IllegalArgumentException(direction.getDirection() + " is not a valid direction!");
 	}
 	
+	@Override
+	public boolean equals(Object other){
+		if(other instanceof Direction){
+			return ((Direction)other).direction == direction;
+		}
+		return false;
+	}
+	
+	@Override
+	public int hashCode(){
+		return 7 * direction;
+	}
 }

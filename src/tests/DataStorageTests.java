@@ -11,6 +11,8 @@ import org.junit.Test;
 
 import datastorage.XMLInterface;
 import model.*;
+import util.Coord;
+import util.Direction;
 import util.PointD;
 import junit.framework.TestCase;
 
@@ -56,6 +58,33 @@ public class DataStorageTests extends TestCase {
 		assertEquals(key.getSize(), importedKey.getSize());
 		assertEquals(key.inInventory(), importedKey.inInventory());
 		assertEquals(key.getPosition(), importedKey.getPosition());
+	}
+	
+	@Test
+	public void testPlayableCharacterStorage(){
+		Zone zone1 = new Zone("zone1", generateTiles(3,3));
+		Zone zone2 = new Zone("zone2", generateTiles(5,5));
+		PlayableCharacter pupo = new PlayableCharacter(zone1, new Coord(new Direction(0), new Point(1,1)), true);
+		PlayableCharacter yelo = new PlayableCharacter(zone2, new Coord(new Direction(3), new Point(0,0)), false);
+
+		XMLInterface.saveToFile(zone1, new File("src/tests/testfiles/testxml1.xml"));
+		XMLInterface.saveToFile(zone2, new File("src/tests/testfiles/testxml2.xml"));
+		XMLInterface.saveToFile(pupo, new File("src/tests/testfiles/testxml3.xml"));
+		XMLInterface.saveToFile(yelo, new File("src/tests/testfiles/testxml4.xml"));
+		
+		Zone importedZone1 = XMLInterface.loadFromFile(new Zone.ZoneFactory(), new File("src/tests/testfiles/testxml1.xml"));
+		Zone importedZone2 = XMLInterface.loadFromFile(new Zone.ZoneFactory(), new File("src/tests/testfiles/testxml2.xml"));
+		Zone[] importedZones = new Zone[]{importedZone1, importedZone2};
+		PlayableCharacter importedPupo = XMLInterface.loadFromFile(new PlayableCharacter.Factory(importedZones), new File("src/tests/testfiles/testxml3.xml"));
+		PlayableCharacter importedYelo = XMLInterface.loadFromFile(new PlayableCharacter.Factory(importedZones), new File("src/tests/testfiles/testxml4.xml"));
+		
+		assertEquals(zone1, importedPupo.getZone());
+		assertEquals(zone2, importedYelo.getZone());
+		assertEquals(zone1, importedZone1);
+		assertEquals(zone2, importedZone2);
+		
+		assertEquals(pupo, importedPupo);
+		assertEquals(yelo, importedYelo);
 	}
 	
 	public void deleteTestXMLFile(){
