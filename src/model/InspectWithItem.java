@@ -6,12 +6,16 @@ package model;
  *
  */
 public class InspectWithItem implements Interaction {
+	private Entity entity;
 	private Item item;
-	private String description;
+	private String giveDescription;
+	private String altDescription;
 	
-	public InspectWithItem(Item item, String description){
+	public InspectWithItem(Entity entity, Item item, String giveDescription, String altDescription){
+		this.entity = entity;
 		this.item = item;
-		this.description = description;
+		this.giveDescription = giveDescription;
+		this.altDescription = altDescription;
 	}
 	@Override
 	public String getText() {
@@ -19,9 +23,17 @@ public class InspectWithItem implements Interaction {
 	}
 
 	@Override
-	public void execute() {
+	public void execute(Player p) {
 		//TODO takes a player and the object. 
 		// show description, give item,  remove interaction, and add a standard interactions
+		if(p.getInventory().hasRoom()){
+			//show dialog box
+			p.getInventory().addItem(this.item);
+			this.entity.removeInteraction(this);
+			this.entity.addInteraction(new Inspect(this.altDescription));
+		} else {
+			//show dialog box
+		}
 	}
 
 }

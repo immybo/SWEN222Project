@@ -18,9 +18,8 @@ public class Inspect implements Interaction{
 	}
 
 	@Override
-	public void execute() {
+	public void execute(Player p) {
 		// TODO show dialog box with the description
-		
 	}
 	
 

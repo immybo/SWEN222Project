@@ -20,6 +20,8 @@ public interface Interaction {
 	 * Performs the result of the player specifying this
 	 * interaction; for example, pressing a button may
 	 * open similarly coloured doors.
+	 * 
+	 * @param p Player that starts the interaction
 	 */
-	public void execute();
+	public void execute(Player p);
 }

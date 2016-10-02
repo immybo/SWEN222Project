@@ -9,6 +9,7 @@ import util.Coord;
 
 public class Player extends Character implements Storable {
 	public final boolean pupo; //!pupo --> yelo
+	private Inventory inventory;
 	
 	public Player(Zone zone, Coord coord, boolean isPupo) {
 		super (zone, coord);
@@ -26,6 +27,10 @@ public class Player extends Character implements Storable {
 			return ((Player)other).pupo == pupo && super.equals(other);
 		}
 		return false;
+	}
+	
+	public Inventory getInventory(){
+		return this.inventory;
 	}
 	
 	@Override
