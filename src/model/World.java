@@ -55,7 +55,6 @@ public class World implements Storable {
 				return new World("test",newZones, pupo, yelo);
 	}
 	
-	
 	/**
 	 * Will take a character and move that character 1 square forward
 	 * 

@@ -126,7 +126,65 @@ public class Zone implements Storable, Serializable {
 		
 		return tiles[point.y][point.x];
 	}
+	
+	/**
+	 * Returns the character at the given point,
+	 * if one exists. If more than one character
+	 * is at the given point, no guarantee is made
+	 * as to which will be returned.
+	 * 
+	 * @param point The point to query.
+	 * @return A character that was at the point, or null if there was none.
+	 */
+	public Character getCharacter(Point point){
+		for(Character c : characters){
+			int x = c.getCoord().getPoint().x;
+			int y = c.getCoord().getPoint().y;
+			if(x == point.x && y == point.y)
+				return c;
+		}
+		return null;
+	}
 
+	/**
+	 * Returns the entity at the given point,
+	 * if one exists. If more than one entity
+	 * is at the given point, no guarantee is made
+	 * as to which will be returned.
+	 * 
+	 * @param point The point to query.
+	 * @return An entity that was at the point, or null if there was none.
+	 */
+	public Entity getEntity(Point point){
+		for(Entity e : entities){
+			int x = e.getWorldPosition().getPoint().x;
+			int y = e.getWorldPosition().getPoint().y;
+			if(x == point.x && y == point.y)
+				return e;
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns the item that was on the floor
+	 * at the given point, if one exists. If more
+	 * than one item is at the given point, no
+	 * guarantee is made as to which will be returned.
+	 * 
+	 * @param point The point to query.
+	 * @return An item that was at the point, or null if there was none.
+	 */
+	public Item getItem(Point point){
+		for(Item i : items){
+			if(i.inInventory()) continue;
+			
+			int x = i.getPosition().x;
+			int y = i.getPosition().y;
+			if(x == point.x && y == point.y)
+				return i;
+		}
+		return null;
+	}
 	
 	@Override
 	/**
