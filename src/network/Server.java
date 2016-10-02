@@ -12,14 +12,14 @@ import model.Character;
 
 public class Server {
 	
-	private ServerThread[] serverThreads;
+	private ServerRecvThread[] serverThreads;
 	private ServerSocket sock;
 	private int port;
 	private Socket[] clientSocks;
 	private int clientCount;
 	private World world;
 	private Character[] characters;
-	private ServerSpamThread[] gameStateThreads;
+	private ServerSendThread[] gameStateThreads;
 	
 	/**
 	 * Simple constructor using default port number
@@ -182,11 +182,11 @@ public class Server {
 		System.out.println("All clients connected");
 		
 		/* spawn two threads for each client */ 
-		serverThreads = new ServerThread[totalPlayers];
-		gameStateThreads = new ServerSpamThread[totalPlayers];
+		serverThreads = new ServerRecvThread[totalPlayers];
+		gameStateThreads = new ServerSendThread[totalPlayers];
 		for (int i = 0; i < totalPlayers; i++) {
 			try {
-				gameStateThreads[i] = new ServerSpamThread(this, clientSocks[i], characters[i]);
+				gameStateThreads[i] = new ServerSendThread(this, clientSocks[i], characters[i]);
 			} catch (IOException e) {
 				e.printStackTrace();
 				System.err.println("Error creating game state updater thread, bailing");
@@ -194,7 +194,7 @@ public class Server {
 			}
 			gameStateThreads[i].start();
 			
-			serverThreads[i] = new ServerThread(this, clientSocks[i], characters[i]);
+			serverThreads[i] = new ServerRecvThread(this, clientSocks[i], characters[i]);
 			serverThreads[i].start();
 		}
 	}

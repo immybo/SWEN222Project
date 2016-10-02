@@ -17,7 +17,7 @@ import network.Protocol.Event;
  * @author David Phillips
  *
  */
-public class ServerThread extends Thread {
+public class ServerRecvThread extends Thread {
 	
 	/* back reference to our parent/controlling Server object */
 	private Server parentServer;
@@ -38,7 +38,7 @@ public class ServerThread extends Thread {
 	 * @param socket -- socket on which to communicate with client
 	 * @param character -- in-game character this thread's client controls
 	 */
-	public ServerThread(Server parentServer, Socket socket, Character character) {
+	public ServerRecvThread(Server parentServer, Socket socket, Character character) {
 		this.socket = socket;
 		this.parentServer = parentServer;
 		this.character = character;

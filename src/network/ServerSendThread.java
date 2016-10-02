@@ -6,12 +6,12 @@ import java.net.Socket;
 
 import model.Character;
 
-public class ServerSpamThread extends Thread {
+public class ServerSendThread extends Thread {
 	private Character character;
 	private ObjectOutputStream out;
 	private Server parentServer;
 	
-	public ServerSpamThread(Server parentServer, Socket socket, Character character) throws IOException {
+	public ServerSendThread(Server parentServer, Socket socket, Character character) throws IOException {
 		this.character = character;
 		this.parentServer = parentServer;
 		
