@@ -57,6 +57,10 @@ public abstract class Item extends Drawable implements Storable, Serializable {
 	protected Item(Element elem){
 		this.inInventory = Boolean.parseBoolean(elem.getAttribute("inInventory"));
 		this.id = Long.parseLong(elem.getAttribute("ID"));
+		// Make sure we don't have overlaps with any items created in the future
+		if(id >= nextID)
+			nextID = id + 1;
+		
 		this.size = Double.parseDouble(elem.getAttribute("size"));
 		if(!inInventory){
 			this.worldPosition = new PointD(

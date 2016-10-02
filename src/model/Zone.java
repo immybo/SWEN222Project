@@ -22,6 +22,9 @@ import util.PointD;
  * @author Robert Campbell
  */
 public class Zone implements Storable, Serializable {
+	private static long nextID = 0;
+	private long id;
+	
 	private String name;
 	private Tile[][] tiles;
 	private List<Item> items;
@@ -43,12 +46,42 @@ public class Zone implements Storable, Serializable {
 		
 		items = new ArrayList<Item>();
 		entities = new ArrayList<Entity>();
+		
+		this.id = nextID++;
 	}
 	
+	/**
+	 * Creates a zone using a specific ID.
+	 * This is done internally when a zone is being 
+	 * recreated from an XML document.
+	 */
+	private Zone(String name, Tile[][] tiles, long id){
+		this.name = name;
+		this.tiles = tiles;
+		
+		items = new ArrayList<Item>();
+		entities = new ArrayList<Entity>();
+		
+		this.id = id;
+	}
+	
+	/**
+	 * @return The unique ID of this zone.
+	 */
+	public long getID(){
+		return id;
+	}
+	
+	/**
+	 * @return A list of all entities contained within this zone.
+	 */
 	public List<Entity> getEntities(){
 		return this.entities;
 	}
 	
+	/**
+	 * @return A list of all characters contained within this zone.
+	 */
 	public List<Character> getCharacters(){
 		return this.characters;
 	}
@@ -120,7 +153,9 @@ public class Zone implements Storable, Serializable {
 
 	@Override
 	public Element toXMLElement(Document doc) {
-		Element elem = doc.createElement("zone_"+name);
+		Element elem = doc.createElement("zone");
+		elem.setAttribute("ID", id+"");
+		elem.setAttribute("name", name);
 		elem.setAttribute("width", tiles[0].length+"");
 		elem.setAttribute("height", tiles.length+"");
 		for(int x = 0; x < tiles[0].length; x++){
@@ -134,7 +169,8 @@ public class Zone implements Storable, Serializable {
 	public static class ZoneFactory implements StorableFactory<Zone> {
 		@Override
 		public Zone fromXMLElement(Element elem) {
-			String name = elem.getNodeName().substring(5);
+			long id = Long.parseLong(elem.getAttribute("ID"));
+			String name = elem.getAttribute("name");
 			int width = Integer.parseInt(elem.getAttribute("width"));
 			int height = Integer.parseInt(elem.getAttribute("height"));
 			Tile[][] tiles = new Tile[height][width];
@@ -148,7 +184,10 @@ public class Zone implements Storable, Serializable {
 				tiles[y][x] = factory.fromXMLElement((Element)children.item(i));
 			}
 			
-			return new Zone(name, tiles);
+			// Make sure IDs don't overlap
+			if(id >= nextID)
+				nextID = id + 1;
+			return new Zone(name, tiles, id);
 		}
 	}
 	
