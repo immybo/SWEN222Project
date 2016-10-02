@@ -137,13 +137,6 @@ public class Server {
 	 * connections, handshaking until it has fulfilled
 	 * the number of clients required to play a game
 	 */
-	/*
-	 * FIXME start the game once all clients are running.
-	 * This will likely require creating a slave thread for
-	 * each client. Perhaps even two for each client (up+down)
-	 * so we can do everything asynchronously. Using non-blocking
-	 * socket IO might mitigate the need for so many threads
-	 */
 	public void run() {
 		/* FIXME magic constant 2 */
 		int totalPlayers = 2;
