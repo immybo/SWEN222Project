@@ -3,10 +3,10 @@ package network;
 import java.net.Socket;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 import model.Character;
 import model.Interaction;
+import model.World;
 import network.Protocol.Event;
 
 /**
@@ -50,19 +50,19 @@ public class ServerRecvThread extends Thread {
 	private void processUpstream() throws IOException, ClassNotFoundException {
 		Object readObj = in.readObject();
 		Event packetType = (Event)readObj;
-		/* FIXME repeating getWorld() a lot here lol */
+		World w = parentServer.getWorld();
 		switch (packetType) {
 		case FORWARD:
-			parentServer.getWorld().moveCharacterForward(character);
+			w.moveCharacterForward(character);
 			break;
 		case BACKWARD:
-			parentServer.getWorld().moveCharacterBackward(character);
+			w.moveCharacterBackward(character);
 			break;
 		case ROTATE_CLOCKWISE:
-			parentServer.getWorld().rotateCharacter(true, character);
+			w.rotateCharacter(true, character);
 			break;
 		case ROTATE_ANTICLOCKWISE:
-			parentServer.getWorld().rotateCharacter(false, character);
+			w.rotateCharacter(false, character);
 			break;
 		case INTERACT:
 			readObj = in.readObject();
@@ -71,7 +71,7 @@ public class ServerRecvThread extends Thread {
 				break;
 			}
 			Interaction interaction = (Interaction)readObj;
-			parentServer.getWorld().interact(interaction, character);
+			w.interact(interaction, character);
 			break;
 		default:
 			System.err.println("Unhandled event : "+packetType);

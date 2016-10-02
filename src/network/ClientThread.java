@@ -1,13 +1,11 @@
 package network;
 
-import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
 
 import model.Inventory;
 import model.Zone;
-import network.Protocol.Event;
 import view.GameFrame;
 import view.RenderPanel;
 
