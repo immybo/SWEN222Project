@@ -1,6 +1,7 @@
 package network;
 
 import java.net.Socket;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
@@ -21,9 +22,6 @@ public class ServerRecvThread extends Thread {
 	
 	/* back reference to our parent/controlling Server object */
 	private Server parentServer;
-	
-	/* is the server thread still supposed to be running its loop? */
-	private boolean running;
 	
 	/* character for the client this thread is managing */
 	private Character character;
@@ -46,9 +44,24 @@ public class ServerRecvThread extends Thread {
 	
 	/**
 	 * Process any data being sent to us from the client
+	 * @return false on failure, true otherwise
 	 */
-	private void processUpstream() throws IOException, ClassNotFoundException {
-		Object readObj = in.readObject();
+	private boolean processUpstream() throws IOException, ClassNotFoundException {
+		Object readObj;
+		
+		/* read next object from the stream */
+		try {
+			readObj = in.readObject();
+		} catch (EOFException e) {
+			/* bail on EOF (stream/socket closed) */
+			return false;
+		}
+		
+		/* ensure casting to Event is safe */
+		if (!(readObj instanceof Event)) {
+			System.err.println("object read not instance of Event, ignoring");
+			return false;
+		}
 		Event packetType = (Event)readObj;
 		World w = parentServer.getWorld();
 		switch (packetType) {
@@ -77,11 +90,7 @@ public class ServerRecvThread extends Thread {
 			System.err.println("Unhandled event : "+packetType);
 			break;
 		}
-		
-	}
-	
-	synchronized private boolean isRunning() {
-		return running;
+		return true;
 	}
 	
 	@Override
@@ -89,23 +98,13 @@ public class ServerRecvThread extends Thread {
 		try {
 			in = new ObjectInputStream(socket.getInputStream());
 			
-			running = true;
-			while(isRunning()) {
-				processUpstream();
-			}
+			while(processUpstream())
+				;
 			
+			parentServer.stop();
 		} catch (IOException | ClassNotFoundException e) {
-			if (isRunning()) {
-				e.printStackTrace();
-				parentServer.stop();
-			}
+			e.printStackTrace();
+			parentServer.stop();
 		}
-	}
-
-	/**
-	 * Notify the thread to stop running
-	 */
-	synchronized public void shutdown() {
-		this.running = false;
 	}
 }
