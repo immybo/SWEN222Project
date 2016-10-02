@@ -1,5 +1,6 @@
 package model;
 
+import java.awt.Point;
 import java.io.Serializable;
 
 import org.w3c.dom.*;
@@ -18,8 +19,7 @@ import util.*;
  */
 public abstract class Item extends Drawable implements Storable, Serializable {
 	private boolean inInventory;
-	private PointD worldPosition;
-	private double size;
+	private Point worldPosition;
 	
 	// Unique identifier for this item
 	private long id;
@@ -29,24 +29,19 @@ public abstract class Item extends Drawable implements Storable, Serializable {
 	 * Creates an item that initially resides in the world.
 	 * 
 	 * @param worldPosition The initial world position of this item.
-	 * @param size The size of this item.
 	 */
-	public Item(PointD worldPosition, double size){
+	public Item(Point worldPosition){
 		this.worldPosition = worldPosition;
 		this.inInventory = false;
-		this.size = size;
 		
 		this.id = nextID++;
 	}
 	
 	/**
 	 * Creates an item that initially resides in an inventory.
-	 * 
-	 * @param size The size of this item.
 	 */
-	public Item(double size){
+	public Item(){
 		this.inInventory = true;
-		this.size = size;
 		
 		this.id = nextID++;
 	}
@@ -61,11 +56,10 @@ public abstract class Item extends Drawable implements Storable, Serializable {
 		if(id >= nextID)
 			nextID = id + 1;
 		
-		this.size = Double.parseDouble(elem.getAttribute("size"));
 		if(!inInventory){
-			this.worldPosition = new PointD(
-					Double.parseDouble(elem.getAttribute("worldX")),
-					Double.parseDouble(elem.getAttribute("worldY"))
+			this.worldPosition = new Point(
+					Integer.parseInt(elem.getAttribute("worldX")),
+					Integer.parseInt(elem.getAttribute("worldY"))
 				);
 		}
 	}
@@ -104,7 +98,7 @@ public abstract class Item extends Drawable implements Storable, Serializable {
 	 * @param worldPos The world position for this item to be put at.
 	 * @throws IllegalStateException If this item isn't in an inventory.
 	 */
-	public void onDrop(Zone newZone, PointD worldPos) throws IllegalStateException {
+	public void onDrop(Zone newZone, Point worldPos) throws IllegalStateException {
 		if(!inInventory())
 			throw new IllegalStateException("Attempting to drop an item that isn't contained in an inventory.");
 		inInventory = false;
@@ -118,7 +112,7 @@ public abstract class Item extends Drawable implements Storable, Serializable {
 	 * @return The world position of this item.
 	 * @throws IllegalStateException If this item is in an inventory.
 	 */
-	public PointD getPosition() throws IllegalStateException {
+	public Point getPosition() throws IllegalStateException {
 		if(inInventory())
 			throw new IllegalStateException("Attempting to get the world position of an item which is contained in an inventory.");
 		return worldPosition;
@@ -131,17 +125,10 @@ public abstract class Item extends Drawable implements Storable, Serializable {
 	 * @param newPos The new world position of this item.
 	 * @throws IllegalStateException If this item is in an inventory.
 	 */
-	public void teleportTo(PointD newPos) throws IllegalStateException {
+	public void teleportTo(Point newPos) throws IllegalStateException {
 		if(inInventory())
 			throw new IllegalStateException("Attempting to teleport an item which is in an inventory.");
 		this.worldPosition = newPos;
-	}
-	
-	/**
-	 * @return The size of each side of this item.
-	 */
-	public double getSize(){
-		return size;
 	}
 	
 	/**
@@ -156,10 +143,9 @@ public abstract class Item extends Drawable implements Storable, Serializable {
 		Element elem = doc.createElement("item");
 		elem.setAttribute("inInventory", inInventory+"");
 		elem.setAttribute("ID", id+"");
-		elem.setAttribute("size", size+"");
 		if(!inInventory){
-			elem.setAttribute("worldX", worldPosition.X+"");
-			elem.setAttribute("worldY", worldPosition.Y+"");
+			elem.setAttribute("worldX", worldPosition.x+"");
+			elem.setAttribute("worldY", worldPosition.y+"");
 		}
 		return elem;
 	}
