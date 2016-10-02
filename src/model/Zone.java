@@ -66,6 +66,31 @@ public class Zone implements Storable, Serializable {
 	}
 	
 	/**
+	 * Checks if a point in this zone is obstructed by characters, objects or tiles themselves
+	 * @param zone The zone to check 
+	 * @param point The point inside the zone to check
+	 * @return True if obstacle exists, false otherwise
+	 */
+	public boolean checkForObstruction(Point point){
+		if(getTile(point).collides()){
+			return true;
+		}
+		for(Entity e: getEntities()){
+			if(e.getWorldPosition().getPoint().equals(point)){ // check if entity same position
+				if(!e.isPassable()){ // check if not passable
+					return true;
+				}
+			}
+		}
+		for(Character c: getCharacters()){
+			if(c.getCoord().getPoint().equals(point)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
 	 * @return The unique ID of this zone.
 	 */
 	public long getID(){

@@ -68,7 +68,7 @@ public class World implements Storable {
 		Direction oriD = origin.getFacing();
 		Point prospectivePoint = Direction.move(oriP, oriD, 1); // get resulting position if character were to move
 		Zone zone = character.getZone();
-		if(checkForObstruction(zone, prospectivePoint)){ // check new point for obstacle
+		if(zone.checkForObstruction(prospectivePoint)){ // check new point for obstacle
 			return false;
 		}
 		character.setCoord(new Coord(oriD, prospectivePoint));
@@ -88,7 +88,7 @@ public class World implements Storable {
 		Direction oriD = origin.getFacing();
 		Point prospectivePoint = Direction.move(oriP, oriD, -1); // get resulting position if character were to move
 		Zone zone = character.getZone();
-		if(checkForObstruction(zone, prospectivePoint)){ // check new point for obstacle
+		if(zone.checkForObstruction(prospectivePoint)){ // check new point for obstacle
 			return false;
 		}
 		character.setCoord(new Coord(oriD, prospectivePoint));
@@ -111,32 +111,6 @@ public class World implements Storable {
 		Point point = character.getCoord().getPoint();
 		Coord newCoord = new Coord(newDirection, point);
 		character.setCoord(newCoord);
-	}	
-	
-	
-	/**
-	 * Checks if a point in a particular zone is obstructed by characters, objects or tiles themselves
-	 * @param zone The zone to check 
-	 * @param point The point inside the zone to check
-	 * @return True if obstacle exists, false otherwise
-	 */
-	public boolean checkForObstruction(Zone zone, Point point){
-		if(zone.getTile(point).collides()){
-			return true;
-		}
-		for(Entity e: zone.getEntities()){
-			if(e.getWorldPosition().getPoint().equals(point)){ // check if entity same position
-				if(!e.isPassable()){ // check if not passable
-					return true;
-				}
-			}
-		}
-		for(Character c: zone.getCharacters()){
-			if(c.getCoord().getPoint().equals(point)){
-				return true;
-			}
-		}
-		return false;
 	}
 
 	@Override
