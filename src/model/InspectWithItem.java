@@ -27,7 +27,7 @@ public class InspectWithItem implements Interaction {
 		//TODO takes a player and the object. 
 		// show description, give item,  remove interaction, and add a standard interactions
 		if(p.getInventory().hasRoom()){
-			//show dialog box
+			//show dialog box to user
 			p.getInventory().addItem(this.item);
 			this.entity.removeInteraction(this);
 			this.entity.addInteraction(new Inspect(this.altDescription));

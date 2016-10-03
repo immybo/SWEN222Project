@@ -10,7 +10,7 @@ import util.PointD;
  * 
  * @author Martin Chau
  */
-public abstract class Entity extends Drawable implements Interactable, Serializable {
+public abstract class Entity extends Interactable implements Serializable, Drawable {
 	
 	public Entity(){}
 	
@@ -46,8 +46,16 @@ public abstract class Entity extends Drawable implements Interactable, Serializa
 	//TODO Player not done yet
 	//abstract public void onCollision(Player p);
 	
+	private String drawID;
 	
-	
-	
-	
+	@Override
+	public String getDrawID() {
+		return this.drawID;
+	}
+
+	@Override
+	public void setDrawID(String drawID) {
+		this.drawID = drawID;
+		
+	}
 }

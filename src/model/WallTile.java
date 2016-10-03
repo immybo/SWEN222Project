@@ -8,6 +8,7 @@ import java.awt.Point;
  * @author Martin Chau
  */
 public class WallTile extends Tile {
+
 	public WallTile(Point position) {
 		super(position);
 	}

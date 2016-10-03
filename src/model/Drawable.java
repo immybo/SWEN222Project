@@ -2,16 +2,11 @@ package model;
 
 import java.io.Serializable;
 
-public abstract class Drawable implements Serializable {
-	private String drawID;
+public interface Drawable {
 
-	public String getDrawID() {
-		return drawID;
-	}
+	public String getDrawID();
 
-	public void setDrawID(String drawID) {
-		this.drawID = drawID;
-	}
+	public void setDrawID(String drawID);
 	
 	
 }

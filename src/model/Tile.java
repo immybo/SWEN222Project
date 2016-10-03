@@ -17,7 +17,7 @@ import datastorage.StorableFactory;
  * 
  * @author Robert Campbell
  */
-public abstract class Tile  extends Drawable implements Storable,Serializable {
+public abstract class Tile implements Storable,Serializable, Drawable {
 	private Point position;
 	
 	public Tile(Point position){
@@ -70,5 +70,18 @@ public abstract class Tile  extends Drawable implements Storable,Serializable {
 	@Override
 	public int hashCode(){
 		return position.hashCode();
+	}
+	
+	private String drawID;
+	
+	@Override
+	public String getDrawID() {
+		return this.drawID;
+	}
+
+	@Override
+	public void setDrawID(String drawID) {
+		this.drawID = drawID;
+		
 	}
 }

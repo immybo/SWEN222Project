@@ -1,5 +1,7 @@
 package model;
 
+import java.util.ArrayList;
+
 /**
  * Defines something which has certain interactions that
  * can be performed on it. Each interaction has some
@@ -9,7 +11,9 @@ package model;
  * @author Robert Campbell
  *
  */
-public interface Interactable {
+public abstract class Interactable {
+	private ArrayList<Interaction> interactions = new ArrayList<Interaction>();
+	
 	/**
 	 * Adds an interaction that may be performed on this
 	 * interactable. This in no way guarantees that the interaction
@@ -17,7 +21,9 @@ public interface Interactable {
 	 * 
 	 * @param i The interaction to add to this interactable.
 	 */
-	public void addInteraction(Interaction i);
+	public void addInteraction(Interaction i){
+		interactions.add(i);
+	}
 	
 	/**
 	 * Removes a given interaction from this interactable.
@@ -28,12 +34,16 @@ public interface Interactable {
 	 * @param i The interaction to remove.
 	 * @return Whether or not an interaction was removed.
 	 */
-	public boolean removeInteraction(Interaction i);
+	public boolean removeInteraction(Interaction i){
+		return interactions.remove(i);
+	}
 	
 	/**
 	 * Gets all interactions that this interactable can perform.
 	 * 
 	 * @return An array of all interactions that this interactable can perform.
 	 */
-	public Interaction[] getInteractions();
+	public Interaction[] getInteractions(){
+		return (Interaction[]) interactions.toArray();
+	}
 }

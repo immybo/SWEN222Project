@@ -17,7 +17,7 @@ import util.*;
  * 
  * @author Robert Campbell
  */
-public abstract class Item extends Drawable implements Storable, Serializable {
+public abstract class Item implements Storable, Serializable, Drawable {
 	private boolean inInventory;
 	private Point worldPosition;
 	
@@ -156,5 +156,18 @@ public abstract class Item extends Drawable implements Storable, Serializable {
 			return ((Item)other).id == this.id; // Simple ID check for equal items
 		}
 		return false;
+	}
+	
+	private String drawID;
+	
+	@Override
+	public String getDrawID() {
+		return this.drawID;
+	}
+
+	@Override
+	public void setDrawID(String drawID) {
+		this.drawID = drawID;
+		
 	}
 }

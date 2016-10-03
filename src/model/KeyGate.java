@@ -30,23 +30,6 @@ public class KeyGate extends Gate implements Serializable {
 	}
 
 	@Override
-	public void addInteraction(Interaction i) {
-		// TODO Auto-generated method stub	
-	}
-
-	@Override
-	public boolean removeInteraction(Interaction i) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public Interaction[] getInteractions() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public boolean isPassable() {
 		return this.passable;
 	}
