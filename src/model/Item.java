@@ -21,6 +21,9 @@ public abstract class Item implements Storable, Serializable, Drawable {
 	private boolean inInventory;
 	private Point worldPosition;
 	
+	private int stackSize = 1;
+	private boolean stackable;
+	
 	// Unique identifier for this item
 	private long id;
 	private static long nextID = 0;
@@ -30,9 +33,10 @@ public abstract class Item implements Storable, Serializable, Drawable {
 	 * 
 	 * @param worldPosition The initial world position of this item.
 	 */
-	public Item(Point worldPosition){
+	public Item(Point worldPosition, boolean stackable){
 		this.worldPosition = worldPosition;
 		this.inInventory = false;
+		this.stackable = stackable;
 		
 		this.id = nextID++;
 	}
@@ -40,9 +44,9 @@ public abstract class Item implements Storable, Serializable, Drawable {
 	/**
 	 * Creates an item that initially resides in an inventory.
 	 */
-	public Item(){
+	public Item(boolean stackable){
 		this.inInventory = true;
-		
+		this.stackable = stackable;
 		this.id = nextID++;
 	}
 	
@@ -52,6 +56,9 @@ public abstract class Item implements Storable, Serializable, Drawable {
 	protected Item(Element elem){
 		this.inInventory = Boolean.parseBoolean(elem.getAttribute("inInventory"));
 		this.id = Long.parseLong(elem.getAttribute("ID"));
+		this.stackable = Boolean.parseBoolean(elem.getAttribute("stackable"));
+		this.stackSize = Integer.parseInt(elem.getAttribute("stacksize"));
+		
 		// Make sure we don't have overlaps with any items created in the future
 		if(id >= nextID)
 			nextID = id + 1;
@@ -62,6 +69,48 @@ public abstract class Item implements Storable, Serializable, Drawable {
 					Integer.parseInt(elem.getAttribute("worldY"))
 				);
 		}
+	}
+	
+	/**
+	 * Returns whether or not this item may be stacked in quantities
+	 * of higher than 1.
+	 * 
+	 * @return Whether or not this item is stackable.
+	 */
+	private boolean stackable(){
+		return stackable;
+	}
+	
+	/**
+	 * Sets this item to either be stackable or not stackable.
+	 * 
+	 * @param value Whether this item should be stackable or not.
+	 */
+	public void setStackable(boolean value){
+		this.stackable = value;
+	}
+	
+	/**
+	 * Sets there to be a certain amount of this item in the space it occupies.
+	 * 
+	 * @param newValue The new amount of this item.
+	 */
+	public void setStackSize(int newValue){
+		if(!stackable() && newValue != 1)
+			throw new IllegalStateException("Attempting to stack a non-stackable item.");
+		if(newValue < 0)
+			throw new IllegalArgumentException("Attempting to stack an item with a negative stack size.");
+		
+		stackSize = newValue;
+	}
+	
+	/**
+	 * Returns how many of this item there are on this stack.
+	 * 
+	 * @return The current stack size of this item.
+	 */
+	public int getStackSize(){
+		return stackSize;
 	}
 	
 	/**
@@ -143,6 +192,8 @@ public abstract class Item implements Storable, Serializable, Drawable {
 		Element elem = doc.createElement("item");
 		elem.setAttribute("inInventory", inInventory+"");
 		elem.setAttribute("ID", id+"");
+		elem.setAttribute("stackable", stackable+"");
+		elem.setAttribute("stacksize", stackSize+"");
 		if(!inInventory){
 			elem.setAttribute("worldX", worldPosition.x+"");
 			elem.setAttribute("worldY", worldPosition.y+"");

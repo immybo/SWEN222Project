@@ -12,7 +12,7 @@ public class Key extends Item {
 	private String keyID;
 
 	public Key(Point worldPosition, String keyID) {
-		super(worldPosition);
+		super(worldPosition, false);
 		this.keyID = keyID;
 	}
 	
