@@ -18,10 +18,18 @@ public class Key extends Item {
 	
 	protected Key(Element elem){
 		super(elem);
+		this.keyID = elem.getAttribute("keyID");
 	}
 	
 	public String getKeyID(){
 		return this.keyID;
+	}
+	
+	@Override
+	public Element toXMLElement(Document doc){
+		Element elem = super.toXMLElement(doc);
+		elem.setAttribute("keyID", keyID);
+		return elem;
 	}
 	
 	public static class KeyFactory implements StorableFactory<Key> {
