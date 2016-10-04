@@ -7,9 +7,10 @@ import util.*;
 
 public class TestItem extends Item {
 	public TestItem(Point worldPosition){
-		super(worldPosition);
+		super(worldPosition, false);
 	}
 	
 	public TestItem(){
+		super(false);
 	}
 }
