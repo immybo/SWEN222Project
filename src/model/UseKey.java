@@ -27,6 +27,7 @@ package model;
 					Key k = (Key) i;
 					if(keyGate.openedBy(k)){
 						matchKey = k;
+						break;
 					}
 				}
 			}

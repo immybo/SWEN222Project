@@ -36,6 +36,10 @@ public abstract class Tile implements Storable,Serializable, Drawable {
 	 */
 	public abstract boolean collides();
 	
+	/**
+	 * 
+	 */
+	
 	@Override
 	public Element toXMLElement(Document doc){
 		Element elem = doc.createElement("tile"+position.x+":"+position.y);
