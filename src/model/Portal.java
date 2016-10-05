@@ -12,6 +12,7 @@ public class Portal extends Entity {
 	
 	public Portal(Zone zone, Coord worldPosition, Inventory inventory, double size) {
 		super(zone, worldPosition, inventory, size);
+		this.addInteraction(new Inspect("Some kind of portal... I wonder where it leads."));
 	}
 	
 	/**

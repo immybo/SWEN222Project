@@ -10,8 +10,9 @@ import util.Coord;
  */
 public class Furniture extends Entity {
 	
-	public Furniture(Zone zone, Coord worldPosition, Inventory inventory, double size) {
+	public Furniture(Zone zone, Coord worldPosition, Inventory inventory, double size, String description) {
 		super(zone, worldPosition, inventory, size);
+		this.addInteraction(new Inspect(description));
 	}
 
 	@Override

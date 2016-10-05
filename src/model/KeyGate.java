@@ -17,8 +17,8 @@ public class KeyGate extends Gate implements Serializable {
 	public KeyGate(State initial, Zone zone, Coord worldPosition, double size, String keyID) {
 		super(initial, zone, worldPosition, size);
 		this.keyID = keyID;
-		
-		//this.addInteraction(i);
+		this.addInteraction(new Inspect("Looks like a gate... Is that a key hole?"));
+		this.addInteraction(new UseKey(this));
 	}
 
 	/**
