@@ -68,13 +68,12 @@ public class Zone implements Storable, Serializable {
 	
 	/**
 	 * Checks if a point in this zone is obstructed by characters, objects or tiles themselves
-	 * @param zone The zone to check 
 	 * @param point The point inside the zone to check
 	 * @return True if obstacle exists, false otherwise
 	 */
 	public boolean checkForObstruction(Point point){
 		if(getTile(point).collides()){
-			System.out.println(getTile(point).getDrawID());
+			System.out.println(getTile(point).getDrawImagePath());
 			System.out.println("T");
 			return true;
 		}
@@ -97,7 +96,7 @@ public class Zone implements Storable, Serializable {
 	
 	/**
 	 * Check a space in front of a player for interactions
-	 * @param player
+	 * @param p
 	 * @return Interactions of the space in front
 	 */
 	public Interaction[] getInteractions(Player p){
@@ -358,30 +357,22 @@ public class Zone implements Storable, Serializable {
 		}
 		return false;
 	}
+
+	public List<Tile> getTiles() {
+		List<Tile> tileList = new ArrayList<>();
+		for (Tile[] ts : tiles) {
+			for (Tile t : ts){
+				tileList.add(t);
+			}
+		}
+		return tileList;
+	}
 	
 	@Override
 	public int hashCode(){
 		return name.hashCode();
 	}
 
-	public ZoneDrawInfo getDrawInformation() {
-		//compile drawIDs of all tiles 
-		String[][] tileInfo = new String[tiles.length][tiles[0].length];
-		for(int x = 0; x < tiles[0].length; x++){
-			for(int y = 0; y < tiles.length; y++){
-				tileInfo[y][x] = tiles[y][x].getDrawID();
-			}
-		}
-		HashMap<Coord, String> entityInfo = new HashMap<Coord, String>();
-		for(Entity e: entities){
-			entityInfo.put(e.getWorldPosition(), e.getDrawID());
-		}
-		HashMap<Point, String> itemInfo = new HashMap<Point, String>();
-		for(Item i: items){
-			itemInfo.put(i.getPosition(), i.getDrawID());
-		}
-		return new ZoneDrawInfo(tileInfo, entityInfo, itemInfo);
-	}
 
 	public Character getPupo() {
 		return Pupo;

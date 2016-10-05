@@ -16,4 +16,11 @@ public class WallTile extends Tile {
 	public boolean collides(){
 		return true;
 	}
+	@Override
+	public String getDrawImagePath() {
+		return "images/testWall.png";
+	}
+	public double getDepth() {
+		return super.getDepth()+2;
+	}
 }

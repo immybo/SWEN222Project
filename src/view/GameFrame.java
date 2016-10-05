@@ -2,6 +2,7 @@ package view;
 
 import javax.swing.*;
 
+import model.World;
 import model.Zone;
 import network.Client;
 
@@ -31,6 +32,7 @@ public class GameFrame extends JFrame {
         this.setLayout(new BorderLayout());
 
         canvas = new RenderPanel();
+        canvas.setZone(World.testWorld().getZones()[0]);
         informationPanel = new InformationPanel(this);
 
         this.add(canvas, BorderLayout.WEST);

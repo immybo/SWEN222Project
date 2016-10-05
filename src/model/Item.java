@@ -6,7 +6,8 @@ import java.io.Serializable;
 import org.w3c.dom.*;
 
 import datastorage.*;
-import util.*;
+import util.PointD;
+import view.Drawable;
 
 /**
  * Defines something which exists on the world or
@@ -233,16 +234,18 @@ public abstract class Item implements Storable, Serializable, Drawable {
 		return false;
 	}
 	
-	private String drawID;
+	private String drawImagePath;
 	
 	@Override
-	public String getDrawID() {
-		return this.drawID;
+	public String getDrawImagePath() {
+		return this.drawImagePath;
 	}
-
-	@Override
-	public void setDrawID(String drawID) {
-		this.drawID = drawID;
-		
-	}
+    @Override
+    public PointD getDrawPosition() {
+        return new PointD(this.worldPosition.getX(),this.worldPosition.getY());
+    }
+    @Override
+    public double getDepth() {
+        return this.worldPosition.getX();
+    }
 }

@@ -1,14 +1,14 @@
 package model;
 
 import java.awt.*;
-import java.io.IOException;
 import java.io.Serializable;
 
 import org.w3c.dom.*;
-import java.lang.reflect.*;
 
 import datastorage.Storable;
 import datastorage.StorableFactory;
+import util.PointD;
+import view.Drawable;
 
 /**
  * A tile is a background object.
@@ -76,16 +76,25 @@ public abstract class Tile implements Storable,Serializable, Drawable {
 		return position.hashCode();
 	}
 	
-	private String drawID;
+	private String drawImagePath;
 	
 	@Override
-	public String getDrawID() {
-		return this.drawID;
+	public String getDrawImagePath() {
+		return this.drawImagePath;
 	}
 
 	@Override
-	public void setDrawID(String drawID) {
-		this.drawID = drawID;
+	public double getDepth() {
+		return position.getY();
+	}
+
+	public PointD getDrawPosition() {
+		return new PointD(position.getX(),position.getY());
+	}
+
+
+	public void setDrawImagePath(String drawImagePath) {
+		this.drawImagePath = drawImagePath;
 		
 	}
 }

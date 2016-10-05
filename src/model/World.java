@@ -36,13 +36,13 @@ public class World implements Storable {
 		for(int x = 0; x<3; x++){
 			for(int y = 0; y<9; y++){
 				tiles[y][x] = new WallTile(new Point(x,y));
-				tiles[y][x].setDrawID("testFloorA");
+				tiles[y][x].setDrawImagePath("images/testFloorAIso.png");
 			}
 		}
 		//1x7 corridor in middle
 		for(int i = 1; i<8; i++){
 			tiles[i][1] = new FloorTile(new Point(1,i));
-			tiles[i][1].setDrawID("testFloorB");
+			tiles[i][1].setDrawImagePath("images/testFloorBIso.png");
 		}
 		newZones[0] = new Zone("testZone", tiles);
 		//key, i have no idea what size does atm. 
@@ -142,17 +142,5 @@ public class World implements Storable {
 	}
 	
 	
-	/**
-	 * This returns the ZoneDrawInfo for each zone, which contains enough information about the map, entities etc for a renderer to output to a player. 
-	 * 
-	 * @return
-	 */
-	public List<ZoneDrawInfo> getDrawInformation(){
-		List<ZoneDrawInfo> drawInformation = new ArrayList<ZoneDrawInfo>();
-		for(Zone z: zones){
-			drawInformation.add(z.getDrawInformation());
-		}
-		return drawInformation;
-		
-	}
+
 }

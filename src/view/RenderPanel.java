@@ -12,6 +12,8 @@ import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 /**
  * Created by Hamish Brown on 28/09/2016.
@@ -58,6 +60,27 @@ public class RenderPanel extends JPanel {
         	System.err.println("Zone is null; bail");
         	return;
         }
+
+        PriorityQueue<Drawable> drawQueue = new PriorityQueue<>(11,new DrawableComparator());
+        drawQueue.addAll(zone.getTiles());
+        drawQueue.addAll(zone.getEntities());
+        drawQueue.add(zone.getPupo());
+
+        for (Drawable d : drawQueue) {
+            String filename = d.getDrawImagePath();
+            if (filename == null) {
+                continue;
+            }
+            try {
+                Point2D drawPoint = applyTransform(d.getDrawPosition().getX()*42,d.getDrawPosition().getY()*42);
+                BufferedImage img = ImageIO.read(new File(filename));
+                g2.drawImage(img, (int)drawPoint.getX(), (int)drawPoint.getY(), 64, 36, null);
+            } catch (IOException e) {
+                System.err.println("Renderer: Image "+filename+" not found");
+            }
+        }
+
+        /*
         ZoneDrawInfo info = zone.getDrawInformation();
         String[][] tileInfo = info.getTileInfo();
         //g2.setTransform(isoTransform);
@@ -83,6 +106,7 @@ public class RenderPanel extends JPanel {
 		} catch (IOException e) {
 			//do nothing cos i dont know man
 		}
+		*/
         
         
         //DRAFT IMAGE
@@ -103,6 +127,12 @@ public class RenderPanel extends JPanel {
         testWindow.pack();
         testWindow.setVisible(true);
         renderPanel.setVisible(true);
+    }
+
+    private class DrawableComparator implements Comparator<Drawable> {
+        public int compare(Drawable a, Drawable b) {
+            return(int)(b.getDepth() - a.getDepth());
+        }
     }
 
 

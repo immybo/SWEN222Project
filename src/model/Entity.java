@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import util.Coord;
 import util.PointD;
+import view.Drawable;
 
 /**
  * Defines static objects in the game world that can be interacted with.
@@ -50,16 +51,25 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 	//TODO Player not done yet
 	//abstract public void onCollision(Player p);
 	
-	private String drawID;
+	private String drawImagePath;
 	
 	@Override
-	public String getDrawID() {
-		return this.drawID;
+	public String getDrawImagePath() {
+		return this.drawImagePath;
+	}
+
+	public void setDrawImagePath(String drawImagePath) {
+		this.drawImagePath = drawImagePath;
+		
 	}
 
 	@Override
-	public void setDrawID(String drawID) {
-		this.drawID = drawID;
-		
+	public double getDepth() {
+		return worldPosition.getPoint().getY();
+	}
+
+	@Override
+	public PointD getDrawPosition() {
+		return new PointD(worldPosition.getPoint().getX(),worldPosition.getPoint().getY());
 	}
 }
