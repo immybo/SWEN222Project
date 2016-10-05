@@ -20,7 +20,7 @@ public class DataStorageTests extends TestCase {
 	
 	@Test
 	public void testZoneStorage(){
-		Tile[][] tiles = generateTiles(10,10);
+		Tile[][] tiles = TestUtil.generateTiles(10,10);
 		
 		Zone zone = new Zone("zone", tiles);
 		XMLInterface.saveToFile(zone,  new File("testxml.xml"));
@@ -44,8 +44,8 @@ public class DataStorageTests extends TestCase {
 	
 	@Test
 	public void testPlayableCharacterStorage(){
-		Zone zone1 = new Zone("zone1", generateTiles(3,3));
-		Zone zone2 = new Zone("zone2", generateTiles(5,5));
+		Zone zone1 = new Zone("zone1", TestUtil.generateTiles(3,3));
+		Zone zone2 = new Zone("zone2", TestUtil.generateTiles(5,5));
 		Player pupo = new Player(zone1, new Coord(new Direction(0), new Point(1,1)), true);
 		Player yelo = new Player(zone2, new Coord(new Direction(3), new Point(0,0)), false);
 
@@ -75,15 +75,5 @@ public class DataStorageTests extends TestCase {
 		} catch (IOException e) {
 			// We don't really care if we can't find it. If we can't access it, the user screwed up. Oh well.
 		}
-	}
-		
-	public Tile[][] generateTiles(int width, int height){
-		Tile[][] tiles = new Tile[height][width];
-		for(int x = 0; x < width; x++){
-			for(int y = 0; y < height; y++){
-				tiles[y][x] = new FloorTile(new Point(x,y));
-			}
-		}
-		return tiles;
 	}
 }
