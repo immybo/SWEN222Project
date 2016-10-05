@@ -5,7 +5,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-import model.Character;
+import model.Player;
 import model.Interaction;
 import model.World;
 import network.Protocol.Event;
@@ -24,7 +24,7 @@ public class ServerRecvThread extends Thread {
 	private Server parentServer;
 	
 	/* character for the client this thread is managing */
-	private Character character;
+	private Player player;
 	
 	/* socket connected to client and its inward stream */
 	private Socket socket;
@@ -36,10 +36,10 @@ public class ServerRecvThread extends Thread {
 	 * @param socket -- socket on which to communicate with client
 	 * @param character -- in-game character this thread's client controls
 	 */
-	public ServerRecvThread(Server parentServer, Socket socket, Character character) {
+	public ServerRecvThread(Server parentServer, Socket socket, Player player) {
 		this.socket = socket;
 		this.parentServer = parentServer;
-		this.character = character;
+		this.player = player;
 	}
 	
 	/**
@@ -66,16 +66,16 @@ public class ServerRecvThread extends Thread {
 		World w = parentServer.getWorld();
 		switch (packetType) {
 		case FORWARD:
-			w.moveCharacterForward(character);
+			w.moveCharacterForward(player);
 			break;
 		case BACKWARD:
-			w.moveCharacterBackward(character);
+			w.moveCharacterBackward(player);
 			break;
 		case ROTATE_CLOCKWISE:
-			w.rotateCharacter(true, character);
+			w.rotateCharacter(true, player);
 			break;
 		case ROTATE_ANTICLOCKWISE:
-			w.rotateCharacter(false, character);
+			w.rotateCharacter(false, player);
 			break;
 		case INTERACT:
 			readObj = in.readObject();
@@ -84,7 +84,7 @@ public class ServerRecvThread extends Thread {
 				break;
 			}
 			Interaction interaction = (Interaction)readObj;
-			w.interact(interaction, character);
+			w.interact(interaction, player);
 			break;
 		default:
 			System.err.println("Unhandled event : "+packetType);

@@ -8,7 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import model.World;
-import model.Character;
+import model.Player;
 
 public class Server {
 	
@@ -17,7 +17,7 @@ public class Server {
 	private Socket[] clientSocks;
 	private int clientCount;
 	private World world;
-	private Character[] characters;
+	private Player[] players;
 	private Thread[] workerThreads;
 	
 	/**
@@ -37,9 +37,9 @@ public class Server {
 		
 		/* FIXME HACK set up world and players */
 		world = World.testWorld();
-		this.characters = new Character[2];
-		characters[0] = world.getPupo();
-		characters[1] = world.getYelo();
+		this.players = new Player[2];
+		players[0] = world.getPupo();
+		players[1] = world.getYelo();
 		
 	}
 	
@@ -179,7 +179,7 @@ public class Server {
 			Thread sendThread;
 			Thread recvThread;
 			try {
-				sendThread = new ServerSendThread(this, clientSocks[i], characters[i]); 
+				sendThread = new ServerSendThread(this, clientSocks[i], players[i]); 
 			} catch (IOException e) {
 				e.printStackTrace();
 				System.err.println("Error creating game state updater thread, bailing");
@@ -187,7 +187,7 @@ public class Server {
 				return;
 			}
 			
-			recvThread = new ServerRecvThread(this, clientSocks[i], characters[i]);
+			recvThread = new ServerRecvThread(this, clientSocks[i], players[i]);
 			
 			sendThread.start();
 			recvThread.start();

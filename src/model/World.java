@@ -129,11 +129,11 @@ public class World implements Storable {
 		return null;
 	}
 
-	public Character getPupo() {
+	public Player getPupo() {
 		return Pupo;
 	}
 	
-	public Character getYelo() {
+	public Player getYelo() {
 		return Yelo;
 	}
 	
