@@ -104,10 +104,18 @@ public class World implements Storable {
 	 */
 	public void rotateCharacter(boolean isClockwise, Character character){
 		int dirValue = character.getCoord().getFacing().getDirection();
-		if(isClockwise == true) dirValue = dirValue + 1;
-		else dirValue = dirValue - 1;
-		if(dirValue == 4) dirValue = 0;
-		if(dirValue == -1) dirValue = 3;
+		
+		/* make the change; clockwise increases, anticlockwise decreases */
+		dirValue += isClockwise ? 1 : -1;
+		
+		/* wrap around from 3 to 0 */
+		if(dirValue > 3) {
+			dirValue = 0;
+		}
+		/* wrap around from 0 to 3 */
+		if(dirValue < 0) {
+			dirValue = 3;
+		}
 		Direction newDirection = new Direction(dirValue);
 		Point point = character.getCoord().getPoint();
 		Coord newCoord = new Coord(newDirection, point);
