@@ -12,6 +12,7 @@ import datastorage.Storable;
 import datastorage.StorableFactory;
 import model.Tile.TileFactory;
 import util.Coord;
+import util.Direction;
 import util.PointD;
 
 /**
@@ -88,6 +89,32 @@ public class Zone implements Storable, Serializable {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Check a space in front of a player for interactions
+	 * @param player
+	 * @return Interactions of the space in front
+	 */
+	public Interaction[] getInteractions(Player p){
+		//check if player is in current zone
+		if (!p.getZone().equals(this)) return null;	
+		Point origin = p.getCoord().getPoint();
+		Point check = Direction.move(origin, p.getCoord().getFacing(), 1);
+		Entity matchEntity = null;
+		
+		//check all entities for correct position
+		for(Entity e: entities){
+			if(e.getWorldPosition().getPoint().equals(check)){
+				matchEntity = e;
+			}
+		}
+		
+		if(matchEntity == null){
+			return null;
+		} else {
+			return matchEntity.getInteractions();
+		}
 	}
 	
 	/**

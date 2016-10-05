@@ -113,13 +113,12 @@ public class World implements Storable {
 	}
 
 	/**
-	 * Execute an interaction as a specific character
+	 * Execute an interaction as a specific player
 	 * @param interaction
-	 * @param character
+	 * @param player
 	 */
-	public void interact(Interaction interaction, Character character) {
-		/* FIXME unimplemented */
-		System.err.println("FIXME: World.interact() unimplemented");
+	public void interact(Interaction interaction, Player player) {
+		interaction.execute(player);
 	}
 
 	@Override

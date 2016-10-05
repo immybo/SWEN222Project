@@ -43,7 +43,6 @@ package model;
 				keyGate.removeInteraction(this);
 				keyGate.addInteraction(new Inspect("It looks to be an open gate."));
 			}
-			
 		}
 		
 
