@@ -49,11 +49,11 @@ public class Direction implements Serializable {
 		if(direction.direction == NORTH)
 			return new Point(initial.x, initial.y - amount);
 		else if(direction.direction == EAST)
-			return new Point(initial.x - amount, initial.y);
+			return new Point(initial.x + amount, initial.y);
 		else if(direction.direction == SOUTH)
 			return new Point(initial.x, initial.y + amount);
 		else if(direction.direction == WEST)
-			return new Point(initial.x + amount, initial.y);
+			return new Point(initial.x - amount, initial.y);
 		
 		throw new IllegalArgumentException(direction + " is not a valid direction!");
 	}
