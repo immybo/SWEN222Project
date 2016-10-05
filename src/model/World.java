@@ -152,7 +152,22 @@ public class World implements Storable {
 		for(Zone z: zones){
 			drawInformation.add(z.getDrawInformation());
 		}
-		return drawInformation;
-		
+		return drawInformation;	
+	}
+	
+	public boolean checkForGameWin(){
+		if(Pupo.getZone().equals(Yelo.getZone())){
+			Point p = Pupo.getCoord().getPoint();
+			Point y = Yelo.getCoord().getPoint();
+			Point[] points = new Point[4];
+			points[0] = new Point(p.x-1, p.y);
+			points[1] = new Point(p.x+1, p.y);
+			points[2] = new Point(p.x, p.y-1);
+			points[3] = new Point(p.x, p.y+1);
+			for(Point i: points){
+				if(y.equals(i)) return true;
+			}
+		}
+		return false;
 	}
 }
