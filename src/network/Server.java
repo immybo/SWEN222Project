@@ -15,6 +15,8 @@ public class Server {
 	private ServerSocket sock;
 	private int port;
 	private Socket[] clientSocks;
+	private ObjectOutputStream[] outs;
+	private ObjectInputStream[] ins;
 	private int clientCount;
 	private World world;
 	private Player[] players;
@@ -102,11 +104,7 @@ public class Server {
 	 * @return true if handshake succeeds, false otherwise
 	 * @throws IOException
 	 */
-	public boolean doHandshake(Socket clientSocket) throws IOException {
-		/* DataInputStream and co. make sending packets of varied data types easy */
-		ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
-		ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
-		
+	public boolean doHandshake(ObjectInputStream in, ObjectOutputStream out) throws IOException {
 		/* send the server's magic sequence and wait for a reply */
 		out.writeObject(Protocol.SERVER_MAGIC);
 		
@@ -142,6 +140,9 @@ public class Server {
 		int totalPlayers = 2;
 		
 		clientSocks = new Socket[totalPlayers];
+		outs = new ObjectOutputStream[totalPlayers];
+		ins= new ObjectInputStream[totalPlayers];
+		
 		
 		/* try to initialise, bailing altogether if it fails */
 		if (!initialise()) {
@@ -153,9 +154,11 @@ public class Server {
 			try {
 				Socket client = sock.accept();
 				System.out.println("Accepted connection from "+client.getInetAddress());
-		
+				outs[clientCount] = new ObjectOutputStream(client.getOutputStream());
+				ins[clientCount] = new ObjectInputStream(client.getInputStream());
+				
 				/* attempt basic sanity-check */
-				if (doHandshake(client)) {
+				if (doHandshake(ins[clientCount], outs[clientCount])) {
 					System.out.println("Magic phrase exchange succeeded");
 					clientSocks[clientCount] = client;
 					clientCount++;
@@ -179,7 +182,7 @@ public class Server {
 			Thread sendThread;
 			Thread recvThread;
 			try {
-				sendThread = new ServerSendThread(this, clientSocks[i], players[i]); 
+				sendThread = new ServerSendThread(this, outs[i], players[i]); 
 			} catch (IOException e) {
 				e.printStackTrace();
 				System.err.println("Error creating game state updater thread, bailing");
@@ -187,7 +190,7 @@ public class Server {
 				return;
 			}
 			
-			recvThread = new ServerRecvThread(this, clientSocks[i], players[i]);
+			recvThread = new ServerRecvThread(this, ins[i], players[i]);
 			
 			sendThread.start();
 			recvThread.start();

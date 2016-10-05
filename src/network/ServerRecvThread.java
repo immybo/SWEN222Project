@@ -36,8 +36,8 @@ public class ServerRecvThread extends Thread {
 	 * @param socket -- socket on which to communicate with client
 	 * @param character -- in-game character this thread's client controls
 	 */
-	public ServerRecvThread(Server parentServer, Socket socket, Player player) {
-		this.socket = socket;
+	public ServerRecvThread(Server parentServer, ObjectInputStream in, Player player) {
+		this.in = in;
 		this.parentServer = parentServer;
 		this.player = player;
 	}
@@ -96,7 +96,9 @@ public class ServerRecvThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			in = new ObjectInputStream(socket.getInputStream());
+			//System.err.println("Doing the thing");
+			//in = new ObjectInputStream(socket.getInputStream());
+			//System.err.println("Created the thing \\o/");
 			
 			while(processUpstream())
 				;
