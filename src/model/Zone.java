@@ -30,7 +30,7 @@ public class Zone implements Storable, Serializable {
 	private Tile[][] tiles;
 	private List<Item> items;
 	private List<Entity> entities;
-	private List<Character> characters; // characters not including main characters
+	private List<Character> characters = new ArrayList<Character>(); // characters not including main characters
 	private Character Pupo;
 	private Character Yelo;
 	
