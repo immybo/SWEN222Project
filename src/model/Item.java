@@ -181,6 +181,30 @@ public abstract class Item implements Storable, Serializable, Drawable {
 	}
 	
 	/**
+	 * Performs any events relating to this item colliding with
+	 * the given player.
+	 * 
+	 * @param player The player that was collided with.
+	 */
+	public void onCollision(Player player){
+		if(inInventory())
+			throw new IllegalStateException("Items can't collide with players when they're in inventories.");
+		
+		// Check if there's room in the player's inventory to actually store the item
+		// First, we check if we can stack it on another item
+		Integer[] typeIndices = player.getInventory().getAllOfType(this.getClass());
+		if(this.stackable() && typeIndices.length > 0){
+			Item item = player.getInventory().getItem(typeIndices[0]);
+			item.setStackSize(item.getStackSize() + 1);
+		}
+		// If we can't, we try to place it in a new slot
+		else if(player.getInventory().hasRoom()){
+			player.getInventory().addItem(this);
+			onPickUp();
+		}
+	}
+	
+	/**
 	 * @return The unique ID of this item.
 	 */
 	public long getID(){

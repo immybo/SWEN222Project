@@ -15,11 +15,13 @@ public class Player extends Character implements Storable {
 	public Player(Zone zone, Coord coord, boolean isPupo) {
 		super (zone, coord);
 		this.pupo = isPupo;
+		this.inventory = new Inventory(10);
 	}
 	
 	private Player(Zone[] zones, Element elem){
 		super(elem, zones);
 		this.pupo = Boolean.parseBoolean(elem.getAttribute("pupo"));
+		// TODO parse the inventory from the element
 	}
 	
 	@Override
@@ -32,6 +34,40 @@ public class Player extends Character implements Storable {
 	
 	public Inventory getInventory(){
 		return this.inventory;
+	}
+	
+	/**
+	 * As well as moving this Player to the given coord,
+	 * makes sure that any items at the coord know that
+	 * the player is on top of them.
+	 */
+	@Override
+	public void setCoord(Coord coord){
+		super.setCoord(coord);
+		
+		for(Item item : getZone().getItems(coord.getPoint())){
+			item.onCollision(this);
+		}
+	}
+	
+	@Override
+	public void moveIn(Direction dir){
+		moveIn(dir, 1);
+	}
+	
+	/**
+	 * As well as moving this Player by the given amount
+	 * in the given direction, makes sure that any items
+	 * at the new coord know that the player is on top of
+	 * them.
+	 */
+	@Override
+	public void moveIn(Direction dir, int amount){
+		super.moveIn(dir, amount);
+		
+		for(Item item : getZone().getItems(this.getCoord().getPoint())){
+			item.onCollision(this);
+		}
 	}
 	
 	@Override

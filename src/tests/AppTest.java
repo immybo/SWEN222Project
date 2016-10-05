@@ -28,6 +28,7 @@ public class AppTest
 		  InventoryTests.class,
 		  DataStorageTests.class,
 		  NetworkTests.class,
-		  PositionTransformationTest.class);
+		  PositionTransformationTest.class,
+		  ItemTests.class);
     }
 }

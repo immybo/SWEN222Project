@@ -1,6 +1,8 @@
 package model;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Defines something which can contain a certain
@@ -123,6 +125,22 @@ public class Inventory implements Serializable {
 		return found;
 	}
 	
+	/**
+	 * Returns indices of all items of the given class that are in this inventory.
+	 * 
+	 * @param type The class whose items will be returned.
+	 * @return An array of indices of items of the given class.
+	 */
+	public Integer[] getAllOfType(Class type){
+		List<Integer> elements = new LinkedList<Integer>();
+		for(int i = 0; i< items.length; i++){
+			if(items[i] != null && items[i].getClass().equals(type)){
+				elements.add(i);
+			}
+		}
+		return elements.toArray(new Integer[0]);
+	}
+	
 	public int getStorageCapacity(){
 		return storageCapacity;
 	}
@@ -165,6 +183,12 @@ public class Inventory implements Serializable {
 			if(items[i] == item) return i;
 		}
 		return -1;
+	}
+	
+	public Item getItem(int index){
+		if(index < 0 || index > items.length)
+			throw new IllegalArgumentException("Attempting to get an item from an inventory at an invalid index.");
+		return items[index];
 	}
 	
 	/**
