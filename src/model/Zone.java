@@ -74,17 +74,21 @@ public class Zone implements Storable, Serializable {
 	 */
 	public boolean checkForObstruction(Point point){
 		if(getTile(point).collides()){
+			System.out.println(getTile(point).getDrawID());
+			System.out.println("T");
 			return true;
 		}
 		for(Entity e: getEntities()){
 			if(e.getWorldPosition().getPoint().equals(point)){ // check if entity same position
 				if(!e.isPassable()){ // check if not passable
+					System.out.println("E");
 					return true;
 				}
 			}
 		}
 		for(Character c: getCharacters()){
 			if(c.getCoord().getPoint().equals(point)){
+				System.out.println("C");
 				return true;
 			}
 		}

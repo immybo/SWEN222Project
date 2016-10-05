@@ -66,8 +66,10 @@ public class World implements Storable {
 		Point oriP = origin.getPoint();
 		Direction oriD = origin.getFacing();
 		Point prospectivePoint = Direction.move(oriP, oriD, 1); // get resulting position if character were to move
+		System.out.println(prospectivePoint);
 		Zone zone = character.getZone();
 		if(zone.checkForObstruction(prospectivePoint)){ // check new point for obstacle
+			System.out.println("obs");
 			return false;
 		}
 		character.setCoord(new Coord(oriD, prospectivePoint));
@@ -104,8 +106,8 @@ public class World implements Storable {
 		int dirValue = character.getCoord().getFacing().getDirection();
 		if(isClockwise == true) dirValue = dirValue + 1;
 		else dirValue = dirValue - 1;
-		if(dirValue == 5) dirValue = 1;
-		if(dirValue == 0) dirValue = 4;
+		if(dirValue == 4) dirValue = 0;
+		if(dirValue == -1) dirValue = 3;
 		Direction newDirection = new Direction(dirValue);
 		Point point = character.getCoord().getPoint();
 		Coord newCoord = new Coord(newDirection, point);

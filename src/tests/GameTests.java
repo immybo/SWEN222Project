@@ -42,7 +42,7 @@ public class GameTests extends TestCase {
 		assertTrue(world.moveCharacterForward(yelo)); //should be at 3,1
 		//test end position is correct
 		assertEquals(yelo.getCoord().getPoint().x, 3);
-		assertEquals(yelo.getCoord().getPoint().x, 1);
+		assertEquals(yelo.getCoord().getPoint().y, 1);
 	}
 	
 	/**
@@ -58,15 +58,15 @@ public class GameTests extends TestCase {
 		Zone[] newZones = new Zone[1];
 		//make just a test zone 7x7 big
 		Tile[][] tiles = new Tile[7][7];
-		for(int x = 0; x<6; x++){
-			for(int y = 0; y<6; y++){
+		for(int x = 0; x<7; x++){
+			for(int y = 0; y<7; y++){
 				tiles[y][x] = new WallTile(new Point(x,y));
 				tiles[y][x].setDrawID("wallTile");
 			}
 		}
 		//5x5 walkable room
-		for(int x = 1; x<5; x++){
-			for(int y = 1; y<5; y++){
+		for(int x = 1; x<6; x++){
+			for(int y = 1; y<6; y++){
 				tiles[y][x] = new FloorTile(new Point(x,y));
 				tiles[y][x].setDrawID("floorTile");
 			}
@@ -78,6 +78,7 @@ public class GameTests extends TestCase {
 		newZones[0].setPupo(pupo);
 		newZones[0].setYelo(yelo);
 		newZones[0].addEntity(new Furniture(newZones[0], new Coord(new Direction(Direction.NORTH),new Point(2,3)), null, 1, "testObject"));
+		
 		return new World("test",newZones, pupo, yelo);
 	}
 
