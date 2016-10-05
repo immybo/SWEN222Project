@@ -6,6 +6,7 @@ import datastorage.StorableFactory;
 import org.w3c.dom.*;
 
 import util.Coord;
+import util.Direction;
 
 public class Player extends Character implements Storable {
 	public final boolean pupo; //!pupo --> yelo

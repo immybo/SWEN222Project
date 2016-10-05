@@ -9,6 +9,7 @@ import org.w3c.dom.Element;
 import datastorage.Storable;
 import datastorage.StorableFactory;
 import util.Coord;
+import util.Direction;
 
 /**
  * 
@@ -43,6 +44,31 @@ public abstract class Character implements Serializable, Storable {
 			if(z.getID() == zoneID)
 				this.zone = z;
 		}
+	}
+	
+	/**
+	 * Moves by 1 square in the given direction.
+	 * No checking is made as to whether this should be possible or not.
+	 * Does set the direction of this character to be the appropriate one.
+	 * 
+	 * @param dir The direction to move in.
+	 */
+	public void moveIn(Direction dir){
+		moveIn(dir, 1);
+	}
+	
+	/**
+	 * Moves by a certain amount of squares in the given direction.
+	 * No checking is made as to whether this should be possible or not.
+	 * Does set the direction of this character to be the appropriate one.
+	 * 
+	 * @param dir The direction to move in.
+	 * @param amount The amount of squares to move.
+	 */
+	public void moveIn(Direction dir, int amount){
+		Point originalPoint = getCoord().getPoint();
+		Point newPoint = Direction.move(originalPoint, dir, amount);
+		setCoord(new Coord(dir, newPoint));
 	}
 
 	public Coord getCoord() {

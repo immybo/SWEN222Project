@@ -213,6 +213,27 @@ public class Zone implements Storable, Serializable {
 		return null;
 	}
 	
+	/**
+	 * Returns all items that are on the floor at
+	 * the given point, if any exist. If none exist,
+	 * returns an empty array.
+	 * 
+	 * @param point The point to query.
+	 * @return All items that were at the point.
+	 */
+	public Item[] getItems(Point point){
+		List<Item> it = new LinkedList<Item>();
+		for(Item i : items){
+			if(i.inInventory()) continue;
+			
+			int x = i.getPosition().x;
+			int y = i.getPosition().y;
+			if(x == point.x && y == point.y)
+				it.add(i);
+		}
+		return it.toArray(new Item[0]);
+	}
+	
 	@Override
 	/**
 	 * Returns the name of this zone.
@@ -239,6 +260,15 @@ public class Zone implements Storable, Serializable {
 	 */
 	public void removeItem(Item i){
 		items.remove(i);
+	}
+	
+	/**
+	 * Returns an array of all items in this zone.
+	 * 
+	 * @return All items in this zone.
+	 */
+	public Item[] getItems(){
+		return items.toArray(new Item[0]);
 	}
 	
 	/**
