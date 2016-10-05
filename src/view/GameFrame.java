@@ -30,9 +30,13 @@ public class GameFrame extends JFrame {
     public GameFrame(){
         setSizeDefault();
         this.setLayout(new BorderLayout());
-
+        
         canvas = new RenderPanel();
+        /*
+         * REMOVED: The client will do this when the server sends it zone info.
+       
         canvas.setZone(World.testWorld().getZones()[0]);
+        */
         informationPanel = new InformationPanel(this);
 
         this.add(canvas, BorderLayout.WEST);
