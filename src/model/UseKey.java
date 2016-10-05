@@ -37,7 +37,7 @@ package model;
 				//set the gate to open
 				keyGate.unlock();
 				keyGate.open();
-				keyGate.setDrawID(matchKey.getKeyID() + "-open");
+				keyGate.setDrawImagePath(matchKey.getKeyID() + "-open");
 				//remove key from play inventory
 				p.getInventory().removeItem(matchKey);
 				//remove interaction from gate
