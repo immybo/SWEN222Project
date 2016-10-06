@@ -2,4 +2,4 @@
 
 # Convenience script for running server
 
-java -cp bin/:target/classes network.Server
+java -cp bin/:target/classes network.server.Server

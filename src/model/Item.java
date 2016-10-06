@@ -245,7 +245,11 @@ public abstract class Item implements Storable, Serializable, Drawable {
         return new PointD(this.worldPosition.getX(),this.worldPosition.getY());
     }
     @Override
-    public double getDepth() {
-        return this.worldPosition.getX();
+    public double getDepthOffset() {
+        return 0.1;
     }
+    @Override
+	public int getYOffset() {
+		return 0;
+	}
 }

@@ -53,9 +53,7 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 	public Zone getZone(){
 		return zone;
 	}
-
-
-
+	
 	public abstract boolean isPassable();
 
 	public void onCollision(Player p){
@@ -75,13 +73,18 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 	}
 
 	@Override
-	public double getDepth() {
+	public double getDepthOffset() {
 		return worldPosition.getPoint().getY();
 	}
 
 	@Override
 	public PointD getDrawPosition() {
 		return new PointD(worldPosition.getPoint().getX(),worldPosition.getPoint().getY());
+	}
+	
+	@Override
+	public int getYOffset() {
+		return 0;
 	}
 
 	@Override

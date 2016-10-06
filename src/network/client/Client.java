@@ -1,4 +1,4 @@
-package network;
+package network.client;
 
 
 import java.io.ObjectOutputStream;
@@ -8,6 +8,7 @@ import java.net.Socket;
 
 import model.Interaction;
 import view.GameFrame;
+import network.Protocol;
 import network.Protocol.Event;
 
 public class Client {

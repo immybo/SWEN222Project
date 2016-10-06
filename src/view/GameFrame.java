@@ -4,7 +4,7 @@ import javax.swing.*;
 
 import model.World;
 import model.Zone;
-import network.Client;
+import network.client.Client;
 
 import java.awt.*;
 

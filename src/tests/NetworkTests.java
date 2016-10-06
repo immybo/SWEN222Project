@@ -3,8 +3,8 @@ package tests;
 import org.junit.Test;
 
 import junit.framework.TestCase;
-import network.Server;
-import network.Client;
+import network.client.Client;
+import network.server.Server;
 
 public class NetworkTests extends TestCase {
 	private class BackgroundServer extends Thread {
