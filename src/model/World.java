@@ -51,7 +51,6 @@ public class World implements Storable {
 		//characters
 				Player pupo = new Player(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1,1)), true);
 				Player yelo = new Player(newZones[0], new Coord(new Direction(Direction.SOUTH),new Point(1,7)), false);
-				newZones[0].setPupo(pupo);
 				return new World("test",newZones, pupo, yelo);
 	}
 
