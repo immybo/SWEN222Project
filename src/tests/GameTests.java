@@ -80,6 +80,26 @@ public class GameTests extends TestCase {
 	}
 	
 	public void testPortal(){
+		World world = generateWorld2();
+		Player pupo = world.getPupo();
+		Zone originZone = pupo.getZone();
+		assertTrue(pupo.moveForward());
+		assertFalse(pupo.moveForward()); // should have run into portal, smash face
+		Interaction[] interactions = pupo.getZone().getInteractions(pupo);
+		if(interactions == null) fail();
+		Interaction toDo = null;
+		for(Interaction i: interactions){
+			if(i.getText().equals("Use Portal")){
+				toDo = i;
+			}
+		}
+		toDo.execute(pupo);
+		assertTrue(!pupo.getZone().equals(originZone)); //pupo is in diff zone than before
+		assertTrue(originZone.getPupo() == null); //zone no longer has pupo
+		assertTrue(pupo.getZone().getPupo().equals(pupo));//new zone has pupo aswell
+		assertEquals(pupo.getCoord().getPoint().x,2);
+		assertEquals(pupo.getCoord().getPoint().y,1);
+		
 		
 	}
 	

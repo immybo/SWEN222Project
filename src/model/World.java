@@ -27,6 +27,39 @@ public class World implements Storable {
 		this.zones = zones;
 		this.Pupo = pupo;
 		this.Yelo = yelo;
+		syncPortals();
+	}
+	/**
+	 * This is used to pair all the portals together that have the same id.
+	 * This is useful when creating a world.
+	 * Each portal must have another portal with the same id, and only 1 other. 
+	 */
+	public void syncPortals(){
+		// get all portals
+		List<Portal> portals = new ArrayList<Portal>();
+		for(Zone z: zones){
+			List<Entity> entities = z.getEntities();
+			for(Entity e: entities){
+				if(e instanceof Portal){
+					Portal portal = (Portal)e;
+					portals.add(portal);
+				}
+			}
+		}
+		
+		while(portals.size() > 0){
+			Portal first = portals.get(0);
+			Portal second = null;
+			for(Portal portal: portals){
+				if(portal.getPortalID().equals(first.getPortalID())){
+					second = portal;
+				}
+			}
+			first.setPairPortal(second);
+			second.setPairPortal(first);
+			portals.remove(first);
+			portals.remove(second);
+		}
 	}
 	
 	public static World testWorld(){

@@ -44,8 +44,6 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 		return zone;
 	}
 	
-	
-	
 	public abstract boolean isPassable();
 	
 	//TODO Player not done yet
