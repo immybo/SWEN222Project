@@ -53,8 +53,8 @@ public class Player extends Character implements Storable, Serializable {
 	}
 	
 	@Override
-	public void moveIn(Direction dir){
-		moveIn(dir, 1);
+	public boolean moveIn(Direction dir){
+		return moveIn(dir, 1);
 	}
 	
 	/**
@@ -64,12 +64,16 @@ public class Player extends Character implements Storable, Serializable {
 	 * them.
 	 */
 	@Override
-	public void moveIn(Direction dir, int amount){
-		super.moveIn(dir, amount);
+	public boolean moveIn(Direction dir, int amount){
+		boolean ok = super.moveIn(dir, amount);
 		
-		for(Item item : getZone().getItems(this.getCoord().getPoint())){
-			item.onCollision(this);
+		if(ok){
+			for(Item item : getZone().getItems(this.getCoord().getPoint())){
+				item.onCollision(this);
+			}
 		}
+		
+		return ok;
 	}
 	
 	@Override

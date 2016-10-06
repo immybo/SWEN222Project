@@ -28,18 +28,18 @@ public class GameTests extends TestCase {
 		World world = generateWorld1();
 		Character yelo = world.getYelo();
 		//test movement feedback
-		assertTrue(world.moveCharacterForward(yelo)); //should be at 5,4
-		world.rotateCharacter(true, yelo); //facing east
-		assertFalse(world.moveCharacterForward(yelo)); //run into wall
-		world.rotateCharacter(false, yelo); //facing north
-		assertTrue(world.moveCharacterForward(yelo)); //should be at 5,3
-		world.rotateCharacter(false, yelo); //facing west
-		assertTrue(world.moveCharacterForward(yelo)); //should be at 4,3
-		assertTrue(world.moveCharacterForward(yelo)); //should be at 3,3
-		assertFalse(world.moveCharacterForward(yelo)); //run into object
-		world.rotateCharacter(true, yelo); //facing north
-		assertTrue(world.moveCharacterForward(yelo)); //should be at 3,2
-		assertTrue(world.moveCharacterForward(yelo)); //should be at 3,1
+		assertTrue(yelo.moveForward()); //should be at 5,4
+		yelo.rotate(true); //facing east
+		assertFalse(yelo.moveForward()); //run into wall
+		yelo.rotate(false); //facing north
+		assertTrue(yelo.moveForward()); //should be at 5,3
+		yelo.rotate(false); //facing west
+		assertTrue(yelo.moveForward()); //should be at 4,3
+		assertTrue(yelo.moveForward()); //should be at 3,3
+		assertFalse(yelo.moveForward()); //run into object
+		yelo.rotate(true); //facing north
+		assertTrue(yelo.moveForward()); //should be at 3,2
+		assertTrue(yelo.moveForward()); //should be at 3,1
 		//test end position is correct
 		assertEquals(yelo.getCoord().getPoint().x, 3);
 		assertEquals(yelo.getCoord().getPoint().y, 1);

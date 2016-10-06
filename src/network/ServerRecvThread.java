@@ -66,16 +66,16 @@ public class ServerRecvThread extends Thread {
 		World w = parentServer.getWorld();
 		switch (packetType) {
 		case FORWARD:
-			w.moveCharacterForward(player);
+			player.moveForward();
 			break;
 		case BACKWARD:
-			w.moveCharacterBackward(player);
+			player.moveBackwards();
 			break;
 		case ROTATE_CLOCKWISE:
-			w.rotateCharacter(true, player);
+			player.rotate(true);
 			break;
 		case ROTATE_ANTICLOCKWISE:
-			w.rotateCharacter(false, player);
+			player.rotate(false);
 			break;
 		case INTERACT:
 			readObj = in.readObject();

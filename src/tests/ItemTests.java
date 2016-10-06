@@ -12,7 +12,7 @@ import model.*;
 public class ItemTests extends TestCase {
 	@Test
 	public void testPickupOnCollision(){
-		Zone zone = new Zone("testzone", TestUtil.generateTiles(5, 5));
+		Zone zone = new Zone("testzone", TestUtil.generateTiles(6,6));
 		Player player = new Player(zone, new Coord(new Direction(Direction.NORTH), new Point(3, 4)), true);
 		
 		Item item1 = new TestItem(new Point(4,4));
