@@ -20,7 +20,14 @@ public class WallTile extends Tile {
 	public String getDrawImagePath() {
 		return "images/testWall.png";
 	}
-	public double getDepth() {
-		return super.getDepth()+0.2;
+	
+	@Override
+	public double getDepthOffset() {
+		return 0.5;
+	}
+	
+	@Override
+	public int getYOffset() {
+		return 31;
 	}
 }

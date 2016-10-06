@@ -64,7 +64,7 @@ public class RenderPanel extends JPanel {
         PriorityQueue<Drawable> drawQueue = new PriorityQueue<>(11,new DrawableComparator());
         drawQueue.addAll(zone.getTiles());
         drawQueue.addAll(zone.getEntities());
-        drawQueue.add(zone.getPupo());
+        drawQueue.addAll(zone.getCharacters());
 
         while (!drawQueue.isEmpty()) {
         	Drawable d = drawQueue.poll();
@@ -75,7 +75,8 @@ public class RenderPanel extends JPanel {
             try {
                 Point2D drawPoint = applyTransform(d.getDrawPosition().getX()*64,d.getDrawPosition().getY()*64);
                 BufferedImage img = ImageIO.read(new File(filename));
-                g2.drawImage(img, (int)drawPoint.getX(), (int)drawPoint.getY(), null);
+                g2.drawImage(img, (int)drawPoint.getX(), (int)(drawPoint.getY()-d.getYOffset()), null);
+                //g2.drawString(""+drawPoint.getY()+d.getDepthOffset(), (int)drawPoint.getX(), (int)(drawPoint.getY()-d.getYOffset()));
             } catch (IOException e) {
                 System.err.println("Renderer: Image "+filename+" not found");
             }
@@ -132,7 +133,11 @@ public class RenderPanel extends JPanel {
 
     private class DrawableComparator implements Comparator<Drawable> {
         public int compare(Drawable a, Drawable b) {
-            return(int)(a.getDepth() - b.getDepth());
+        	Point2D drawPointA = applyTransform(a.getDrawPosition().getX()*64,a.getDrawPosition().getY()*64);
+        	Point2D drawPointB = applyTransform(b.getDrawPosition().getX()*64,b.getDrawPosition().getY()*64);
+        	double aDepth = drawPointA.getY()+a.getDepthOffset();
+        	double bDepth = drawPointB.getY()+b.getDepthOffset();
+            return(int)(aDepth - bDepth);
         }
     }
 

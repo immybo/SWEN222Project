@@ -84,8 +84,8 @@ public abstract class Tile implements Storable,Serializable, Drawable {
 	}
 
 	@Override
-	public double getDepth() {
-		return position.getY();
+	public double getDepthOffset() {
+		return 0;
 	}
 
 	public PointD getDrawPosition() {
@@ -96,5 +96,9 @@ public abstract class Tile implements Storable,Serializable, Drawable {
 	public void setDrawImagePath(String drawImagePath) {
 		this.drawImagePath = drawImagePath;
 		
+	}
+	@Override
+	public int getYOffset() {
+		return 0;
 	}
 }

@@ -1,8 +1,11 @@
 package view;
 
-import util.PointD;
 
+
+import java.awt.geom.Point2D;
 import java.io.Serializable;
+
+import util.PointD;
 
 public interface Drawable {
 
@@ -25,7 +28,15 @@ public interface Drawable {
      * Could perhaps be renamed?
      * @return the object's depth
      */
-    public double getDepth();
+    public double getDepthOffset();
+    
+    /**
+     * Get the number of pixels to add onto the transformed Y coordinate of this
+     * object. Used to draw objects with he
+     * @return
+     */
+    public int getYOffset();
+    
 
 
 	

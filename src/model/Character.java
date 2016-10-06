@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
@@ -165,7 +166,12 @@ public abstract class Character implements Serializable, Storable, Drawable {
 		return new PointD(coord.getPoint().getX(), coord.getPoint().getY());
 	}
 
-	public double getDepth() {
-		return coord.getPoint().getY() + 0.1; //to make it above the floor
+	public double getDepthOffset() {
+		return 0.1; //to make it above the floor
+	}
+	
+	@Override
+	public int getYOffset() {
+		return 0;
 	}
 }
