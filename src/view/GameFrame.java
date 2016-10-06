@@ -25,7 +25,6 @@ public class GameFrame extends JFrame {
     // Shows the player information about the current game -
     // For example, their inventory, health
     private JPanel informationPanel;
-    private Client client;
 
     public GameFrame(){
         setSizeDefault();

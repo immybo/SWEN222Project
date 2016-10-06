@@ -2,6 +2,7 @@ package view;
 import model.Inventory;
 import model.Zone;
 import model.ZoneDrawInfo;
+import network.client.Client;
 import util.PointD;
 
 import javax.imageio.ImageIO;
@@ -34,13 +35,23 @@ public class RenderPanel extends JPanel {
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
     }
-
-    public RenderPanel() {
+    
+    /**
+     * Creates a render panel without any listeners.
+     * Mouse and key input will therefore do nothing.
+     */
+    public RenderPanel(){
         this.setPreferredSize(new Dimension(1024,768));
         isoTransform = AffineTransform.getRotateInstance(Math.PI*0.25);
         isoTransform.preConcatenate(AffineTransform.getScaleInstance(1,0.574)); //Magic numbers are bad but oh well
         isoTransform.preConcatenate(AffineTransform.getTranslateInstance(512,20));
-
+    }
+    
+    public void attachToClient(Client client){
+        PositionTransformation transform = PositionTransformation.fromAffineTransform(isoTransform);
+        GameListener listener = new GameListener(client, transform);
+        this.addMouseListener(listener);
+        this.addKeyListener(listener);
     }
 
     @Override

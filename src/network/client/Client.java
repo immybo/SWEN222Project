@@ -3,6 +3,7 @@ package network.client;
 
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
+import java.awt.Point;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -107,6 +108,15 @@ public class Client {
 			/* not too concerned at this point, so turn it into an Error */
 			throw new NetworkError(e);
 		}
+	}
+	
+	/**
+	 * Asks the server to move the player to the given point.
+	 * 
+	 * @param newPoint The point to move to.
+	 */
+	public void moveTo(Point newPoint) throws IOException {
+		throw new RuntimeException(); // TODO
 	}
 	
 	/**

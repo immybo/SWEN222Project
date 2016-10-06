@@ -43,6 +43,7 @@ public class InformationPanel extends JPanel {
 			try {
 				if(host != null && client == null) {
 					client = new Client(gameFrame, host);
+					gameFrame.getRenderPanel().attachToClient(client);
 					client.run();
 				}
 			} catch (NetworkError ne) {
