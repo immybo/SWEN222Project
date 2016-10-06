@@ -3,7 +3,7 @@ package view;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-import network.Client;
+import network.client.Client;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
