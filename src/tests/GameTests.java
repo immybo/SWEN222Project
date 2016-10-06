@@ -113,8 +113,6 @@ public class GameTests extends TestCase {
 		//characters
 		Player pupo = new Player(newZones[0], new Coord(new Direction(Direction.SOUTH), new Point(1,1)), true);
 		Player yelo = new Player(newZones[0], new Coord(new Direction(Direction.NORTH),new Point(5,5)), false);
-		newZones[0].setPupo(pupo);
-		newZones[0].setYelo(yelo);
 		newZones[0].addEntity(new Furniture(newZones[0], new Coord(new Direction(Direction.NORTH),new Point(2,3)), null, "testObject"));
 
 		return new World("test",newZones, pupo, yelo);
@@ -152,7 +150,6 @@ public class GameTests extends TestCase {
 		}
 		newZones[0] = new Zone("testZone1", tiles1);
 		Player pupo = new Player(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(3,3)), true);
-		newZones[0].setPupo(pupo);
 		newZones[0].addEntity(new KeyGate(Gate.State.LOCKED, newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1,1)), "blue"));
 		newZones[0].addItem(new Key(new Point(1,3), "blue"));
 		newZones[0].addEntity(new Portal(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(3,1)), "portal1"));
@@ -174,7 +171,6 @@ public class GameTests extends TestCase {
 		}
 		newZones[1] = new Zone("testZone2", tiles2);
 		Player yelo = new Player(newZones[1], new Coord(new Direction(Direction.NORTH), new Point(4,1)), true);
-		newZones[1].setPupo(yelo);
 		newZones[1].addEntity(new Portal(newZones[1], new Coord(new Direction(Direction.NORTH), new Point(1,1)), "portal1"));
 		return new World("test",newZones, pupo, yelo);
 	}

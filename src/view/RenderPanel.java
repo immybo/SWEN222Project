@@ -30,7 +30,7 @@ public class RenderPanel extends JPanel {
     public void setZone(Zone zone) {
         this.zone = zone;
     }
-    
+
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
     }
@@ -52,9 +52,9 @@ public class RenderPanel extends JPanel {
 //                g2.drawRect(i*20,j*20,20,20);
 //            }
 //        }
-        
-        
-        
+
+
+
         //DRAFT IMAGE
         if (zone == null) {
         	System.err.println("Zone is null; bail");
@@ -64,7 +64,6 @@ public class RenderPanel extends JPanel {
         PriorityQueue<Drawable> drawQueue = new PriorityQueue<>(11,new DrawableComparator());
         drawQueue.addAll(zone.getTiles());
         drawQueue.addAll(zone.getEntities());
-        drawQueue.add(zone.getPupo());
 
         while (!drawQueue.isEmpty()) {
         	Drawable d = drawQueue.poll();
@@ -96,24 +95,24 @@ public class RenderPanel extends JPanel {
 				} catch (IOException e) {
 					System.err.println("Renderer: Image "+filename+" not found");
 				}
-				
+
 			}
 		}
         BufferedImage img;
         try {
 			img = ImageIO.read(new File("images/pupo.png"));
-			
+
 			g2.drawImage(img, zone.getPupo().getCoord().getPoint().x*60, zone.getPupo().getCoord().getPoint().y*60, 60, 60, null);
 		} catch (IOException e) {
 			//do nothing cos i dont know man
 		}
 		*/
-        
-        
+
+
         //DRAFT IMAGE
 
     }
-    
+
     private Point2D applyTransform(double x, double y) {
     	Point2D trans = new Point2D.Double();
     	isoTransform.transform(new Point2D.Double(x,y), trans);
