@@ -82,9 +82,14 @@ public class World implements Storable {
 		newZones[0].addItem(new Key(new Point(1,2), "testKey"));
 		newZones[0].addEntity(new KeyGate(Gate.State.LOCKED, newZones[0], new Coord(new Direction(Direction.NORTH), new Point (1,4)), "testKey"));
 		//characters
-				Player pupo = new Player(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1,1)), true);
-				Player yelo = new Player(newZones[0], new Coord(new Direction(Direction.SOUTH),new Point(1,7)), false);
-				return new World("test",newZones, pupo, yelo);
+		Player pupo = new Player(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1,1)), true);
+		Player yelo = new Player(newZones[0], new Coord(new Direction(Direction.SOUTH),new Point(1,7)), false);
+		
+		// add back reference from zone to character
+		newZones[0].addCharacter(pupo);
+		newZones[0].addCharacter(yelo);
+		
+		return new World("test",newZones, pupo, yelo);
 	}
 
 	/**
