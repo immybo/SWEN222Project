@@ -8,7 +8,6 @@ import java.io.ObjectInputStream;
 import model.Player;
 import model.Interaction;
 import model.World;
-import network.Protocol;
 import network.Protocol.Event;
 
 /**
