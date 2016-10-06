@@ -64,6 +64,7 @@ public class GameTests extends TestCase {
 				}
 			}
 		}
+		assertTrue(correctKey); //should have key
 		pupo.rotate(true);
 		assertTrue(pupo.moveForward());
 		assertFalse(pupo.moveForward()); // run into gate
@@ -80,7 +81,24 @@ public class GameTests extends TestCase {
 	}
 
 	public void testPortal(){
-
+		World world = generateWorld2();
+		Player pupo = world.getPupo();
+		Zone originZone = pupo.getZone();
+		assertTrue(pupo.moveForward());
+		assertFalse(pupo.moveForward()); // should have run into portal, smash face
+		Interaction[] interactions = pupo.getZone().getInteractions(pupo);
+		if(interactions == null) fail();
+		Interaction toDo = null;
+		for(Interaction i: interactions){
+			if(i.getText().equals("Use Portal")){
+				toDo = i;
+			}
+		}
+		toDo.execute(pupo);
+		assertTrue(!pupo.getZone().equals(originZone)); //pupo is in diff zone than before
+		assertEquals(pupo.getCoord().getPoint().x,2);
+		assertEquals(pupo.getCoord().getPoint().y,1);
+		
 	}
 
 	/**
@@ -114,7 +132,6 @@ public class GameTests extends TestCase {
 		Player pupo = new Player(newZones[0], new Coord(new Direction(Direction.SOUTH), new Point(1,1)), true);
 		Player yelo = new Player(newZones[0], new Coord(new Direction(Direction.NORTH),new Point(5,5)), false);
 		newZones[0].addEntity(new Furniture(newZones[0], new Coord(new Direction(Direction.NORTH),new Point(2,3)), null, "testObject"));
-
 		return new World("test",newZones, pupo, yelo);
 	}
 

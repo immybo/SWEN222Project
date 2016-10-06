@@ -15,6 +15,7 @@ public class Portal extends Entity {
 		super(zone, worldPosition, null);
 		this.portalID = portalID;
 		this.addInteraction(new Inspect("Some kind of portal... I wonder where it leads."));
+		this.addInteraction(new UsePortal(this));
 	}
 
 	/**

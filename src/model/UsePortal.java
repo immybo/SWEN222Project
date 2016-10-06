@@ -52,13 +52,8 @@ public class UsePortal extends Interaction{
 			return;
 		}
 		//remove the player from the origin zone and add to destination zone;
-		/*if(player.pupo){
-			origin.getZone().setPupo(null);
-			origin.getZone().setPupo(player);
-		} else {
-			destination.getZone().setYelo(null);
-			destination.getZone().setYelo(player);
-		}*/
+		origin.getZone().removeCharacter(player);
+		destination.getZone().addCharacter(player);
 		//set the player's zone and position
 		player.setZone(destination.getZone());
 		player.setCoord(new Coord(player.getCoord().getFacing(), freePosition));

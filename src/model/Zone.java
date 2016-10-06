@@ -30,7 +30,7 @@ public class Zone implements Storable, Serializable {
 	private Tile[][] tiles;
 	private List<Item> items;
 	private List<Entity> entities;
-	private List<Character> characters = new ArrayList<Character>(); // characters not including main characters
+	private List<Character> characters = new ArrayList<Character>();
 
 	/**
 	 * Zones should usually only be constructed from
@@ -142,6 +142,26 @@ public class Zone implements Storable, Serializable {
 	 */
 	public List<Character> getCharacters(){
 		return this.characters;
+	}
+
+	/**
+	 * Adds a character to this zone.
+	 *
+	 * @param c The character to add.
+	 */
+	public void addCharacter(Character c){
+		characters.add(c);
+	}
+
+	/**
+	 * Removes a character from this zone,
+	 * if it exists in this zone. If it does
+	 * not, does nothing.
+	 *
+	 * @param c The character to remove.
+	 */
+	public void removeCharacter(Character c){
+		characters.remove(c);
 	}
 
 	/**
