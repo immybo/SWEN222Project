@@ -66,15 +66,16 @@ public class RenderPanel extends JPanel {
         drawQueue.addAll(zone.getEntities());
         drawQueue.add(zone.getPupo());
 
-        for (Drawable d : drawQueue) {
+        while (!drawQueue.isEmpty()) {
+        	Drawable d = drawQueue.poll();
             String filename = d.getDrawImagePath();
             if (filename == null) {
                 continue;
             }
             try {
-                Point2D drawPoint = applyTransform(d.getDrawPosition().getX()*42,d.getDrawPosition().getY()*42);
+                Point2D drawPoint = applyTransform(d.getDrawPosition().getX()*64,d.getDrawPosition().getY()*64);
                 BufferedImage img = ImageIO.read(new File(filename));
-                g2.drawImage(img, (int)drawPoint.getX(), (int)drawPoint.getY(), 64, 36, null);
+                g2.drawImage(img, (int)drawPoint.getX(), (int)drawPoint.getY(), null);
             } catch (IOException e) {
                 System.err.println("Renderer: Image "+filename+" not found");
             }
@@ -131,7 +132,7 @@ public class RenderPanel extends JPanel {
 
     private class DrawableComparator implements Comparator<Drawable> {
         public int compare(Drawable a, Drawable b) {
-            return(int)(b.getDepth() - a.getDepth());
+            return(int)(a.getDepth() - b.getDepth());
         }
     }
 

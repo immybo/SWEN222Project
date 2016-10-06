@@ -113,6 +113,6 @@ public abstract class Character implements Serializable, Storable, Drawable {
 	}
 
 	public double getDepth() {
-		return coord.getPoint().getY() + 1; //to make it above the floor
+		return coord.getPoint().getY() + 0.1; //to make it above the floor
 	}
 }
