@@ -64,10 +64,9 @@ public class RenderPanel extends JPanel {
         PriorityQueue<Drawable> drawQueue = new PriorityQueue<>(11,new DrawableComparator());
         drawQueue.addAll(zone.getTiles());
         drawQueue.addAll(zone.getEntities());
-<<<<<<< HEAD
         drawQueue.addAll(zone.getCharacters());
-=======
->>>>>>> branch 'master' of https://github.com/immybo/SWEN222Project.git
+
+
 
         while (!drawQueue.isEmpty()) {
         	Drawable d = drawQueue.poll();
