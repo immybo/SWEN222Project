@@ -45,6 +45,6 @@ public abstract class Interactable implements Serializable {
 	 * @return An array of all interactions that this interactable can perform.
 	 */
 	public Interaction[] getInteractions(){
-		return (Interaction[]) interactions.toArray();
+		return interactions.toArray(new Interaction[0]);
 	}
 }

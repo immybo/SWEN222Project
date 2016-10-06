@@ -26,7 +26,7 @@ public class KeyGate extends Gate implements Serializable {
 	 * by the given key.
 	 */
 	public boolean openedBy(Key key){
-		return false;
+		return key.getKeyID().equals(this.keyID);
 	}
 
 	@Override

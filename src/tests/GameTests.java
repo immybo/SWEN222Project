@@ -8,6 +8,8 @@ import junit.framework.TestCase;
 import model.FloorTile;
 import model.Furniture;
 import model.Gate;
+import model.Interaction;
+import model.Item;
 import model.Key;
 import model.KeyGate;
 import model.Player;
@@ -44,6 +46,41 @@ public class GameTests extends TestCase {
 		//test end position is correct
 		assertEquals(yelo.getCoord().getPoint().x, 3);
 		assertEquals(yelo.getCoord().getPoint().y, 1);
+	}
+	
+	@Test
+	public void testKeyGate(){
+		World world = generateWorld2();
+		Player pupo = world.getPupo();
+		pupo.rotate(false); //facing east
+		assertTrue(pupo.moveForward());
+		assertTrue(pupo.moveForward()); // should have run over key
+		boolean correctKey = false; // check if it has correct key
+		for(Item i: pupo.getInventory().getItems()){
+			if(i instanceof Key){
+				Key k = (Key)i;
+				if(k.getKeyID().equals("blue")){
+					correctKey = true;
+				}
+			}
+		}
+		pupo.rotate(true);
+		assertTrue(pupo.moveForward());
+		assertFalse(pupo.moveForward()); // run into gate
+		Interaction[] interactions = pupo.getZone().getInteractions(pupo);
+		if(interactions == null) fail();
+		Interaction toDo = null;
+		for(Interaction i: interactions){
+			if(i.getText().equals("Use Key")){
+				toDo = i;
+			}
+		}
+		toDo.execute(pupo);
+		assertTrue(pupo.moveForward()); // run into the gate this time no smash head;
+	}
+	
+	public void testPortal(){
+		
 	}
 	
 	/**
@@ -114,6 +151,12 @@ public class GameTests extends TestCase {
 			}
 		}
 		newZones[0] = new Zone("testZone1", tiles1);
+		Player pupo = new Player(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(3,3)), true);
+		newZones[0].setPupo(pupo);
+		newZones[0].addEntity(new KeyGate(Gate.State.LOCKED, newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1,1)), 0, "blue"));
+		newZones[0].addItem(new Key(new Point(1,3), "blue"));
+		newZones[0].addEntity(new Portal(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(3,1)), 1, "portal1"));
+		
 		
 		//make a test zone2 6x3 big
 		Tile[][] tiles2 = new Tile[3][6];
@@ -130,14 +173,9 @@ public class GameTests extends TestCase {
 			}
 		}
 		newZones[1] = new Zone("testZone2", tiles2);
-		
-		//characters
-		Player pupo = new Player(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(3,3)), true);
-		Player yelo = new Player(newZones[1], new Coord(new Direction(Direction.NORTH), new Point(3,1)), true);
-		newZones[0].setPupo(pupo);
-		newZones[0].addEntity(new KeyGate(Gate.State.LOCKED, newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1,1)), 0, "blue"));
-		newZones[0].addItem(new Key(new Point(1,3), "blue"));
-		newZones[0].addEntity(new Portal(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(3,1)), 1, "portal1"));
+		Player yelo = new Player(newZones[1], new Coord(new Direction(Direction.NORTH), new Point(4,1)), true);
+		newZones[1].setPupo(yelo);
+		newZones[1].addEntity(new Portal(newZones[1], new Coord(new Direction(Direction.NORTH), new Point(1,1)), 1, "portal1"));
 		return new World("test",newZones, pupo, yelo);
 	}
 	

@@ -40,6 +40,7 @@ import java.io.Serializable;
 				//set the gate to open
 				keyGate.unlock();
 				keyGate.open();
+				keyGate.setPassable(true);
 				keyGate.setDrawImagePath(matchKey.getKeyID() + "-open");
 				//remove key from play inventory
 				p.getInventory().removeItem(matchKey);
