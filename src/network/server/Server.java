@@ -196,16 +196,6 @@ public class Server {
 		}
 	}
 	
-	
-	/**
-	 * Get the world of the hosted game
-	 * @return
-	 */
-	protected World getWorld() {
-		return this.world;
-	}
-	
-	
 	/**
 	 * Stop the server if it is running
 	 */
