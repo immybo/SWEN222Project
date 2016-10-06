@@ -1,5 +1,6 @@
 package model;
 
+import datastorage.Storable;
 import util.Coord;
 
 /**
@@ -8,7 +9,7 @@ import util.Coord;
  * @author Martin Chau
  *
  */
-public class Furniture extends Entity {
+public class Furniture extends Entity implements Storable{
 
 	public Furniture(Zone zone, Coord worldPosition, Inventory inventory, String description) {
 		super(zone, worldPosition, inventory);

@@ -3,6 +3,8 @@ package model;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import datastorage.Storable;
+
 /**
  * Defines something which has certain interactions that
  * can be performed on it. Each interaction has some
@@ -12,7 +14,7 @@ import java.util.ArrayList;
  * @author Robert Campbell
  *
  */
-public abstract class Interactable implements Serializable {
+public abstract class Interactable implements Serializable, Storable {
 	private ArrayList<Interaction> interactions = new ArrayList<Interaction>();
 	
 	/**

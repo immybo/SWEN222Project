@@ -1,5 +1,6 @@
 package model;
 
+import datastorage.Storable;
 import util.Coord;
 /**
  * Type of Entity that when interacted with will teleport the player to the other portal in the world.
@@ -7,7 +8,7 @@ import util.Coord;
  * @author Aikon
  */
 
-public class Portal extends Entity {
+public class Portal extends Entity implements Storable{
 	private Portal pairPortal;
 	private String portalID;
 
@@ -36,6 +37,15 @@ public class Portal extends Entity {
 
 	@Override
 	public boolean isPassable() {
+		return false;
+	}
+	
+	public boolean equals(Object o){
+		if(o instanceof Portal){
+			Portal p = (Portal) o;
+			if(this.portalID.equals(p.portalID))
+				return super.equals(o);
+		}
 		return false;
 	}
 

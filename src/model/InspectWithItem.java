@@ -1,11 +1,14 @@
 package model;
+
+import datastorage.Storable;
+
 /**
  * An interaction where when interacted will show a message and give an item. This interaction can only happen once and is a substitute for "Inspect". After the interaction has run, it will replace itself wtih
  *
  * @author Martin Chau
  *
  */
-public class InspectWithItem extends Interaction {
+public class InspectWithItem extends Interaction implements Storable{
 	private Entity entity;
 	private Item item;
 	private String giveDescription;
@@ -34,6 +37,17 @@ public class InspectWithItem extends Interaction {
 		} else {
 			//show dialog box
 		}
+	}
+	
+	public boolean equals(Object o){
+		if(o instanceof InspectWithItem){
+			InspectWithItem i = (InspectWithItem) o;
+			if(this.entity.equals(i.entity) && this.item.equals(i.item)
+					&& this.giveDescription.equals(i.giveDescription) && this.altDescription.equals(i.altDescription)){
+				return super.equals(o);
+			}
+		}
+		return false;
 	}
 
 }

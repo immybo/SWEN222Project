@@ -2,6 +2,7 @@ package model;
 
 import java.io.Serializable;
 
+import datastorage.Storable;
 import util.Coord;
 import util.PointD;
 
@@ -10,7 +11,7 @@ import util.PointD;
  *
  * @author Robert Campbell
  */
-public class KeyGate extends Gate implements Serializable {
+public class KeyGate extends Gate implements Serializable, Storable {
 	private String keyID;
 	private boolean passable;
 
@@ -36,5 +37,14 @@ public class KeyGate extends Gate implements Serializable {
 
 	public void setPassable(boolean passable) {
 		this.passable = passable;
+	}
+	
+	public boolean equals(Object o){
+		if(o instanceof KeyGate){
+			KeyGate kg = (KeyGate) o;
+			if(this.keyID.equals(kg.keyID) && this.passable == kg.passable)
+				return super.equals(o);
+		}
+		return false;
 	}
 }

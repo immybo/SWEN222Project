@@ -3,6 +3,7 @@ package model;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import datastorage.Storable;
 import util.Coord;
 
 /**
@@ -12,7 +13,7 @@ import util.Coord;
  * @author Martin Chau
  *
  */
-public class UsePortal extends Interaction{
+public class UsePortal extends Interaction implements Storable{
 	private Portal portal;
 
 	/**

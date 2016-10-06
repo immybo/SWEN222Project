@@ -1,5 +1,6 @@
 package model;
 
+import datastorage.Storable;
 import util.Coord;
 import util.PointD;
 
@@ -13,7 +14,7 @@ import util.PointD;
  *
  * @author Robert Campbell
  */
-public abstract class Gate extends Entity{
+public abstract class Gate extends Entity implements Storable{
 	public enum State {
 		OPEN,
 		CLOSED,
@@ -96,5 +97,13 @@ public abstract class Gate extends Entity{
 	 */
 	public boolean close() {
 		return transition(State.OPEN, State.CLOSED);
+	}
+	
+	public boolean equals(Object o){
+		if(o instanceof Gate){
+			Gate g = (Gate) o;
+			return this.state == g.state && super.equals(o);
+		}
+		return false;
 	}
 }
