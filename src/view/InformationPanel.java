@@ -3,6 +3,7 @@ package view;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import network.NetworkError;
 import network.client.Client;
 
 import java.awt.*;
@@ -21,8 +22,12 @@ public class InformationPanel extends JPanel {
 	private JButton saveButton;
 	private JButton loadButton;
 	private JButton connectButton;
-	//HACKS
-	private JButton moveButton;
+
+	private JButton forwardButton;
+	private JButton backwardButton;
+	private JButton rotateAntiButton;
+	private JButton rotateButton;
+	
 
 	private Client client;
 	private GameFrame gameFrame;
@@ -35,9 +40,13 @@ public class InformationPanel extends JPanel {
 		connectButton.addActionListener((ActionEvent e)->{
 			String host = JOptionPane.showInputDialog("Server hostame or ip:");
 			System.err.println("Host is: "+host);
-			if(host != null && client == null) {
-				client = new Client(gameFrame, host);
-				client.run();
+			try {
+				if(host != null && client == null) {
+					client = new Client(gameFrame, host);
+					client.run();
+				}
+			} catch (NetworkError ne) {
+				showNetworkErrorBox(ne);
 			}
 		});
 
@@ -62,21 +71,37 @@ public class InformationPanel extends JPanel {
 				loadGame();
 		});
 
-
-		// HACKS
-		moveButton = new JButton("Move");
-		moveButton.addActionListener((ActionEvent e)->{
-			move();
+		forwardButton = new JButton("Move Forward");
+		forwardButton.addActionListener((ActionEvent e)->{
+			moveForward();
 		});
+		
+		backwardButton = new JButton("Move Backward");
+		backwardButton.addActionListener((ActionEvent e)->{
+			moveBackward();
+		});
+		rotateAntiButton = new JButton("Rotate Anticlockwise");
+		rotateAntiButton.addActionListener((ActionEvent e)->{
+			rotateAnticlockwise();
+		});
+		
+		rotateButton = new JButton("Rotate Clockwise");
+		rotateButton.addActionListener((ActionEvent e)->{
+			rotateClockwise();
+		});
+		
 
 		JPanel buttonPanel = new JPanel();
-		buttonPanel.setLayout(new GridLayout(2, 3));
+		buttonPanel.setLayout(new GridLayout(3, 3));
 
 		buttonPanel.add(saveButton, 0);
 		buttonPanel.add(loadButton, 1);
 		buttonPanel.add(exitButton, 2);
-		buttonPanel.add(moveButton, 3);
-		buttonPanel.add(connectButton, 4);
+		buttonPanel.add(forwardButton, 3);
+		buttonPanel.add(backwardButton, 4);
+		buttonPanel.add(rotateAntiButton, 5);
+		buttonPanel.add(rotateButton, 6);
+		buttonPanel.add(connectButton, 7);
 
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
@@ -100,12 +125,40 @@ public class InformationPanel extends JPanel {
     	System.out.println("Save game button pressed");
     }
 
-    private void move(){
+    private void moveForward(){
     	try {
 			client.moveForward();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			showNetworkErrorBox(e);
 		}
+    }
+    
+    private void moveBackward(){
+    	try {
+			client.moveBackward();
+		} catch (IOException e) {
+			showNetworkErrorBox(e);
+		}
+    }
+    
+    private void rotateAnticlockwise(){
+    	try {
+			client.rotateAnticlockwise();
+		} catch (IOException e) {
+			showNetworkErrorBox(e);
+		}
+    }
+    
+    private void rotateClockwise(){
+    	try {
+			client.rotateClockwise();
+		} catch (IOException e) {
+			showNetworkErrorBox(e);
+		}
+    }
+    
+    private void showNetworkErrorBox(Throwable e) {
+			JOptionPane.showConfirmDialog(this.getParent(), "Network Error: "+e.getMessage(),
+				"Error", JOptionPane.OK_OPTION);
     }
 }
