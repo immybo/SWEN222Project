@@ -1,4 +1,4 @@
-package network;
+package network.server;
 
 import java.net.Socket;
 import java.io.EOFException;
@@ -8,6 +8,7 @@ import java.io.ObjectInputStream;
 import model.Player;
 import model.Interaction;
 import model.World;
+import network.Protocol;
 import network.Protocol.Event;
 
 /**

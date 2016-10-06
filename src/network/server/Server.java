@@ -1,4 +1,4 @@
-package network;
+package network.server;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -8,6 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import model.World;
+import network.Protocol;
 import model.Player;
 
 public class Server {

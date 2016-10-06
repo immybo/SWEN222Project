@@ -21,6 +21,6 @@ public class WallTile extends Tile {
 		return "images/testWall.png";
 	}
 	public double getDepth() {
-		return super.getDepth()+2;
+		return super.getDepth()+0.2;
 	}
 }
