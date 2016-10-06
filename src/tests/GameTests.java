@@ -25,7 +25,7 @@ import util.PointD;
 
 public class GameTests extends TestCase {
 
-	
+
 	@Test
 	public void testSimpleMovement(){
 		World world = generateWorld1();
@@ -47,7 +47,7 @@ public class GameTests extends TestCase {
 		assertEquals(yelo.getCoord().getPoint().x, 3);
 		assertEquals(yelo.getCoord().getPoint().y, 1);
 	}
-	
+
 	@Test
 	public void testKeyGate(){
 		World world = generateWorld2();
@@ -78,11 +78,11 @@ public class GameTests extends TestCase {
 		toDo.execute(pupo);
 		assertTrue(pupo.moveForward()); // run into the gate this time no smash head;
 	}
-	
+
 	public void testPortal(){
-		
+
 	}
-	
+
 	/**
 	 * Generates a test world which is a world with 1 zone and that zone is a 5x5 walkable area
 	 *  - impassable furniture at (2,3)
@@ -115,11 +115,11 @@ public class GameTests extends TestCase {
 		Player yelo = new Player(newZones[0], new Coord(new Direction(Direction.NORTH),new Point(5,5)), false);
 		newZones[0].setPupo(pupo);
 		newZones[0].setYelo(yelo);
-		newZones[0].addEntity(new Furniture(newZones[0], new Coord(new Direction(Direction.NORTH),new Point(2,3)), null, 1, "testObject"));
-		
+		newZones[0].addEntity(new Furniture(newZones[0], new Coord(new Direction(Direction.NORTH),new Point(2,3)), null, "testObject"));
+
 		return new World("test",newZones, pupo, yelo);
 	}
-	
+
 	/**
 	 * Generates a test world which is a world with 2 zone and that zone is a 3x3 walkable area
 	 *  - locked gate at (1,1) z0
@@ -135,7 +135,7 @@ public class GameTests extends TestCase {
 	 */
 	public World generateWorld2(){
 		Zone[] newZones = new Zone[2];
-		
+
 		//make just a test zone1 5x5 big
 		Tile[][] tiles1 = new Tile[5][5];
 		for(int x = 0; x<5; x++){
@@ -153,11 +153,11 @@ public class GameTests extends TestCase {
 		newZones[0] = new Zone("testZone1", tiles1);
 		Player pupo = new Player(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(3,3)), true);
 		newZones[0].setPupo(pupo);
-		newZones[0].addEntity(new KeyGate(Gate.State.LOCKED, newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1,1)), 0, "blue"));
+		newZones[0].addEntity(new KeyGate(Gate.State.LOCKED, newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1,1)), "blue"));
 		newZones[0].addItem(new Key(new Point(1,3), "blue"));
-		newZones[0].addEntity(new Portal(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(3,1)), 1, "portal1"));
-		
-		
+		newZones[0].addEntity(new Portal(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(3,1)), "portal1"));
+
+
 		//make a test zone2 6x3 big
 		Tile[][] tiles2 = new Tile[3][6];
 		for(int x = 0; x<6; x++){
@@ -175,9 +175,9 @@ public class GameTests extends TestCase {
 		newZones[1] = new Zone("testZone2", tiles2);
 		Player yelo = new Player(newZones[1], new Coord(new Direction(Direction.NORTH), new Point(4,1)), true);
 		newZones[1].setPupo(yelo);
-		newZones[1].addEntity(new Portal(newZones[1], new Coord(new Direction(Direction.NORTH), new Point(1,1)), 1, "portal1"));
+		newZones[1].addEntity(new Portal(newZones[1], new Coord(new Direction(Direction.NORTH), new Point(1,1)), "portal1"));
 		return new World("test",newZones, pupo, yelo);
 	}
-	
+
 
 }
