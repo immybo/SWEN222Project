@@ -53,9 +53,7 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 	public Zone getZone(){
 		return zone;
 	}
-
-
-
+	
 	public abstract boolean isPassable();
 
 	public void onCollision(Player p){
