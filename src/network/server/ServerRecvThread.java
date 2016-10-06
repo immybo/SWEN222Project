@@ -7,7 +7,6 @@ import java.io.ObjectInputStream;
 
 import model.Player;
 import model.Interaction;
-import model.World;
 import network.Protocol.Event;
 
 /**
@@ -63,7 +62,7 @@ public class ServerRecvThread extends Thread {
 			return false;
 		}
 		Event packetType = (Event)readObj;
-		World w = parentServer.getWorld();
+		
 		switch (packetType) {
 		case FORWARD:
 			player.moveForward();
@@ -83,11 +82,12 @@ public class ServerRecvThread extends Thread {
 				System.err.println("Received malformed interaction from "+socket.getRemoteSocketAddress());
 				break;
 			}
-			Interaction interaction = (Interaction)readObj;
-			w.interact(interaction, player);
+			System.err.println("Server event receiver: not calling unimplemented interaction method");
+			//Interaction interaction = (Interaction)readObj;
+			//player.interact(interaction);
 			break;
 		default:
-			System.err.println("Unhandled event : "+packetType);
+			System.err.println("Unhandled event in server event receiver: "+packetType);
 			break;
 		}
 		return true;
@@ -96,13 +96,11 @@ public class ServerRecvThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			//System.err.println("Doing the thing");
-			//in = new ObjectInputStream(socket.getInputStream());
-			//System.err.println("Created the thing \\o/");
-			
+			/* while we can, process events being sent to us */
 			while(processUpstream())
 				;
 			
+			/* loop broken, ask the server to stop */
 			parentServer.stop();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
