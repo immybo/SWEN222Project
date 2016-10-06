@@ -11,6 +11,7 @@ import model.Gate;
 import model.Key;
 import model.KeyGate;
 import model.Player;
+import model.Portal;
 import model.Tile;
 import model.WallTile;
 import model.World;
@@ -81,5 +82,64 @@ public class GameTests extends TestCase {
 		
 		return new World("test",newZones, pupo, yelo);
 	}
+	
+	/**
+	 * Generates a test world which is a world with 2 zone and that zone is a 3x3 walkable area
+	 *  - locked gate at (1,1) z0
+	 *  - key at (1,3) z0
+	 *  - portal at (3,1) z0
+	 *  - pupo at (3,3) z0
+	 *  - floor tiles is (1,1) to (3,3) z0
+	 *  - portal at (1,1) z1
+	 *  - yelo at (4,1) z1
+	 *  - floor tiles is (1,1) to (4,1) z1
+	 *  - wall tiles is 1 thick border around floor tiles
+	 * @return
+	 */
+	public World generateWorld2(){
+		Zone[] newZones = new Zone[2];
+		
+		//make just a test zone1 5x5 big
+		Tile[][] tiles1 = new Tile[5][5];
+		for(int x = 0; x<5; x++){
+			for(int y = 0; y<5; y++){
+				tiles1[y][x] = new WallTile(new Point(x,y));
+				tiles1[y][x].setDrawImagePath("wallTile");
+			}
+		}
+		for(int x = 1; x<4; x++){
+			for(int y = 1; y<4; y++){
+				tiles1[y][x] = new FloorTile(new Point(x,y));
+				tiles1[y][x].setDrawImagePath("floorTile");
+			}
+		}
+		newZones[0] = new Zone("testZone1", tiles1);
+		
+		//make a test zone2 6x3 big
+		Tile[][] tiles2 = new Tile[3][6];
+		for(int x = 0; x<6; x++){
+			for(int y = 0; y<3; y++){
+				tiles2[y][x] = new WallTile(new Point(x,y));
+				tiles2[y][x].setDrawImagePath("wallTile");
+			}
+		}
+		for(int x = 1; x<5; x++){
+			for(int y = 1; y<2; y++){
+				tiles2[y][x] = new FloorTile(new Point(x,y));
+				tiles2[y][x].setDrawImagePath("floorTile");
+			}
+		}
+		newZones[1] = new Zone("testZone2", tiles2);
+		
+		//characters
+		Player pupo = new Player(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(3,3)), true);
+		Player yelo = new Player(newZones[1], new Coord(new Direction(Direction.NORTH), new Point(3,1)), true);
+		newZones[0].setPupo(pupo);
+		newZones[0].addEntity(new KeyGate(Gate.State.LOCKED, newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1,1)), 0, "blue"));
+		newZones[0].addItem(new Key(new Point(1,3), "blue"));
+		newZones[0].addEntity(new Portal(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(3,1)), 1, "portal1"));
+		return new World("test",newZones, pupo, yelo);
+	}
+	
 
 }

@@ -9,9 +9,11 @@ import util.Coord;
 
 public class Portal extends Entity {
 	private Portal pairPortal;
+	private String portalID;
 	
-	public Portal(Zone zone, Coord worldPosition, Inventory inventory, double size) {
-		super(zone, worldPosition, inventory, size);
+	public Portal(Zone zone, Coord worldPosition, double size, String portalID) {
+		super(zone, worldPosition, null, size);
+		this.portalID = portalID;
 		this.addInteraction(new Inspect("Some kind of portal... I wonder where it leads."));
 	}
 	
@@ -26,6 +28,10 @@ public class Portal extends Entity {
 	
 	public Portal getPairPortal(){
 		return this.pairPortal;
+	}
+	
+	public String getPortalID(){
+		return this.portalID;
 	}
 
 	@Override
