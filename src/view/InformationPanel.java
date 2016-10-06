@@ -23,14 +23,14 @@ public class InformationPanel extends JPanel {
 	private JButton connectButton;
 	//HACKS
 	private JButton moveButton;
-	
+
 	private Client client;
 	private GameFrame gameFrame;
-	
+
 	public InformationPanel(GameFrame gameFrame){
 		this.gameFrame = gameFrame;
 		this.setLayout(new BorderLayout());
-		
+
 		connectButton = new JButton("Connect");
 		connectButton.addActionListener((ActionEvent e)->{
 			String host = JOptionPane.showInputDialog("Server hostame or ip:");
@@ -40,7 +40,7 @@ public class InformationPanel extends JPanel {
 				client.run();
 			}
 		});
-		
+
 		exitButton = new JButton("Exit");
 		exitButton.addActionListener((ActionEvent e)->{
 			int result = JOptionPane.showConfirmDialog(this.getParent(), "Are you sure you want to exit?",
@@ -48,12 +48,12 @@ public class InformationPanel extends JPanel {
 			if(result == 0)
 				exitGame();
 		});
-		
+
 		saveButton = new JButton("Save Game");
 		saveButton.addActionListener((ActionEvent e)->{
 			saveGame();
 		});
-		
+
 		loadButton = new JButton("Load Game");
 		loadButton.addActionListener((ActionEvent e)->{
 			int result = JOptionPane.showConfirmDialog(this.getParent(), "Are you sure you want to exit this game and load another?",
@@ -61,23 +61,23 @@ public class InformationPanel extends JPanel {
 			if(result == 0)
 				loadGame();
 		});
-		
-		
+
+
 		// HACKS
 		moveButton = new JButton("Move");
 		moveButton.addActionListener((ActionEvent e)->{
 			move();
 		});
-		
+
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(2, 3));
-		
+
 		buttonPanel.add(saveButton, 0);
 		buttonPanel.add(loadButton, 1);
 		buttonPanel.add(exitButton, 2);
 		buttonPanel.add(moveButton, 3);
 		buttonPanel.add(connectButton, 4);
-		
+
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}
 
@@ -85,21 +85,21 @@ public class InformationPanel extends JPanel {
     public void paint(Graphics g){
         super.paint(g);
     }
-    
+
     private void exitGame(){
     	if (client != null)
     		client.disconnect();
     	System.exit(0);
     }
-    
+
     private void loadGame(){
     	System.out.println("Load game button pressed");
     }
-    
+
     private void saveGame(){
     	System.out.println("Save game button pressed");
     }
-    
+
     private void move(){
     	try {
 			client.moveForward();

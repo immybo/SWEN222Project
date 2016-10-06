@@ -51,7 +51,6 @@ public class World implements Storable {
 		//characters
 				Player pupo = new Player(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1,1)), true);
 				Player yelo = new Player(newZones[0], new Coord(new Direction(Direction.SOUTH),new Point(1,7)), false);
-				newZones[0].setPupo(pupo);
 				return new World("test",newZones, pupo, yelo);
 	}
 
@@ -82,6 +81,14 @@ public class World implements Storable {
 		return this.zones;
 	}
 
+	public static class Factory implements StorableFactory<World> {
 
+		@Override
+		public World fromXMLElement(Element elem) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+	}
 
 }
