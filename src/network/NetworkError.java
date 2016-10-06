@@ -13,7 +13,19 @@ public class NetworkError extends Error {
 	 */
 	private static final long serialVersionUID = 7312514606619687578L;
 	
+	/**
+	 * Construct a NetworkError with a message String
+	 * @param message
+	 */
 	public NetworkError(String message) {
 		super(message);
+	}
+	
+	/**
+	 * Construct a NetworkError with an exception
+	 * @param e
+	 */
+	public NetworkError(Exception e) {
+		super(e);
 	}
 }
