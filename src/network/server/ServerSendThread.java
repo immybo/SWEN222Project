@@ -23,7 +23,14 @@ public class ServerSendThread extends Thread {
 		boolean running = true;
 		while(running) {
 			try {
+				for (Character c : character.getZone().getCharacters()) {
+					System.err.printf("Character %s is at %s, facing %s\n",
+							c.toString(),
+							c.getCoord().getPoint(),
+							c.getCoord().getFacing());
+				}
 				out.writeObject(character.getZone());
+				out.reset();
 				sleep(Protocol.UPDATE_DELAY);
 			} catch (InterruptedException | IOException e) {
 				e.printStackTrace();
