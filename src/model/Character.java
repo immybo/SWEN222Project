@@ -98,7 +98,7 @@ public abstract class Character implements Serializable, Storable, Drawable {
 			}
 		}
 			
-		setCoord(new Coord(dir, newPoint));
+		setCoord(new Coord(getCoord().getFacing(), newPoint));
 		return true;
 	}
 	
