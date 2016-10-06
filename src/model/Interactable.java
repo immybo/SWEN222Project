@@ -1,5 +1,6 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -11,7 +12,7 @@ import java.util.ArrayList;
  * @author Robert Campbell
  *
  */
-public abstract class Interactable {
+public abstract class Interactable implements Serializable {
 	private ArrayList<Interaction> interactions = new ArrayList<Interaction>();
 	
 	/**
@@ -44,6 +45,6 @@ public abstract class Interactable {
 	 * @return An array of all interactions that this interactable can perform.
 	 */
 	public Interaction[] getInteractions(){
-		return (Interaction[]) interactions.toArray();
+		return interactions.toArray(new Interaction[0]);
 	}
 }

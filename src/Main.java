@@ -1,5 +1,5 @@
 import model.World;
-import network.Client;
+import network.client.Client;
 import view.GameFrame;
 
 public class Main {

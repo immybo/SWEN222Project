@@ -4,14 +4,14 @@ import util.Coord;
 
 /**
  * Represents a generic impassable entity that is able to be interacted with. Typically decorative in nature.
- * 
+ *
  * @author Martin Chau
  *
  */
 public class Furniture extends Entity {
-	
-	public Furniture(Zone zone, Coord worldPosition, Inventory inventory, double size, String description) {
-		super(zone, worldPosition, inventory, size);
+
+	public Furniture(Zone zone, Coord worldPosition, Inventory inventory, String description) {
+		super(zone, worldPosition, inventory);
 		this.addInteraction(new Inspect(description));
 	}
 
@@ -19,5 +19,4 @@ public class Furniture extends Entity {
 	public boolean isPassable() {
 		return false;
 	}
-	
 }

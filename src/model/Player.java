@@ -3,12 +3,14 @@ package model;
 import datastorage.Storable;
 import datastorage.StorableFactory;
 
+import java.io.Serializable;
+
 import org.w3c.dom.*;
 
 import util.Coord;
 import util.Direction;
 
-public class Player extends Character implements Storable {
+public class Player extends Character implements Storable, Serializable {
 	public final boolean pupo; //!pupo --> yelo
 	private Inventory inventory;
 	
@@ -51,8 +53,8 @@ public class Player extends Character implements Storable {
 	}
 	
 	@Override
-	public void moveIn(Direction dir){
-		moveIn(dir, 1);
+	public boolean moveIn(Direction dir){
+		return moveIn(dir, 1);
 	}
 	
 	/**
@@ -62,12 +64,16 @@ public class Player extends Character implements Storable {
 	 * them.
 	 */
 	@Override
-	public void moveIn(Direction dir, int amount){
-		super.moveIn(dir, amount);
+	public boolean moveIn(Direction dir, int amount){
+		boolean ok = super.moveIn(dir, amount);
 		
-		for(Item item : getZone().getItems(this.getCoord().getPoint())){
-			item.onCollision(this);
+		if(ok){
+			for(Item item : getZone().getItems(this.getCoord().getPoint())){
+				item.onCollision(this);
+			}
 		}
+		
+		return ok;
 	}
 	
 	@Override

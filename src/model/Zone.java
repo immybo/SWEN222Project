@@ -72,10 +72,15 @@ public class Zone implements Storable, Serializable {
 	 * @return True if obstacle exists, false otherwise
 	 */
 	public boolean checkForObstruction(Point point){
-		if(getTile(point).collides()){
-			System.out.println(getTile(point).getDrawImagePath());
-			System.out.println("T");
-			return true;
+		try{
+			if(getTile(point).collides()){
+				System.out.println(getTile(point).getDrawImagePath());
+				System.out.println("T");
+				return true;
+			}
+		}
+		catch(IllegalArgumentException e){
+			return true; // Out of bounds
 		}
 		for(Entity e: getEntities()){
 			if(e.getWorldPosition().getPoint().equals(point)){ // check if entity same position
@@ -149,9 +154,9 @@ public class Zone implements Storable, Serializable {
 	 * @throws IllegalArgumentException If the point is out of the bounds of this zone.
 	 */
 	public Tile getTile(Point point){
-		if(point.x > tiles[0].length || point.x < 0)
+		if(point.x >= tiles[0].length || point.x < 0)
 			throw new IllegalArgumentException("Trying to get a tile at an invalid X: " + point.getX());
-		if(point.y > tiles.length || point.y < 0)
+		if(point.y >= tiles.length || point.y < 0)
 			throw new IllegalArgumentException("Trying to get a tile at an invalid Y: " + point.getY());
 		
 		return tiles[point.y][point.x];

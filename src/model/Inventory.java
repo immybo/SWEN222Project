@@ -4,22 +4,27 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.omg.PortableInterceptor.NON_EXISTENT;
+import org.w3c.dom.*;
+
+import datastorage.*;
+
 /**
  * Defines something which can contain a certain
  * amount of items. Items can usually be taken out
  * of or put into an inventory.
- * 
+ *
  * @author Robert Campbell
  */
-public class Inventory implements Serializable {
+public class Inventory implements Storable, Serializable {
 	private int currentNumItems;
 	private Item[] items;
 	private int storageCapacity;
-	
+
 	/**
 	 * Builds a new empty inventory with the given
 	 * storage capacity.
-	 * 
+	 *
 	 * @param storageCapacity The maximum amount of items this inventory can store.
 	 */
 	public Inventory(int storageCapacity){
@@ -27,35 +32,35 @@ public class Inventory implements Serializable {
 		items = new Item[storageCapacity];
 		currentNumItems = 0;
 	}
-	
+
 	/**
 	 * Returns whether or not this inventory has space
 	 * for at least one more item.
-	 * 
+	 *
 	 * @return Whether or not this inventory has space for at least one more item.
 	 */
 	public boolean hasRoom(){
 		return currentNumItems < storageCapacity;
 	}
-	
+
 	/**
 	 * Attempts to add an item into the next available slot
 	 * of this inventory. Does nothing if there is no more
 	 * room in this inventory.
-	 * 
+	 *
 	 * @param item The item to add.
 	 * @return Whether or not the item was able to be added.
 	 */
 	public boolean addItem(Item item){
 		if(!hasRoom()) return false;
-		
+
 		return addItem(item, nextAvailableSlot());
 	}
-	
+
 	/**
 	 * Attempts to add an item into the given slot of this
 	 * inventory. Does nothing if that slot is full.
-	 * 
+	 *
 	 * @param item The item to add to this inventory.
 	 * @param index The slot to add the item at.
 	 * @return Whether or not adding the given item at the given slot was successful.
@@ -63,22 +68,22 @@ public class Inventory implements Serializable {
 	public boolean addItem(Item item, int index){
 		if(index >= storageCapacity || index < 0)
 			throw new IllegalArgumentException("Attempting to add an item at an index out of bounds: " + index);
-		
+
 		if(items[index] == null){
 			items[index] = item;
 			currentNumItems++;
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * Attempts to remove the first instance of a given item
 	 * from this inventory.
 	 * Returns whether or not the item was found; does nothing
 	 * if it wasn't found.
-	 * 
+	 *
 	 * @param item The item to remove from the inventory.
 	 * @return Whether or not the item was found and therefore removed.
 	 */
@@ -91,11 +96,11 @@ public class Inventory implements Serializable {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Returns whether or not this inventory contains the given
 	 * item.
-	 * 
+	 *
 	 * @param item The item to check whether or not this inventory contains.
 	 * @return Whether or not this inventory contains that item.
 	 */
@@ -106,11 +111,11 @@ public class Inventory implements Serializable {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Removes all items of the given class from this inventory,
 	 * returning how many items were removed.
-	 * 
+	 *
 	 * @param type The class whose items will be removed.
 	 * @return How many items were removed.
 	 */
@@ -124,10 +129,10 @@ public class Inventory implements Serializable {
 		}
 		return found;
 	}
-	
+
 	/**
 	 * Returns indices of all items of the given class that are in this inventory.
-	 * 
+	 *
 	 * @param type The class whose items will be returned.
 	 * @return An array of indices of items of the given class.
 	 */
@@ -140,17 +145,17 @@ public class Inventory implements Serializable {
 		}
 		return elements.toArray(new Integer[0]);
 	}
-	
+
 	public int getStorageCapacity(){
 		return storageCapacity;
 	}
-	
+
 	public boolean changeStorageCapacity(int newStorageCapacity){
 		// Make sure that we have enough room for the items
 		// If we have to, displace some of them
 		if(newStorageCapacity < storageCapacity){
 			if(currentNumItems > newStorageCapacity) return false;
-			
+
 			for(int i = newStorageCapacity; i < storageCapacity; i++){
 				if(items[i] != null){
 					Item temp = items[i];
@@ -158,7 +163,7 @@ public class Inventory implements Serializable {
 					addItem(temp);
 				}
 			}
-			
+
 			// No need to resize the array if we don't have memory
 			// concerns
 		}
@@ -170,11 +175,11 @@ public class Inventory implements Serializable {
 			items = newItems;
 		}
 		// No need for a case where we're updating to an equal capacity
-		
+
 		storageCapacity = newStorageCapacity;
 		return true;
 	}
-	
+
 	/**
 	 * @return The position of the given item in this inventory, or -1 if it isn't contained.
 	 */
@@ -184,35 +189,88 @@ public class Inventory implements Serializable {
 		}
 		return -1;
 	}
-	
+
 	public Item getItem(int index){
 		if(index < 0 || index > items.length)
 			throw new IllegalArgumentException("Attempting to get an item from an inventory at an invalid index.");
 		return items[index];
 	}
-	
+
 	/**
 	 * @return An array of all items in this inventory, with null denoting no item at that index.
 	 */
 	public Item[] getItems(){
 		return items.clone();
 	}
-	
+
 	private void removeAtIndex(int index){
 		if(index < 0 || index > items.length)
 			throw new IllegalArgumentException("Attempting to remove an item from an inventory at an invalid index.");
-		
+
 		items[index] = null;
 		currentNumItems--;
 	}
-	
+
 	private int nextAvailableSlot(){
 		if(!hasRoom()) return -1;
-		
+
 		for(int i = 0; i < items.length; i++)
 			if(items[i] == null)
 				return i;
-		
+
 		throw new IllegalStateException("No next available slot in an inventory that still has room");
+	}
+
+	@Override
+	public Element toXMLElement(Document doc) {
+		Element elem = doc.createElement("inventory");
+		elem.setAttribute("capacity", getStorageCapacity()+"");
+
+		for(int i = 0; i < items.length; i++){
+			if(items[i] != null){
+				Element child = items[i].toXMLElement(doc);
+				child.setAttribute("index", i+"");
+			}
+		}
+
+		return elem;
+	}
+
+	public static class Factory implements StorableFactory<Inventory> {
+		@Override
+		public Inventory fromXMLElement(Element elem) {
+			int capacity = Integer.parseInt(elem.getAttribute("capacity"));
+			Item[] items = new Item[capacity];
+
+			NodeList nl = elem.getChildNodes();
+			for(int i = 0; i < nl.getLength(); i++){
+				Node n = nl.item(i);
+
+				Item item = null;
+				switch(n.getNodeName()){
+				case "key":
+					item = new Key.KeyFactory().fromXMLElement((Element)n);
+					break;
+				case "coin":
+
+				}
+
+				if(item == null)
+					throw new XMLParseException("Invalid item class.");
+
+				int index = Integer.parseInt(((Element)n).getAttribute("index"));
+
+				items[index] = item;
+			}
+
+			Inventory inventory = new Inventory(capacity);
+			for(int i = 0; i < items.length; i++){
+				if(items[i] != null){
+					inventory.addItem(items[i], i);
+				}
+			}
+
+			return inventory;
+		}
 	}
 }
