@@ -24,11 +24,14 @@ public class AppTest
      */
     public static Test suite()
     {
-		return new TestSuite( PointDTest.class,
-		  InventoryTests.class,
+		return new TestSuite(
 		  DataStorageTests.class,
+		  DirectionTests.class,
+		  GameTests.class,
+		  InventoryTests.class,
+		  ItemTests.class,
 		  NetworkTests.class,
-		  PositionTransformationTest.class,
-		  ItemTests.class);
+		  PointDTest.class,
+		  PositionTransformationTest.class);
     }
 }
