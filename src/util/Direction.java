@@ -64,16 +64,22 @@ public class Direction implements Serializable {
 	 * @return opposite direction
 	 */
 	public static Direction oppositeDirection(Direction direction){
-		if(direction.getDirection() == 1) return new Direction(3);
-		if(direction.getDirection() == 2) return new Direction(4);
-		if(direction.getDirection() == 3) return new Direction(1);
-		if(direction.getDirection() == 4) return new Direction(2);
+		if(direction.getDirection() == NORTH) return new Direction(SOUTH);
+		if(direction.getDirection() == EAST) return new Direction(WEST);
+		if(direction.getDirection() == SOUTH) return new Direction(NORTH);
+		if(direction.getDirection() == WEST) return new Direction(EAST);
 		throw new IllegalArgumentException(direction.getDirection() + " is not a valid direction!");
 	}
 	
 	@Override
 	public boolean equals(Object other){
-		if(other instanceof Direction){
+		if (this == other) {
+			return true;
+		}
+		if (other == null) {
+			return false;
+		}
+		if (other instanceof Direction){
 			return ((Direction)other).direction == direction;
 		}
 		return false;
