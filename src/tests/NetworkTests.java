@@ -35,7 +35,7 @@ public class NetworkTests extends TestCase {
 	@Test
 	public void testServerIsBound() {
 		Server s = new Server();
-		assertTrue(s.initialise());
+		s.initialise();
 		assertTrue(s.isBound());
 		s.stop();
 	}
@@ -56,7 +56,7 @@ public class NetworkTests extends TestCase {
 	@Test
 	public void testServerStopUnbind() {
 		Server s = new Server();
-		assertTrue(s.initialise());
+		s.initialise();
 		s.stop();
 		assertFalse(s.isBound());
 	}
@@ -68,8 +68,8 @@ public class NetworkTests extends TestCase {
 	public void testServerDoubleInitialise() {
 		/* initialise server */
 		Server s = new Server();
-		assertTrue(s.initialise());
-		assertTrue(s.initialise());
+		s.initialise();
+		s.initialise();
 		assertTrue(s.isBound());
 		s.stop();
 	}
@@ -77,7 +77,7 @@ public class NetworkTests extends TestCase {
 	@Test
 	public void testHandshake() {
 		Server server = new Server();
-		assertTrue(server.initialise());
+		server.initialise();
 		assertTrue(server.isBound());
 		BackgroundServer serverThread = new BackgroundServer(server);
 		

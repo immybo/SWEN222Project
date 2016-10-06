@@ -9,6 +9,7 @@ import java.net.Socket;
 
 import model.World;
 import network.Protocol;
+import network.NetworkError;
 import model.Player;
 
 public class Server {
@@ -49,23 +50,21 @@ public class Server {
 	/**
 	 * Initialise the server
 	 * 
-	 * @return true on success of already initialised, false on error
+	 * @throws NetworkError
 	 */
-	public boolean initialise() {
+	public void initialise() {
 		/* has the server already been initialised? */
 		if (sock != null && sock.isBound()) {
-			return true;
+			return;
 		}
 		try {
 			sock = new ServerSocket();
 			sock.setReuseAddress(true);
 			sock.bind(new InetSocketAddress(port));
 			System.out.println("Server listening on port "+port);
-			return true;
+			return;
 		} catch (IOException e) {
-			/* FIXME gui popup instead */
-			System.err.println("Error binding on port " + port + ": " + e.getMessage());
-			return false;
+			throw new NetworkError("Error binding on port " + port + ": " + e.getMessage());
 		}
 	}
 	
@@ -74,6 +73,7 @@ public class Server {
 	 * Clean up resources allocated to the server
 	 * 
 	 * @return true on success, false otherwise
+	 * @throws NetworkError 
 	 */
 	private boolean cleanup() {
 		try {
@@ -82,9 +82,7 @@ public class Server {
 			}
 			return true;
 		} catch (IOException e) {
-			/* FIXME gui popup instead */
-			System.err.println("Error closing server socket: " + e.getMessage());
-			return false;
+			throw new NetworkError("cleanup: Error closing server socket: " + e.getMessage());
 		}
 	}
 	
@@ -145,12 +143,10 @@ public class Server {
 		ins= new ObjectInputStream[totalPlayers];
 		
 		
-		/* try to initialise, bailing altogether if it fails */
-		if (!initialise()) {
-			System.err.println("Initialising failed. Stop.");
-			return;
-		}
+		/* initialise the main server listener socket */
+		initialise();
 		
+		/* main connection accept loop */
 		while (!sock.isClosed() && clientCount < clientSocks.length) {
 			try {
 				Socket client = sock.accept();
