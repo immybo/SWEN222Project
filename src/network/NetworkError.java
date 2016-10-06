@@ -22,10 +22,10 @@ public class NetworkError extends Error {
 	}
 	
 	/**
-	 * Construct a NetworkError with an exception
+	 * Construct a NetworkError with a Throwable
 	 * @param e
 	 */
-	public NetworkError(Exception e) {
+	public NetworkError(Throwable e) {
 		super(e);
 	}
 }
