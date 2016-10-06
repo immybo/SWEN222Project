@@ -1,11 +1,14 @@
 package model;
+
+import java.io.Serializable;
+
 /**
  * The simplest type of interaction that most if not all interactables will have, showing a string description when called.
  * 
  * @author Martin Chau
  *
  */
-public class Inspect implements Interaction{
+public class Inspect implements Interaction, Serializable {
 	private String description;
 	public Inspect(String description){
 		//TODO add the dialog box popup for parameters

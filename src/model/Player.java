@@ -3,12 +3,14 @@ package model;
 import datastorage.Storable;
 import datastorage.StorableFactory;
 
+import java.io.Serializable;
+
 import org.w3c.dom.*;
 
 import util.Coord;
 import util.Direction;
 
-public class Player extends Character implements Storable {
+public class Player extends Character implements Storable, Serializable {
 	public final boolean pupo; //!pupo --> yelo
 	private Inventory inventory;
 	
