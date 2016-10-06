@@ -7,14 +7,14 @@ import util.Coord;
 
 /**
  * An interaction that can be done on a portal
- * It will teleport the player to the destination portal.  
- * 
+ * It will teleport the player to the destination portal.
+ *
  * @author Martin Chau
  *
  */
-public class UsePortal implements Interaction{
+public class UsePortal extends Interaction{
 	private Portal portal;
-	
+
 	/**
 	 * Constructor for portal that takes the portal the interaction is attached to, the origin portal.
 	 * @param portal The portal this interaction is for.
@@ -22,7 +22,7 @@ public class UsePortal implements Interaction{
 	public UsePortal(Portal portal){
 		this.portal = portal;
 	}
-	
+
 	@Override
 	public String getText() {
 		return "Use Portal";
@@ -33,7 +33,7 @@ public class UsePortal implements Interaction{
 
 		Portal origin = this.portal;
 		Portal destination = origin.getPairPortal();
-		//first check if the destination has room 
+		//first check if the destination has room
 		Point p = destination.getWorldPosition().getPoint();
 		ArrayList<Point> points = new ArrayList<Point>();
 		Point freePosition = null;
