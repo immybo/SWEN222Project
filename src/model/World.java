@@ -82,6 +82,14 @@ public class World implements Storable {
 		return this.zones;
 	}
 
+	public static class Factory implements StorableFactory<World> {
 
+		@Override
+		public World fromXMLElement(Element elem) {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+	}
 
 }
