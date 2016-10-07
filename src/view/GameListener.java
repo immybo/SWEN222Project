@@ -1,12 +1,21 @@
 package view;
 
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.IOException;
 
+import javax.swing.event.PopupMenuEvent;
+import javax.swing.event.PopupMenuListener;
+
+import model.Interactable;
+import model.Interaction;
+import model.Zone;
 import network.client.Client;
 
 /**
@@ -19,6 +28,8 @@ import network.client.Client;
 public class GameListener implements KeyListener, MouseListener {
 	private Client client; // The client to send events to
 	private PositionTransformation transformation;
+	private Zone zone;
+	private RenderPanel panel;
 	
 	/**
 	 * Builds a game listener.
@@ -26,7 +37,7 @@ public class GameListener implements KeyListener, MouseListener {
 	 * @param client The client to relay events through.
 	 * @param transformation The transformation between world coordinates and coordinates on the panel.
 	 */
-	public GameListener(Client client, PositionTransformation transformation){
+	public GameListener(Client client, PositionTransformation transformation, RenderPanel panel){
 		this.client = client;
 		this.transformation = transformation;
 	}
@@ -40,16 +51,28 @@ public class GameListener implements KeyListener, MouseListener {
 	public void changePositionTransformation(PositionTransformation newTransformation){
 		transformation = newTransformation;
 	}
+	
+	public void setZone(Zone newZone){
+		this.zone = newZone;
+	}
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		Point clickWorldPoint = transformation.reverseTransform(e.getPoint());
+		
+		// Move to the point
 		if(e.getButton() == MouseEvent.BUTTON1){
-			Point newPoint = transformation.reverseTransform(e.getPoint());
 			try {
-				client.moveTo(newPoint);
+				client.moveTo(clickWorldPoint);
 			} catch (IOException e1) { // Do nothing?
 				e1.printStackTrace();
 			}
+		}
+		// Check for interactables to get the menu of
+		else if(e.getButton() == MouseEvent.BUTTON2){
+			Interactable interactable = zone.getInteractable(clickWorldPoint);
+			if(interactable != null)
+				panel.displayInteractionMenu(e.getPoint(), interactable);
 		}
 	}
 
@@ -96,4 +119,30 @@ public class GameListener implements KeyListener, MouseListener {
 	public void keyReleased(KeyEvent e) {
 	}
 
+	/**
+	 * Defines something which will listen to interaction menu events
+	 * and respond to them by telling the client to relay them to 
+	 * the server.
+	 * 
+	 * @author Robert Campbell
+	 */
+	public class InteractionMenuListener implements ActionListener {
+		private RenderPanel panel;
+		private Interaction interaction;
+		
+		public InteractionMenuListener(RenderPanel panel, Interaction interaction){
+			this.panel = panel;
+			this.interaction = interaction;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e){
+			try {
+				client.interact(interaction);
+				panel.removeInteractionMenu(); // menu closes once you click an interaction
+			} catch (IOException e1) {
+				System.err.println("Unable to perform interaction " + interaction.getText() + " because of network error.");
+			}
+		}
+	}
 }

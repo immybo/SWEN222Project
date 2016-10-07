@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 import model.Interaction;
+import model.Zone;
 import view.GameFrame;
 import network.NetworkError;
 import network.Protocol;

@@ -1,4 +1,6 @@
 package view;
+import model.Interactable;
+import model.Interaction;
 import model.Inventory;
 import model.Zone;
 import model.ZoneDrawInfo;
@@ -7,7 +9,10 @@ import util.PointD;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
@@ -24,6 +29,9 @@ public class RenderPanel extends JPanel {
     private volatile Inventory inventory;
     private AffineTransform isoTransform;
     private GameFrame frame;
+    private GameListener listener;
+    
+    private JPopupMenu interactionMenu;
 
     public Zone getZone() {
         return zone;
@@ -31,6 +39,7 @@ public class RenderPanel extends JPanel {
 
     public void setZone(Zone zone) {
         this.zone = zone;
+        if(listener != null) listener.setZone(zone);
     }
 
     public void setInventory(Inventory inventory) {
@@ -51,11 +60,44 @@ public class RenderPanel extends JPanel {
     
     public void attachToClient(Client client){
         PositionTransformation transform = PositionTransformation.fromAffineTransform(isoTransform);
-        GameListener listener = new GameListener(client, transform);
+        listener = new GameListener(client, transform, this);
         this.addMouseListener(listener);
         this.addKeyListener(listener);
         this.setFocusable(true);
         this.requestFocus();
+    }
+    
+    /**
+     * Displays a menu with the given interactions at the given panel position.
+     * Removes any interaction menu that is currently being displayed before
+     * doing so.
+     * 
+     * @param point The _panel_ position to display it at.
+     * @param interactable The interactable to display the interactions of.
+     */
+    public void displayInteractionMenu(Point point, Interactable interactable){
+    	Interaction[] interactions = interactable.getInteractions();
+    	removeInteractionMenu();
+    	interactionMenu = new JPopupMenu();
+    	
+    	for(Interaction interaction : interactions){
+    		JMenuItem interactMenuItem = new JMenuItem(interaction.getText());
+        	// On clicking any of the interactions, perform the appropriate one with the client
+    		interactMenuItem.addActionListener(listener.new InteractionMenuListener(this, interaction));
+    		interactionMenu.add(interactMenuItem);
+    	}
+    	
+    	interactionMenu.show(this, point.x, point.y);
+    	
+    	repaint();
+    }
+    
+    /**
+     * Removes any interaction menu that is currently being displayed.
+     */
+    public void removeInteractionMenu(){
+    	interactionMenu = null;
+    	repaint();
     }
 
     @Override
