@@ -8,6 +8,7 @@ import junit.framework.TestCase;
 import model.FloorTile;
 import model.Furniture;
 import model.Gate;
+import model.Interactable;
 import model.Interaction;
 import model.Item;
 import model.Key;
@@ -68,10 +69,10 @@ public class GameTests extends TestCase {
 		pupo.rotate(true);
 		assertTrue(pupo.moveForward());
 		assertFalse(pupo.moveForward()); // run into gate
-		Interaction[] interactions = pupo.getZone().getInteractions(pupo);
-		if(interactions == null) fail();
+		Interactable interactable = pupo.getZone().getInteractable(Direction.move(pupo.getCoord().getPoint(), pupo.getCoord().getFacing(), 1));
+		if(interactable == null) fail();
 		Interaction toDo = null;
-		for(Interaction i: interactions){
+		for(Interaction i: interactable.getInteractions()){
 			if(i.getText().equals("Use Key")){
 				toDo = i;
 			}
@@ -86,10 +87,10 @@ public class GameTests extends TestCase {
 		Zone originZone = pupo.getZone();
 		assertTrue(pupo.moveForward());
 		assertFalse(pupo.moveForward()); // should have run into portal, smash face
-		Interaction[] interactions = pupo.getZone().getInteractions(pupo);
-		if(interactions == null) fail();
+		Interactable interactable = pupo.getZone().getInteractable(Direction.move(pupo.getCoord().getPoint(), pupo.getCoord().getFacing(), 1));
+		if(interactable == null) fail();
 		Interaction toDo = null;
-		for(Interaction i: interactions){
+		for(Interaction i: interactable.getInteractions()){
 			if(i.getText().equals("Use Portal")){
 				toDo = i;
 			}

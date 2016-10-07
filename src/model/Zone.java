@@ -98,29 +98,22 @@ public class Zone implements Storable, Serializable {
 	}
 
 	/**
-	 * Check a space in front of a player for interactions
-	 * @param p
-	 * @return Interactions of the space in front
+	 * Checks a specific point in this zone for an interactable.
+	 * 
+	 * @param point The point to check.
+	 * @return An interactable that was found at the point, or null if none was found.
 	 */
-	public Interaction[] getInteractions(Player p){
-		//check if player is in current zone
-		if (!p.getZone().equals(this)) return null;
-		Point origin = p.getCoord().getPoint();
-		Point check = Direction.move(origin, p.getCoord().getFacing(), 1);
+	public Interactable getInteractable(Point point){
 		Entity matchEntity = null;
 
 		//check all entities for correct position
 		for(Entity e: entities){
-			if(e.getWorldPosition().getPoint().equals(check)){
+			if(e.getWorldPosition().getPoint().equals(point)){
 				matchEntity = e;
 			}
 		}
 
-		if(matchEntity == null){
-			return null;
-		} else {
-			return matchEntity.getInteractions();
-		}
+		return matchEntity == null ? null : matchEntity;
 	}
 
 	/**
