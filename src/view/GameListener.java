@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.geom.NoninvertibleTransformException;
 import java.io.IOException;
 
 import javax.swing.event.PopupMenuEvent;
@@ -28,7 +29,6 @@ import network.client.Client;
  */
 public class GameListener implements KeyListener, MouseListener {
 	private Client client; // The client to send events to
-	private PositionTransformation transformation;
 	private Zone zone;
 	private RenderPanel panel;
 	

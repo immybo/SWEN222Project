@@ -29,13 +29,9 @@ public class GameFrame extends JFrame {
     public GameFrame(){
         setSizeDefault();
         this.setLayout(new BorderLayout());
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
         canvas = new RenderPanel(this);
-        /*
-         * REMOVED: The client will do this when the server sends it zone info.
-       
-        canvas.setZone(World.testWorld().getZones()[0]);
-        */
         informationPanel = new InformationPanel(this);
 
         this.add(canvas, BorderLayout.WEST);
@@ -75,6 +71,12 @@ public class GameFrame extends JFrame {
     	int height = DEFAULT_HEIGHT;
     	if(height > screenSize.getHeight() * 0.9)
     		height = (int)(screenSize.getHeight() * 0.9);
+    	
+    	if(width > 1024){
+    		width = 1024;
+    		height = (int)(1024 * ((double)screenSize.getHeight() / screenSize.getWidth()));
+    	}
+    	
     	this.setPreferredSize(new Dimension(width, height));
     }
 
