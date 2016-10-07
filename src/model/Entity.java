@@ -95,4 +95,15 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 		elem.appendChild(inventory.toXMLElement(doc));
 		return elem;
 	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof Entity){
+			Entity e = (Entity) o;
+			if(this.zone.equals(e.zone) && this.worldPosition.equals(e.worldPosition) && this.inventory.equals(e.inventory)){
+				return super.equals(o);
+			}
+		}
+		return false;
+	}
 }

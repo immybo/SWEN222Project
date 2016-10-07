@@ -395,4 +395,5 @@ public class Zone implements Storable, Serializable {
 	public int hashCode(){
 		return name.hashCode();
 	}
+	
 }

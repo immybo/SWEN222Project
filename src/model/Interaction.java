@@ -35,4 +35,9 @@ public abstract class Interaction implements Storable {
 		elem.setAttribute("text", getText());
 		return elem;
 	}
+	
+	@Override
+	public boolean equals(Object o){
+		return o instanceof Interaction;
+	}
 }

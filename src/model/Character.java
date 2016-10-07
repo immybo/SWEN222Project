@@ -144,12 +144,16 @@ public abstract class Character implements Serializable, Storable, Drawable {
 	}
 
 	@Override
-	public boolean equals(Object other) {
-		if (other instanceof Character) {
-			return ((Character) other).zone.equals(zone) && ((Character) other).coord.equals(coord);
+	public boolean equals(Object o){
+		if(o instanceof Character){
+			Character c = (Character) o;
+			if(this.getCoord().equals(c.getCoord()) && this.getZone().equals(c.getCoord())){
+				return super.equals(o);
+			}
 		}
 		return false;
 	}
+	
 
 	public Element toXMLElement(Document doc) {
 		Element elem = doc.createElement("character");

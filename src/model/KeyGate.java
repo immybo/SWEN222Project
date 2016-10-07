@@ -39,6 +39,7 @@ public class KeyGate extends Gate implements Serializable, Storable {
 		this.passable = passable;
 	}
 	
+	@Override
 	public boolean equals(Object o){
 		if(o instanceof KeyGate){
 			KeyGate kg = (KeyGate) o;

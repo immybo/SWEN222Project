@@ -60,4 +60,14 @@ public class UsePortal extends Interaction implements Storable{
 		player.setCoord(new Coord(player.getCoord().getFacing(), freePosition));
 		//show dialog you are now in zone lalal
 	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof UsePortal){
+			UsePortal up = (UsePortal) o;
+			if(this.portal.equals(up.portal))
+				return super.equals(o);
+		}
+		return false;
+	}
 }

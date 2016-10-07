@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -127,6 +128,17 @@ public class World implements Storable {
 			return null;
 		}
 
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof World){
+			World w = (World) o;
+			if(this.name.equals(w.name) && Arrays.equals(this.zones, w.zones)
+					&& this.Pupo.equals(w.Pupo) && this.Yelo.equals(w.Yelo))
+				return true;
+		}
+		return false;
 	}
 
 }

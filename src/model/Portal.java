@@ -44,7 +44,7 @@ public class Portal extends Entity implements Storable{
 	public boolean equals(Object o){
 		if(o instanceof Portal){
 			Portal p = (Portal) o;
-			if(this.portalID.equals(p.portalID))
+			if(this.portalID.equals(p.portalID) && this.pairPortal.portalID.equals(p.pairPortal.portalID))
 				return super.equals(o);
 		}
 		return false;

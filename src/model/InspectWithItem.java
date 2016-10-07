@@ -39,6 +39,7 @@ public class InspectWithItem extends Interaction implements Storable{
 		}
 	}
 	
+	@Override
 	public boolean equals(Object o){
 		if(o instanceof InspectWithItem){
 			InspectWithItem i = (InspectWithItem) o;

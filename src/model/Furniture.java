@@ -20,4 +20,11 @@ public class Furniture extends Entity implements Storable{
 	public boolean isPassable() {
 		return false;
 	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof Furniture)
+			return super.equals(o);
+		return false;
+	}
 }

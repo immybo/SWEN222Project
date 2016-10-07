@@ -27,6 +27,7 @@ public class Inspect extends Interaction implements Serializable, Storable {
 		// TODO show dialog box with the description
 	}
 	
+	@Override
 	public boolean equals(Object o){
 		if(o instanceof Inspect){
 			Inspect i = (Inspect) o;

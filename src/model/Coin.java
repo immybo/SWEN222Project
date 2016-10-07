@@ -18,4 +18,11 @@ public class Coin extends Item{
 		super(true);
 	}
 	
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof Coin)
+			return super.equals(o);
+		return false;
+	}
+	
 }

@@ -16,4 +16,11 @@ public class FloorTile extends Tile {
 	public boolean collides(){
 		return false;
 	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof FloorTile)
+			return super.equals(o);
+		return false;
+	}
 }

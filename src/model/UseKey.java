@@ -51,6 +51,16 @@ import datastorage.Storable;
 				keyGate.addInteraction(new Inspect("It looks to be an open gate."));
 			}
 		}
+		
+		@Override
+		public boolean equals(Object o){
+			if(o instanceof UseKey){
+				UseKey uk = (UseKey) o;
+				if(this.keyGate.equals(uk.keyGate))
+					return super.equals(o);
+			}
+			return false;
+		}
 
 
 	}

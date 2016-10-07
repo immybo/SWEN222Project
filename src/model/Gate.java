@@ -99,6 +99,7 @@ public abstract class Gate extends Entity implements Storable{
 		return transition(State.OPEN, State.CLOSED);
 	}
 	
+	@Override
 	public boolean equals(Object o){
 		if(o instanceof Gate){
 			Gate g = (Gate) o;

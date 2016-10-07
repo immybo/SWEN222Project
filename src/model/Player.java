@@ -27,9 +27,11 @@ public class Player extends Character implements Storable, Serializable {
 	}
 	
 	@Override
-	public boolean equals(Object other){
-		if(other instanceof Player){
-			return ((Player)other).pupo == pupo && super.equals(other);
+	public boolean equals(Object o){
+		if(o instanceof Player){
+			Player p = (Player) o;
+			if(this.inventory.equals(p.inventory) && this.pupo == p.pupo)
+				return super.equals(o);
 		}
 		return false;
 	}

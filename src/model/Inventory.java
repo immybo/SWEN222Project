@@ -1,6 +1,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -219,6 +220,18 @@ public class Inventory implements Storable, Serializable {
 				return i;
 
 		throw new IllegalStateException("No next available slot in an inventory that still has room");
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof Inventory){
+			Inventory i = (Inventory) o;
+			if(this.currentNumItems == i.currentNumItems && this.storageCapacity == i.storageCapacity
+				&& Arrays.equals(this.items, i.items)){
+					return true;
+				}
+		}
+		return false;
 	}
 
 	@Override

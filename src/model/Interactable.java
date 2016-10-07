@@ -49,4 +49,9 @@ public abstract class Interactable implements Serializable, Storable {
 	public Interaction[] getInteractions(){
 		return interactions.toArray(new Interaction[0]);
 	}
+	
+	@Override
+	public boolean equals(Object o){
+		return o instanceof Interactable;
+	}
 }
