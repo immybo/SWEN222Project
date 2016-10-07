@@ -36,21 +36,11 @@ public class GameListener implements KeyListener, MouseListener {
 	 * Builds a game listener.
 	 * 
 	 * @param client The client to relay events through.
-	 * @param transformation The transformation between world coordinates and coordinates on the panel.
+	 * @param panel The render panel which this listener corresponds to.
 	 */
-	public GameListener(Client client, PositionTransformation transformation, RenderPanel panel){
+	public GameListener(Client client, RenderPanel panel){
 		this.client = client;
-		this.transformation = transformation;
-	}
-	
-	/**
-	 * Changes the position transformation of this listener to a new one.
-	 * Must be called any time the panel is resized or zoomed.
-	 * 
-	 * @param newTransformation The new transformation to use.
-	 */
-	public void changePositionTransformation(PositionTransformation newTransformation){
-		transformation = newTransformation;
+		this.panel = panel;
 	}
 	
 	public void setZone(Zone newZone){
@@ -59,7 +49,13 @@ public class GameListener implements KeyListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		Point clickWorldPoint = transformation.reverseTransform(e.getPoint());
+		Point clickWorldPoint;
+		try {
+			clickWorldPoint = panel.getWorldCoordinate(e.getPoint());
+		} catch (NoninvertibleTransformException e2) {
+			System.err.println("Attempting to click on an area when the render transformation isn't invertible; can't find world coordinate; aborting.");
+			return;
+		}
 		
 		// Move to the point
 		if(e.getButton() == MouseEvent.BUTTON1){

@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -25,6 +26,9 @@ import java.util.PriorityQueue;
  * Created by Hamish Brown on 28/09/2016.
  */
 public class RenderPanel extends JPanel {
+	private static final int TILE_HEIGHT = 64;
+	private static final int TILE_WIDTH = 64;
+	
     private volatile Zone zone;
     private volatile Inventory inventory;
     private AffineTransform isoTransform;
@@ -59,8 +63,7 @@ public class RenderPanel extends JPanel {
     }
     
     public void attachToClient(Client client){
-        PositionTransformation transform = PositionTransformation.fromAffineTransform(isoTransform);
-        listener = new GameListener(client, transform, this);
+        listener = new GameListener(client, this);
         this.addMouseListener(listener);
         this.addKeyListener(listener);
         this.setFocusable(true);
@@ -132,7 +135,7 @@ public class RenderPanel extends JPanel {
                 continue;
             }
             try {
-                Point2D drawPoint = applyTransform(d.getDrawPosition().getX()*64,d.getDrawPosition().getY()*64);
+                Point2D drawPoint = applyTransform(d.getDrawPosition().getX()*TILE_WIDTH,d.getDrawPosition().getY()*TILE_HEIGHT);
                 BufferedImage img = ImageIO.read(new File(filename));
                 g2.drawImage(img, (int)drawPoint.getX(), (int)(drawPoint.getY()-d.getYOffset()), null);
                 //g2.drawString(""+drawPoint.getY()+d.getDepthOffset(), (int)drawPoint.getX(), (int)(drawPoint.getY()-d.getYOffset()));
@@ -178,6 +181,21 @@ public class RenderPanel extends JPanel {
     	Point2D trans = new Point2D.Double();
     	isoTransform.transform(new Point2D.Double(x,y), trans);
     	return trans;
+    }
+    
+    /**
+     * Transforms a coordinate from one on the screen to one
+     * in the world, according to the transformation applied
+     * the other way.
+     * 
+     * @param screenCoordinate The coordinate on the screen to transform.
+     * @return The equivalent coordinate in the world.
+     * @throws NoninvertibleTransformException If the transformation supplied by this render panel can't be inverted.
+     */
+    public Point getWorldCoordinate(Point screenCoordinate) throws NoninvertibleTransformException{
+    	Point2D inverseTrans = new Point2D.Double();
+    	isoTransform.createInverse().transform(new Point2D.Double(screenCoordinate.x, screenCoordinate.y), inverseTrans);
+    	return new Point((int)(inverseTrans.getX()/TILE_WIDTH), (int)(inverseTrans.getY()/TILE_HEIGHT));
     }
 
     private class DrawableComparator implements Comparator<Drawable> {
