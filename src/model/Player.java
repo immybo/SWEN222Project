@@ -23,6 +23,8 @@ public class Player extends Character implements Storable, Serializable {
 	private Player(Zone[] zones, Element elem){
 		super(elem, zones);
 		this.pupo = Boolean.parseBoolean(elem.getAttribute("pupo"));
+		Inventory.Factory factory = new Inventory.Factory();
+		this.inventory = factory.fromXMLElement((Element)elem.getChildNodes().item(0));
 		// TODO parse the inventory from the element
 	}
 	
@@ -83,12 +85,12 @@ public class Player extends Character implements Storable, Serializable {
 		Element elem = super.toXMLElement(doc);
 		elem.setNodeValue("playablecharacter");
 		elem.setAttribute("pupo", pupo+"");
+		elem.appendChild(this.inventory.toXMLElement(doc));
 		return elem;
 	}
 	
 	public static class Factory implements StorableFactory<Player> {
 		private Zone[] zones;
-		
 		public Factory(Zone[] zones){
 			this.zones = zones;
 		}
