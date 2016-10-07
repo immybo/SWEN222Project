@@ -138,7 +138,7 @@ public class RenderPanel extends JPanel {
                 Point2D drawPoint = applyTransform(d.getDrawPosition().getX()*TILE_WIDTH,d.getDrawPosition().getY()*TILE_HEIGHT);
                 BufferedImage img = ImageIO.read(new File(filename));
                 g2.drawImage(img, (int)drawPoint.getX(), (int)(drawPoint.getY()-d.getYOffset()), null);
-                //g2.drawString(""+drawPoint.getY()+d.getDepthOffset(), (int)drawPoint.getX(), (int)(drawPoint.getY()-d.getYOffset()));
+                //g2.drawString(""+d.getDepthOffset(), (int)drawPoint.getX(), (int)(drawPoint.getY()));
             } catch (IOException e) {
                 System.err.println("Renderer: Image "+filename+" not found");
             }
@@ -200,11 +200,18 @@ public class RenderPanel extends JPanel {
 
     private class DrawableComparator implements Comparator<Drawable> {
         public int compare(Drawable a, Drawable b) {
-        	Point2D drawPointA = applyTransform(a.getDrawPosition().getX()*64,a.getDrawPosition().getY()*64);
-        	Point2D drawPointB = applyTransform(b.getDrawPosition().getX()*64,b.getDrawPosition().getY()*64);
+        	Point2D drawPointA = applyTransform(a.getDrawPosition().getX()*TILE_WIDTH,a.getDrawPosition().getY()*TILE_HEIGHT);
+        	Point2D drawPointB = applyTransform(b.getDrawPosition().getX()*TILE_WIDTH,b.getDrawPosition().getY()*TILE_HEIGHT);
         	double aDepth = drawPointA.getY()+a.getDepthOffset();
         	double bDepth = drawPointB.getY()+b.getDepthOffset();
-            return(int)(aDepth - bDepth);
+            //to avoid rounding stuffing up the difference
+            if ((aDepth - bDepth)==0) {
+                return 0;
+            } else if ((aDepth - bDepth)>0) {
+                return 1;
+            } else {
+                return -1;
+            }
         }
     }
 

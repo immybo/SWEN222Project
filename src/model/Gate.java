@@ -107,4 +107,33 @@ public abstract class Gate extends Entity implements Storable{
 		}
 		return false;
 	}
+
+	@Override
+    public String getDrawImagePath() {
+        if (state == State.OPEN) {
+            return "images/GateOpen.png";
+        } else if (state == State.CLOSED) {
+            return "images/GateClosed.png";
+        } else {
+            return "images/GateLocked.png";
+        }
+    }
+
+    @Override
+    public double getDepthOffset() {
+        if (state == State.OPEN) {
+            return 0;
+        } else {
+            return 0.6;
+        }
+    }
+
+    @Override
+    public int getYOffset() {
+        if (state == State.OPEN) {
+            return 0;
+        } else {
+            return 31;
+        }
+    }
 }
