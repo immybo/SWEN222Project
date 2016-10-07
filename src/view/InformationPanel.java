@@ -159,7 +159,7 @@ public class InformationPanel extends JPanel {
     }
     
     private void showNetworkErrorBox(Throwable e) {
-			JOptionPane.showConfirmDialog(this.getParent(), "Network Error: "+e.getMessage(),
+			JOptionPane.showMessageDialog(this.getParent(), "Network Error: "+e.getMessage(),
 				"Error", JOptionPane.OK_OPTION);
     }
 }
