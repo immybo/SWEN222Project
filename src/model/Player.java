@@ -5,6 +5,8 @@ import datastorage.StorableFactory;
 
 import java.awt.Point;
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -16,7 +18,8 @@ import util.Direction;
 public class Player extends Character implements Storable, Serializable {
 	public final boolean pupo; //!pupo --> yelo
 	private Inventory inventory;
-	private Timer movementTimer;
+
+	private transient Timer movementTimer;
 	
 	public Player(Zone zone, Coord coord, boolean isPupo) {
 		super (zone, coord);
@@ -73,12 +76,11 @@ public class Player extends Character implements Storable, Serializable {
 	 */
 	@Override
 	public boolean moveIn(Direction dir, int amount){
-		if(movementTimer != null)
-			movementTimer.cancel();
-		return moveInIgnoreTimer(dir, amount);
+		if(movementTimer != null) movementTimer.cancel();
+		return moveInNoCancel(dir, amount);
 	}
 	
-	private boolean moveInIgnoreTimer(Direction dir, int amount){
+	private boolean moveInNoCancel(Direction dir, int amount){
 		boolean ok = super.moveIn(dir, amount);
 		
 		if(ok){
@@ -95,20 +97,36 @@ public class Player extends Character implements Storable, Serializable {
 	 * Halts movement if the player can't proceed any further.
 	 */
 	public void moveToPoint(Point newPoint){
-		if(getCoord().getPoint().equals(newPoint)) return;
+		if(getCoord().getPoint().equals(newPoint)){
+			if(movementTimer != null)
+				movementTimer.cancel();
+			return;
+		}
 		
 		// Doing this every movement will be a bit costly, but
 		// since we have quite a rough grid and slow ticks, it's fine
-		Direction nextDir = getZone().getPath(getCoord().getPoint(), newPoint)[0];
-		moveInIgnoreTimer(nextDir, 1);
+		Direction[] path = getZone().getPath(getCoord().getPoint(), newPoint);
+		System.out.println("finding a path");
+		if(path == null){
+			System.out.println("no path found");
+			if(movementTimer != null)
+				movementTimer.cancel();
+			return; // Couldn't find a path
+		}
+		System.out.println("next dir " + path[0].getDirection());
 		
-		movementTimer = new Timer("movement timer", true);
-		movementTimer.scheduleAtFixedRate(new TimerTask(){
-			@Override
-			public void run(){
-				moveToPoint(newPoint);
-			}
-		}, 0, 500);
+		Direction nextDir = path[0];
+		moveInNoCancel(nextDir, 1);
+		
+		if(movementTimer == null){
+			movementTimer = new Timer("movement timer", true);
+			movementTimer.scheduleAtFixedRate(new TimerTask(){
+				@Override
+				public void run(){
+					moveToPoint(newPoint);
+				}
+			}, 0, 500);
+		}
 	}
 	
 	@Override
