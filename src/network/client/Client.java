@@ -6,6 +6,7 @@ import java.io.ObjectInputStream;
 import java.awt.Point;
 import java.io.IOException;
 import java.net.Socket;
+import java.lang.Thread.UncaughtExceptionHandler;
 
 import model.Interaction;
 import model.Zone;
@@ -21,7 +22,7 @@ public class Client {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private ClientThread clientThread;
-
+	private UncaughtExceptionHandler errorHandler;
 	private GameFrame frame;
 	
 	/**
@@ -94,6 +95,7 @@ public class Client {
 			}
 			System.out.println("Starting client thread");
 			this.clientThread = new ClientThread(in, this.frame);
+			this.clientThread.setUncaughtExceptionHandler(errorHandler);
 			this.clientThread.start();
 		} catch (IOException e) {
 			throw new NetworkError(e);
@@ -109,6 +111,10 @@ public class Client {
 			/* not too concerned at this point, so turn it into an Error */
 			throw new NetworkError(e);
 		}
+	}
+	
+	public void setUncaughtExceptionHandler(UncaughtExceptionHandler e) {
+		this.errorHandler = e;
 	}
 	
 	/**

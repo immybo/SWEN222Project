@@ -7,6 +7,7 @@ import model.Inventory;
 import model.Zone;
 import view.GameFrame;
 import view.RenderPanel;
+import network.NetworkError;
 
 /**
  * Client worker thread for listening to the server's socket, with client sending stuff to the server
@@ -66,8 +67,7 @@ public class ClientThread extends Thread{
 				processDownstream();
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new NetworkError(e);
 		}
 	}
 	

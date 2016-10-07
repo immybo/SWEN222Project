@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.lang.Thread.UncaughtExceptionHandler;
 
 /**
  * The panel which displays information that can't be
@@ -44,6 +45,12 @@ public class InformationPanel extends JPanel {
 				if(host != null && client == null) {
 					client = new Client(gameFrame, host);
 					gameFrame.getRenderPanel().attachToClient(client);
+					client.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+						public void uncaughtException(Thread t, Throwable e) {
+							client.disconnect();
+							showNetworkErrorBox(e);
+						}
+					});
 					client.run();
 				}
 			} catch (NetworkError ne) {
@@ -108,58 +115,58 @@ public class InformationPanel extends JPanel {
 	}
 
 	@Override
-    public void paint(Graphics g){
-        super.paint(g);
-    }
+	public void paint(Graphics g){
+		super.paint(g);
+	}
 
-    private void exitGame(){
-    	if (client != null)
-    		client.disconnect();
-    	System.exit(0);
-    }
+	private void exitGame(){
+		if (client != null)
+			client.disconnect();
+		System.exit(0);
+	}
 
-    private void loadGame(){
-    	System.out.println("Load game button pressed");
-    }
+	private void loadGame(){
+		System.out.println("Load game button pressed");
+	}
 
-    private void saveGame(){
-    	System.out.println("Save game button pressed");
-    }
+	private void saveGame(){
+		System.out.println("Save game button pressed");
+	}
 
-    private void moveForward(){
-    	try {
+	private void moveForward(){
+		try {
 			client.moveForward();
 		} catch (IOException e) {
 			showNetworkErrorBox(e);
 		}
-    }
-    
-    private void moveBackward(){
-    	try {
+	}
+	
+	private void moveBackward(){
+		try {
 			client.moveBackward();
 		} catch (IOException e) {
 			showNetworkErrorBox(e);
 		}
-    }
-    
-    private void rotateAnticlockwise(){
-    	try {
+	}
+	
+	private void rotateAnticlockwise(){
+		try {
 			client.rotateAnticlockwise();
 		} catch (IOException e) {
 			showNetworkErrorBox(e);
 		}
-    }
-    
-    private void rotateClockwise(){
-    	try {
+	}
+	
+	private void rotateClockwise(){
+		try {
 			client.rotateClockwise();
 		} catch (IOException e) {
 			showNetworkErrorBox(e);
 		}
-    }
-    
-    private void showNetworkErrorBox(Throwable e) {
+	}
+	
+	private void showNetworkErrorBox(Throwable e) {
 			JOptionPane.showMessageDialog(this.getParent(), "Network Error: "+e.getMessage(),
 				"Error", JOptionPane.OK_OPTION);
-    }
+	}
 }
