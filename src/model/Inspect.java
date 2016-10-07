@@ -25,6 +25,7 @@ public class Inspect extends Interaction implements Serializable, Storable {
 	@Override
 	public void execute(Player p) {
 		// TODO show dialog box with the description
+		System.out.println("inspecting");
 	}
 	
 	@Override
