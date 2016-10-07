@@ -71,6 +71,23 @@ public class Direction implements Serializable {
 		throw new IllegalArgumentException(direction.getDirection() + " is not a valid direction!");
 	}
 	
+	/**
+	 * Given a start point and an end point that are adjacent,
+	 * returns the direction that must be moved in from the start
+	 * point to arrive at the end point.
+	 */
+	public static Direction directionFrom(Point start, Point end){
+		if(Coord.getDistance(start, end) != 1d)
+			throw new IllegalArgumentException("Can't get direction from two non-adjacent points.");
+		
+		if(end.x == start.x + 1) return new Direction(Direction.EAST);
+		else if(end.x == start.x - 1) return new Direction(Direction.WEST);
+		else if(end.y == start.y + 1) return new Direction(Direction.SOUTH);
+		else if(end.y == start.y - 1) return new Direction(Direction.NORTH);
+		
+		else throw new IllegalArgumentException("Can't classify that as a direction.");
+	}
+	
 	@Override
 	public boolean equals(Object other){
 		if (this == other) {

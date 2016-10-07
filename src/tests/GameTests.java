@@ -48,6 +48,22 @@ public class GameTests extends TestCase {
 		assertEquals(yelo.getCoord().getPoint().x, 3);
 		assertEquals(yelo.getCoord().getPoint().y, 1);
 	}
+	
+	@Test
+	public void testPathfinding(){
+		World world = generateWorld1();
+		Player pupo = world.getPupo();
+		
+		Direction[] path = pupo.getZone().getPath(pupo.getCoord().getPoint(), new Point(3,4));
+		assertTrue(path != null); // There is definitely a path between these points
+		assertTrue(path.length == 5); // This is the shortest length between them
+		
+		for(int i = 0; i < path.length; i++){
+			pupo.moveIn(path[i]);
+		}
+		
+		assertEquals(new Point(3,4), pupo.getCoord().getPoint());
+	}
 
 	@Test
 	public void testKeyGate(){

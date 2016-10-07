@@ -63,6 +63,120 @@ public class Zone implements Storable, Serializable {
 
 		this.id = id;
 	}
+	
+	/**
+	 * Calculates the shortest path from the given start point to the
+	 * given end point on this zone. This path must not collide
+	 * with any collidable objects. Note that the path is only
+	 * valid right after calculated, and so must be recalculated
+	 * every time a step along the path is made in order to remain
+	 * current.
+	 * 
+	 * A path may not necessarily exist between two points. If no
+	 * such path exists, null is returned. The collision status of
+	 * the start point is not considered, but the collision status 
+	 * of the end point is.
+	 * 
+	 * If a path is returned, it will be returned as a series of directions
+	 * in which to move one square, until the end point is reached.
+	 * 
+	 * @param start The point to start at.
+	 * @param end The point to end at.
+	 * @return The series of directions to get from the start to the end, or null if none exists.
+	 */
+	public Direction[] getPath(Point start, Point end){
+		// A* used here; simple and effective (and, helpfully, learned in COMP261)
+		Set<Point> visited = new HashSet<Point>();
+		Queue<NodeData> fringe = new PriorityQueue<NodeData>();
+		
+		NodeData first = new NodeData(0, Coord.getDistance(start, end), null, start);
+		fringe.add(first);
+		
+		while(!fringe.isEmpty()){
+			NodeData current = fringe.poll();
+			
+			if(current.point.equals(end))
+				return constructPath(current);
+			
+			visited.add(current.point);
+			
+			List<Point> neighbours = new ArrayList<Point>();
+			neighbours.add(new Point(current.point.x + 1, current.point.y));
+			neighbours.add(new Point(current.point.x - 1, current.point.y));
+			neighbours.add(new Point(current.point.x, current.point.y + 1));
+			neighbours.add(new Point(current.point.x, current.point.y - 1));
+			for(Point p : neighbours){
+				if(visited.contains(p))
+					continue; // already visited, can't be a better path
+				
+				try{
+					if(!checkForObstruction(p)){ // can we move onto the point?
+						NodeData inFringe = null;
+						for(NodeData n : fringe){
+							if(n.point.equals(p)){ inFringe = n; break; }
+						}
+						
+						if(inFringe == null){ // auto add it if we haven't seen it yet
+							fringe.add(new NodeData(current.costSoFar + 1,
+													Coord.getDistance(p, end),
+													current, p));
+						}
+						else if(current.costSoFar + 1 >= inFringe.costSoFar){ // This path to it is longer
+							continue;
+						}
+						else { // This path to it is shorter, override it
+							fringe.remove(inFringe);
+							inFringe.costSoFar = current.costSoFar + 1;
+							inFringe.previous = current;
+							fringe.add(inFringe);
+						}
+					}
+				}
+				catch(IllegalArgumentException e){ // out of bounds; ignore this neighbour
+					continue;
+				}
+			}
+		}
+		
+		return null; // We can't find a path at all!
+	}
+	
+	private Direction[] constructPath(NodeData node){
+		List<NodeData> list = new LinkedList<NodeData>();
+		while(node != null){
+			list.add(0, node);
+			node = node.previous;
+		}
+		
+		List<Direction> directions = new LinkedList<Direction>();
+		for(int i = 1; i < list.size(); i++){
+			directions.add(Direction.directionFrom(list.get(i-1).point, list.get(i).point));
+		}
+		
+		return directions.toArray(new Direction[0]);
+	}
+	
+	/**
+	 * A collection of data used for A* search.
+	 * 
+	 * @author Robert Campbell
+	 */
+	private class NodeData implements Comparable<NodeData> {
+		public int costSoFar;
+		public double heuristicCost;
+		public Point point;
+		public NodeData previous;
+		
+		public NodeData(int costSoFar, double heuristicCost, NodeData previous, Point point){
+			this.costSoFar = costSoFar; this.heuristicCost = heuristicCost; this.previous = previous; this.point = point;
+		}
+		
+		@Override
+		public int compareTo(NodeData other) {
+			double comparison = (costSoFar+heuristicCost) - (other.costSoFar+other.heuristicCost);
+			return comparison < 0 ? -1 : comparison > 0 ? 1 : 0;
+		}
+	}
 
 	/**
 	 * Checks if a point in this zone is obstructed by characters, objects or tiles themselves

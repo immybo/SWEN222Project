@@ -13,6 +13,7 @@ import java.io.IOException;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
+import util.Coord;
 import model.Interactable;
 import model.Interaction;
 import model.Zone;
