@@ -98,6 +98,12 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 	
 	@Override
 	public boolean equals(Object o){
+		if (this == o) {
+			return true;
+		}
+		if (o == null) {
+			return false;
+		}
 		if(o instanceof Entity){
 			Entity e = (Entity) o;
 			if(this.zone.equals(e.zone) && this.worldPosition.equals(e.worldPosition) && this.inventory.equals(e.inventory)){
