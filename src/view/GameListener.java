@@ -75,6 +75,21 @@ public class GameListener implements KeyListener, MouseListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		try{
+			if(e.getKeyCode() == KeyEvent.VK_W){
+				client.moveForward();
+			}
+			else if(e.getKeyCode() == KeyEvent.VK_S){
+				client.moveBackward();
+			}
+			else if(e.getKeyCode() == KeyEvent.VK_A){
+				client.rotateAnticlockwise();
+			}
+			else if(e.getKeyCode() == KeyEvent.VK_D){
+				client.rotateClockwise();
+			}
+		}
+		catch(IOException ex){} // Do nothing?
 	}
 
 	@Override
