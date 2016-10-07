@@ -230,21 +230,14 @@ public abstract class Item implements Storable, Serializable, Drawable {
 	public boolean equals(Object o){
 		if(o instanceof Item){
 			Item i = (Item) o;
-			if(this.inInventory == i.inInventory && this.worldPosition.equals(i.worldPosition)
+			if(this.inInventory == i.inInventory && 
+					(this.worldPosition == i.worldPosition || this.worldPosition.equals(i.worldPosition))
 					&& this.stackSize == i.stackSize && this.stackable == i.stackable
-					&& this.id == i.id && this.nextID == i.nextID)
+					&& this.id == i.id)
 				return true;
 		}
 		return false;
 	}
-	
-	/*@Override
-	public boolean equals(Object other){
-		if(other instanceof Item){
-			return ((Item)other).id == this.id; // Simple ID check for equal items
-		}
-		return false;
-	}*/
 	
 	private String drawImagePath;
 	

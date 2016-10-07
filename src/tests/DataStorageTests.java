@@ -69,6 +69,33 @@ public class DataStorageTests extends TestCase {
 		assertEquals(yelo, importedYelo);
 	}
 	
+	@Test
+	public void testCoinStorage(){
+		Coin coin = new Coin();
+		XMLInterface.saveToFile(coin, new File("src/tests/testfiles/testxml1.xml"));
+		
+		Coin importedCoin = XMLInterface.loadFromFile(new Coin.Factory(), new File("src/tests/testfiles/testxml1.xml"));
+		
+		assertEquals(coin, importedCoin);
+	}
+	
+	@Test
+	public void testTileStorage(){
+		Point pos = new Point(1,1);
+		FloorTile floor = new FloorTile(pos);
+		XMLInterface.saveToFile(floor, new File("src/tests/testfiles/testxml1.xml"));
+		
+		FloorTile importedFloor = XMLInterface.loadFromFile(new FloorTile.Factory(), new File("src/tests/testfiles/testxml1.xml"));
+		
+		WallTile wall = new WallTile(pos);
+		XMLInterface.saveToFile(wall, new File("src/tests/testfiles/testxml1.xml"));
+		
+		WallTile importedWall = XMLInterface.loadFromFile(new WallTile.Factory(), new File("src/tests/testfiles/testxml1.xml"));
+		
+		assertEquals(floor, importedFloor);
+		assertEquals(wall, importedWall);
+	}
+	
 	public void deleteTestXMLFile(){
 		try {
 			Files.deleteIfExists(FileSystems.getDefault().getPath("testxml.xml"));
@@ -76,4 +103,5 @@ public class DataStorageTests extends TestCase {
 			// We don't really care if we can't find it. If we can't access it, the user screwed up. Oh well.
 		}
 	}
+	
 }
