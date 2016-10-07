@@ -1,6 +1,7 @@
 package network.server;
 
 import java.net.Socket;
+import java.awt.Point;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -69,6 +70,14 @@ public class ServerRecvThread extends Thread {
 			break;
 		case BACKWARD:
 			player.moveBackwards();
+			break;
+		case MOVE_TO_POINT:
+			readObj = in.readObject();
+			if(!(readObj instanceof Point)){
+				System.err.println("Received malformed interaction from "+socket.getRemoteSocketAddress());
+				break;
+			}
+			player.moveToPoint((Point)readObj);
 			break;
 		case ROTATE_CLOCKWISE:
 			player.rotate(true);

@@ -117,7 +117,8 @@ public class Client {
 	 * @param newPoint The point to move to.
 	 */
 	public void moveTo(Point newPoint) throws IOException {
-		throw new RuntimeException(); // TODO
+		out.writeObject(Event.MOVE_TO_POINT);
+		out.writeObject(newPoint);
 	}
 	
 	/**
