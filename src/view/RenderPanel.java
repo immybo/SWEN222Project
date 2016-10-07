@@ -23,6 +23,7 @@ public class RenderPanel extends JPanel {
     private volatile Zone zone;
     private volatile Inventory inventory;
     private AffineTransform isoTransform;
+    private GameFrame frame;
 
     public Zone getZone() {
         return zone;
@@ -40,7 +41,8 @@ public class RenderPanel extends JPanel {
      * Creates a render panel without any listeners.
      * Mouse and key input will therefore do nothing.
      */
-    public RenderPanel(){
+    public RenderPanel(GameFrame frame){
+    	this.frame = frame;
         this.setPreferredSize(new Dimension(1024,768));
         isoTransform = AffineTransform.getRotateInstance(Math.PI*0.25);
         isoTransform.preConcatenate(AffineTransform.getScaleInstance(1,0.574)); //Magic numbers are bad but oh well
@@ -52,6 +54,8 @@ public class RenderPanel extends JPanel {
         GameListener listener = new GameListener(client, transform);
         this.addMouseListener(listener);
         this.addKeyListener(listener);
+        this.setFocusable(true);
+        this.requestFocus();
     }
 
     @Override
@@ -132,16 +136,6 @@ public class RenderPanel extends JPanel {
     	Point2D trans = new Point2D.Double();
     	isoTransform.transform(new Point2D.Double(x,y), trans);
     	return trans;
-    }
-
-    public static void testRender() {
-        JFrame testWindow = new JFrame();
-        JPanel renderPanel = new RenderPanel();
-        testWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        testWindow.add(renderPanel);
-        testWindow.pack();
-        testWindow.setVisible(true);
-        renderPanel.setVisible(true);
     }
 
     private class DrawableComparator implements Comparator<Drawable> {
