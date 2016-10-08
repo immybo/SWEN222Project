@@ -4,9 +4,11 @@ import javax.swing.*;
 
 import model.World;
 import model.Zone;
+import network.NetworkError;
 import network.client.Client;
 
 import java.awt.*;
+import java.lang.Thread.UncaughtExceptionHandler;
 
 /**
  * The main frame, which contains all of the components for
@@ -26,7 +28,7 @@ public class GameFrame extends JFrame {
     private RenderPanel canvas;
     // Shows the player information about the current game -
     // For example, their inventory, health
-    private JPanel informationPanel;
+    private InformationPanel informationPanel;
 
     private GameFrame(){
         setSizeDefault();
@@ -104,6 +106,24 @@ public class GameFrame extends JFrame {
     public void displayMessage(String text){
     	JOptionPane.showMessageDialog(this, text);
     }
+	
+	public void connect(String hostname) throws NetworkError {
+		Client client = new Client(this, hostname);
+		informationPanel.setClient(client);
+		getRenderPanel().attachToClient(client);
+		client.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+			public void uncaughtException(Thread t, Throwable e) {
+				client.disconnect();
+				showNetworkErrorBox(e);
+			}
+		});
+		client.run();
+	}
+	
+	public void showNetworkErrorBox(Throwable e) {
+			JOptionPane.showMessageDialog(this.getParent(), "Network Error: "+e.getMessage(),
+				"Error", JOptionPane.OK_OPTION);
+	}
     
     public static GameFrame instance(){
     	if(frame != null){

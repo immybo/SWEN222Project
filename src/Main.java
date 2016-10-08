@@ -7,5 +7,8 @@ public class Main {
         GameFrame g = GameFrame.instance();
         g.getRenderPanel().setZone(World.testWorld().getZones()[0]);
         g.setVisible(true);
+        
+        if(args.length > 0)
+        	g.connect(args[0]);
     }
 }

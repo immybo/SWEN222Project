@@ -29,7 +29,6 @@ public class InformationPanel extends JPanel {
 	private JButton rotateAntiButton;
 	private JButton rotateButton;
 	
-
 	private Client client;
 	private GameFrame gameFrame;
 
@@ -43,18 +42,10 @@ public class InformationPanel extends JPanel {
 			System.err.println("Host is: "+host);
 			try {
 				if(host != null && client == null) {
-					client = new Client(gameFrame, host);
-					gameFrame.getRenderPanel().attachToClient(client);
-					client.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-						public void uncaughtException(Thread t, Throwable e) {
-							client.disconnect();
-							showNetworkErrorBox(e);
-						}
-					});
-					client.run();
+					gameFrame.connect(host);
 				}
 			} catch (NetworkError ne) {
-				showNetworkErrorBox(ne);
+				gameFrame.showNetworkErrorBox(ne);
 			}
 		});
 
@@ -79,39 +70,19 @@ public class InformationPanel extends JPanel {
 				loadGame();
 		});
 
-		forwardButton = new JButton("Move Forward");
-		forwardButton.addActionListener((ActionEvent e)->{
-			moveForward();
-		});
-		
-		backwardButton = new JButton("Move Backward");
-		backwardButton.addActionListener((ActionEvent e)->{
-			moveBackward();
-		});
-		rotateAntiButton = new JButton("Rotate Anticlockwise");
-		rotateAntiButton.addActionListener((ActionEvent e)->{
-			rotateAnticlockwise();
-		});
-		
-		rotateButton = new JButton("Rotate Clockwise");
-		rotateButton.addActionListener((ActionEvent e)->{
-			rotateClockwise();
-		});
-		
-
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(3, 3));
 
 		buttonPanel.add(saveButton, 0);
 		buttonPanel.add(loadButton, 1);
 		buttonPanel.add(exitButton, 2);
-		buttonPanel.add(forwardButton, 3);
-		buttonPanel.add(backwardButton, 4);
-		buttonPanel.add(rotateAntiButton, 5);
-		buttonPanel.add(rotateButton, 6);
-		buttonPanel.add(connectButton, 7);
+		buttonPanel.add(connectButton, 3);
 
 		this.add(buttonPanel, BorderLayout.SOUTH);
+	}
+	
+	public void setClient(Client newClient){
+		client = newClient;
 	}
 
 	@Override
@@ -137,7 +108,7 @@ public class InformationPanel extends JPanel {
 		try {
 			client.moveForward();
 		} catch (IOException e) {
-			showNetworkErrorBox(e);
+			gameFrame.showNetworkErrorBox(e);
 		}
 	}
 	
@@ -145,7 +116,7 @@ public class InformationPanel extends JPanel {
 		try {
 			client.moveBackward();
 		} catch (IOException e) {
-			showNetworkErrorBox(e);
+			gameFrame.showNetworkErrorBox(e);
 		}
 	}
 	
@@ -153,7 +124,7 @@ public class InformationPanel extends JPanel {
 		try {
 			client.rotateAnticlockwise();
 		} catch (IOException e) {
-			showNetworkErrorBox(e);
+			gameFrame.showNetworkErrorBox(e);
 		}
 	}
 	
@@ -161,12 +132,7 @@ public class InformationPanel extends JPanel {
 		try {
 			client.rotateClockwise();
 		} catch (IOException e) {
-			showNetworkErrorBox(e);
+			gameFrame.showNetworkErrorBox(e);
 		}
-	}
-	
-	private void showNetworkErrorBox(Throwable e) {
-			JOptionPane.showMessageDialog(this.getParent(), "Network Error: "+e.getMessage(),
-				"Error", JOptionPane.OK_OPTION);
 	}
 }
