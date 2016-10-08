@@ -106,6 +106,8 @@ public class RenderPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D)g; //so we can do the fancy transform stuff
+        g2.setColor(Color.GRAY);
+        g2.fillRect(0, 0, getWidth(), getHeight());
 //        g2.setTransform(isoTransform);
 //        for (int i = 0;i < 10; i++) {
 //            for (int j = 0; j < 10; j++) {
