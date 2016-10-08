@@ -143,33 +143,7 @@ public class RenderPanel extends JPanel {
             }
         }
 
-        /*
-        ZoneDrawInfo info = zone.getDrawInformation();
-        String[][] tileInfo = info.getTileInfo();
-        //g2.setTransform(isoTransform);
-        for(int x = 0; x < tileInfo[0].length; x++){
-			for(int y = 0; y < tileInfo.length; y++){
-				BufferedImage img;
-				String filename = "images/" + tileInfo[y][x] + "Iso.png";
-				try {
-					Point2D drawPoint = applyTransform(x*42,y*42);
-					img = ImageIO.read(new File(filename));
-					g2.drawImage(img, (int)drawPoint.getX(), (int)drawPoint.getY(), 64, 36, null);
-				} catch (IOException e) {
-					System.err.println("Renderer: Image "+filename+" not found");
-				}
 
-			}
-		}
-        BufferedImage img;
-        try {
-			img = ImageIO.read(new File("images/pupo.png"));
-
-			g2.drawImage(img, zone.getPupo().getCoord().getPoint().x*60, zone.getPupo().getCoord().getPoint().y*60, 60, 60, null);
-		} catch (IOException e) {
-			//do nothing cos i dont know man
-		}
-		*/
 
 
         //DRAFT IMAGE

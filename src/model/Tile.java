@@ -92,11 +92,12 @@ public abstract class Tile implements Storable,Serializable, Drawable {
 		return new PointD(position.getX(),position.getY());
 	}
 
-
+	/*
 	public void setDrawImagePath(String drawImagePath) {
 		this.drawImagePath = drawImagePath;
 		
 	}
+	*/
 	@Override
 	public int getYOffset() {
 		return 0;

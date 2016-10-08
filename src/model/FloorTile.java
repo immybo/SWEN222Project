@@ -43,4 +43,9 @@ public class FloorTile extends Tile {
 			}
 		}
 	}
+
+	@Override
+	public String getDrawImagePath() {
+		return "images/testFloorAIso.png";
+	}
 }

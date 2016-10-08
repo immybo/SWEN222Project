@@ -134,14 +134,12 @@ public class GameTests extends TestCase {
 		for(int x = 0; x<7; x++){
 			for(int y = 0; y<7; y++){
 				tiles[y][x] = new WallTile(new Point(x,y));
-				tiles[y][x].setDrawImagePath("wallTile");
 			}
 		}
 		//5x5 walkable room
 		for(int x = 1; x<6; x++){
 			for(int y = 1; y<6; y++){
 				tiles[y][x] = new FloorTile(new Point(x,y));
-				tiles[y][x].setDrawImagePath("floorTile");
 			}
 		}
 		newZones[0] = new Zone("testZone", tiles);
@@ -173,13 +171,11 @@ public class GameTests extends TestCase {
 		for(int x = 0; x<5; x++){
 			for(int y = 0; y<5; y++){
 				tiles1[y][x] = new WallTile(new Point(x,y));
-				tiles1[y][x].setDrawImagePath("wallTile");
 			}
 		}
 		for(int x = 1; x<4; x++){
 			for(int y = 1; y<4; y++){
 				tiles1[y][x] = new FloorTile(new Point(x,y));
-				tiles1[y][x].setDrawImagePath("floorTile");
 			}
 		}
 		newZones[0] = new Zone("testZone1", tiles1);
@@ -194,13 +190,11 @@ public class GameTests extends TestCase {
 		for(int x = 0; x<6; x++){
 			for(int y = 0; y<3; y++){
 				tiles2[y][x] = new WallTile(new Point(x,y));
-				tiles2[y][x].setDrawImagePath("wallTile");
 			}
 		}
 		for(int x = 1; x<5; x++){
 			for(int y = 1; y<2; y++){
 				tiles2[y][x] = new FloorTile(new Point(x,y));
-				tiles2[y][x].setDrawImagePath("floorTile");
 			}
 		}
 		newZones[1] = new Zone("testZone2", tiles2);
