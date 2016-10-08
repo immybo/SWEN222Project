@@ -3,6 +3,7 @@ package model;
 import java.io.Serializable;
 
 import datastorage.Storable;
+import model.Gate.State;
 import util.Coord;
 import util.PointD;
 
@@ -38,6 +39,17 @@ public class KeyGate extends Gate implements Serializable, Storable {
 	public void setPassable(boolean passable) {
 		this.passable = passable;
 	}
+	
+	@Override
+    public String getDrawImagePath() {
+        if (super.getState() == State.OPEN) {
+            return "images/"+ keyID + "GateOpen.png";
+        } else if (super.getState() == State.CLOSED) {
+            return "images/"+ keyID + "GateClosed.png";
+        } else {
+            return "images/"+ keyID + "GateLocked.png";
+        }
+    }
 	
 	@Override
 	public boolean equals(Object o){

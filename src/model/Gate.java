@@ -136,4 +136,8 @@ public abstract class Gate extends Entity implements Storable{
             return 31;
         }
     }
+    
+    public State getState(){
+    	return state;
+    }
 }

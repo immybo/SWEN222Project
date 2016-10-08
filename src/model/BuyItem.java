@@ -33,7 +33,7 @@ public class BuyItem extends Interaction implements Storable{
 		// show description, give item,  remove interaction, and add a standard interactions
 		
 		String title = "Buy item?";
-		String text = "Are you sure you want to buy a " + itemName + "?";
+		String text = "Are you sure you want to buy a " + itemName + " for " + cost + " coins?";
 		boolean no = GameFrame.instance().displayBooleanQuestion(title, text) == 1;
 		
 		if(no){
