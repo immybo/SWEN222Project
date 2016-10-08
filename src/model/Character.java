@@ -162,10 +162,6 @@ public abstract class Character implements Serializable, Storable, Drawable {
 		return elem;
 	}
 
-	public String getDrawImagePath() {
-		return "images/pupo.png";
-	}
-
 	public PointD getDrawPosition() {
 		return new PointD(coord.getPoint().getX(), coord.getPoint().getY());
 	}

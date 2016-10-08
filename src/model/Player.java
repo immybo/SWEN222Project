@@ -149,4 +149,12 @@ public class Player extends Character implements Storable, Serializable {
 			return new Player(zones, elem);
 		}
 	}
+
+	@Override
+	public String getDrawImagePath() {
+		if(pupo)
+			return "images/pupo.png";
+		else
+			return "images/yelo.png";
+	}
 }
