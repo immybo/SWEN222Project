@@ -27,16 +27,6 @@ public class WallTile extends Tile {
 		return "images/wallTile.png";
 	}
 	
-	@Override
-	public double getDepthOffset() {
-		return 0.5;
-	}
-	
-	@Override
-	public int getYOffset() {
-		return 31;
-	}
-	
 	public static class Factory implements StorableFactory<WallTile> {
 		@Override
 		public WallTile fromXMLElement(Element elem) {

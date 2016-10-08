@@ -47,6 +47,6 @@ public class FloorTile extends Tile {
 
 	@Override
 	public String getDrawImagePath(DrawDirection d) {
-		return "images/testFloorAIso.png";
+		return "images/floorTile.png";
 	}
 }
