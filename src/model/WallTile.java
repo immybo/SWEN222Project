@@ -21,9 +21,10 @@ public class WallTile extends Tile {
 	public boolean collides(){
 		return true;
 	}
+	
 	@Override
 	public String getDrawImagePath(DrawDirection d) {
-		return "images/testWall.png";
+		return "images/wallTile.png";
 	}
 	
 	@Override

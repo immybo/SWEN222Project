@@ -43,12 +43,14 @@ public class KeyGate extends Gate implements Serializable, Storable {
 	
 	@Override
     public String getDrawImagePath(DrawDirection d) {
+		DrawDirection drawDir = DrawDirection.getCompositeDirection(d, this.getCoord().getFacing());
+		String dir = "";
+		if(drawDir == DrawDirection.NE || drawDir == DrawDirection.SW) dir = "TR.png";
+		else if(drawDir == DrawDirection.NW || drawDir == DrawDirection.SE) dir = "TL.png";
         if (super.getState() == State.OPEN) {
-            return "images/"+ keyID + "GateOpen.png";
-        } else if (super.getState() == State.CLOSED) {
-            return "images/"+ keyID + "GateClosed.png";
+            return "images/"+ keyID + "GateOpen" + dir;
         } else {
-            return "images/"+ keyID + "GateLocked.png";
+            return "images/"+ keyID + "GateClosed" + dir;
         }
     }
 	

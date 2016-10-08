@@ -172,6 +172,6 @@ public abstract class Character implements Serializable, Storable, Drawable {
 	
 	@Override
 	public int getYOffset() {
-		return 0;
+		return 39;
 	}
 }

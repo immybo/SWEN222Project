@@ -28,7 +28,7 @@ public class Key extends Item implements Storable{
 	}
 	@Override
 	public String getDrawImagePath(DrawDirection d){
-		return "images/" +keyID + "KeyIso.png";
+		return "images/" +keyID + "Key.png";
 	}
 	
 	@Override

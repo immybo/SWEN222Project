@@ -38,7 +38,10 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 	private Zone zone;
 	private Coord worldPosition;
 	private Inventory inventory;
-
+	
+	public Coord getCoord (){
+		return worldPosition;
+	}
 	/**
 	 * Teleports this entity to another position
 	 * @param coord The position to teleport this entity to.

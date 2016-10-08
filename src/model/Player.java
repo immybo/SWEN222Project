@@ -176,9 +176,15 @@ public class Player extends Character implements Storable, Serializable {
 
 	@Override
 	public String getDrawImagePath(DrawDirection d) {
+		DrawDirection drawDir = DrawDirection.getCompositeDirection(d, this.getCoord().getFacing());
+		String dir = "";
+		if(drawDir == DrawDirection.NE) dir = "TR.png";
+		else if(drawDir == DrawDirection.NW) dir = "TR.png";
+		else if(drawDir == DrawDirection.SE) dir = "BR.png";
+		else if(drawDir == DrawDirection.SW) dir = "BL.png";
 		if(pupo)
-			return "images/pupo.png";
+			return ("images/pupo" + dir);
 		else
-			return "images/yelo.png";
+			return ("images/yelo" + dir);
 	}
 }

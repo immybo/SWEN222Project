@@ -33,7 +33,7 @@ public class RenderPanel extends JPanel {
     private volatile Inventory inventory;
     private AffineTransform isoTransform;
     private GameListener listener;
-    private DrawDirection drawDirection = DrawDirection.SW;
+    private DrawDirection drawDirection = DrawDirection.NW;
     
     private JPopupMenu interactionMenu;
 

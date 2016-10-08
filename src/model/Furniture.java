@@ -2,6 +2,7 @@ package model;
 
 import datastorage.Storable;
 import util.Coord;
+import view.DrawDirection;
 
 /**
  * Represents a generic impassable entity that is able to be interacted with. Typically decorative in nature.
@@ -26,4 +27,9 @@ public class Furniture extends Entity implements Storable{
 			return super.equals(o);
 		return false;
 	}
+	@Override
+	public String getDrawImagePath(DrawDirection d) {
+		return null;
+	}
+	
 }
