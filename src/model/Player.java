@@ -130,9 +130,7 @@ public class Player extends Character implements Storable, Serializable {
 		// Doing this every movement will be a bit costly, but
 		// since we have quite a rough grid and slow ticks, it's fine
 		Direction[] path = getZone().getPath(getCoord().getPoint(), newPoint);
-		System.out.println("finding a path");
 		if(path == null){
-			System.out.println("no path found");
 			if(movementTimer != null)
 				movementTimer.cancel();
 			return; // Couldn't find a path
