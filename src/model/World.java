@@ -165,7 +165,7 @@ public class World implements Storable {
 		Zone[] zones = new Zone[4];
 		
 		// ZONE 0 / Memory and Decisions.
-		Tile[][] tiles = new Tile[13][12];
+		Tile[][] tiles = new Tile[12][13];
 		int y;
 		int x;
 		int toAdd;
