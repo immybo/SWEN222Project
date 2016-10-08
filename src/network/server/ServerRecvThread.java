@@ -6,6 +6,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import model.Enemy;
 import model.Player;
 import model.Interaction;
 import network.Protocol.Event;
@@ -74,7 +75,7 @@ public class ServerRecvThread extends Thread {
 		case MOVE_TO_POINT:
 			readObj = in.readObject();
 			if(!(readObj instanceof Point)){
-				System.err.println("Received malformed interaction from "+socket.getRemoteSocketAddress());
+				System.err.println("Received malformed move to point from "+socket.getRemoteSocketAddress());
 				break;
 			}
 			player.moveToPoint((Point)readObj);
@@ -94,6 +95,14 @@ public class ServerRecvThread extends Thread {
 			System.err.println("Server event receiver: not calling unimplemented interaction method");
 			//Interaction interaction = (Interaction)readObj;
 			//player.interact(interaction);
+			break;
+		case ATTACK:
+			readObj = in.readObject();
+			if (!(readObj instanceof Enemy)) {
+				System.err.println("Received malformed enemy in attack command from "+socket.getRemoteSocketAddress());
+				break;
+			}
+			player.attack((Enemy)readObj);
 			break;
 		default:
 			System.err.println("Unhandled event in server event receiver: "+packetType);

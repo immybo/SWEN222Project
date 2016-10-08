@@ -38,5 +38,6 @@ public class Protocol {
 		
 		/* interaction */
 		INTERACT,
+		ATTACK,
 	};
 }

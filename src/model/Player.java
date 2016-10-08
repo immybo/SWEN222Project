@@ -18,6 +18,7 @@ import util.Direction;
 public class Player extends Character implements Storable, Serializable {
 	public final boolean pupo; //!pupo --> yelo
 	private Inventory inventory;
+	private Weapon equipped;
 
 	private transient Timer movementTimer;
 	
@@ -33,6 +34,28 @@ public class Player extends Character implements Storable, Serializable {
 		Inventory.Factory factory = new Inventory.Factory();
 		this.inventory = factory.fromXMLElement((Element)elem.getChildNodes().item(0));
 		// TODO parse the inventory from the element
+	}
+	
+	public void attack(Enemy victim){
+		if(equipped != null){
+			victim.damage(equipped.getDamage());
+		}
+		else{
+			victim.damage(1); // players always can damage a little bit... just not much
+		}
+	}
+	
+	public void equipWeapon(Weapon newWeapon){
+		if(!inventory.containsItem(newWeapon))
+			throw new IllegalArgumentException("Can't equip a weapon that isn't in a player's inventory!");
+
+		inventory.removeItem(newWeapon);
+		inventory.addItem(equipped);
+		equipped = newWeapon;
+	}
+	
+	public Weapon getEquipped(){
+		return equipped;
 	}
 	
 	@Override

@@ -170,6 +170,11 @@ public class RenderPanel extends JPanel {
     	isoTransform.createInverse().transform(new Point2D.Double(screenCoordinate.x, screenCoordinate.y), inverseTrans);
     	return new Point((int)(inverseTrans.getX()/TILE_WIDTH), (int)(inverseTrans.getY()/TILE_HEIGHT));
     }
+    
+    public Point getScreenCoordinate(double worldX, double worldY){
+    	Point2D transformed = applyTransform(worldX * TILE_WIDTH, worldY * TILE_HEIGHT);
+    	return new Point((int)transformed.getX(), (int)transformed.getY());
+    }
 
     private class DrawableComparator implements Comparator<Drawable> {
         public int compare(Drawable a, Drawable b) {
