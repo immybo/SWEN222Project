@@ -25,6 +25,10 @@ public class Key extends Item implements Storable{
 	public String getKeyID(){
 		return this.keyID;
 	}
+	@Override
+	public String getDrawImagePath(){
+		return "images/" +keyID + "KeyIso.png";
+	}
 	
 	@Override
 	public Element toXMLElement(Document doc){
