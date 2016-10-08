@@ -33,6 +33,7 @@ public class RenderPanel extends JPanel {
     private volatile Inventory inventory;
     private AffineTransform isoTransform;
     private GameListener listener;
+    private DrawDirection drawDirection = DrawDirection.SW;
     
     private JPopupMenu interactionMenu;
 
@@ -129,7 +130,7 @@ public class RenderPanel extends JPanel {
 
         while (!drawQueue.isEmpty()) {
         	Drawable d = drawQueue.poll();
-            String filename = d.getDrawImagePath();
+            String filename = d.getDrawImagePath(drawDirection);
             if (filename == null) {
                 continue;
             }

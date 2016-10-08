@@ -3,6 +3,7 @@ package model;
 import datastorage.Storable;
 import util.Coord;
 import util.PointD;
+import view.DrawDirection;
 
 /**
  * Defines an entity which is passable in certain
@@ -109,7 +110,7 @@ public abstract class Gate extends Entity implements Storable{
 	}
 
 	@Override
-    public String getDrawImagePath() {
+    public String getDrawImagePath(DrawDirection d) {
         if (state == State.OPEN) {
             return "images/GateOpen.png";
         } else if (state == State.CLOSED) {
