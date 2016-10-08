@@ -40,7 +40,7 @@ public class Server {
 		clientCount = 0;
 		
 		/* FIXME HACK set up world and players */
-		world = World.testWorld();
+		world = World.firstLevel();
 		this.players = new Player[2];
 		players[0] = world.getPupo();
 		players[1] = world.getYelo();

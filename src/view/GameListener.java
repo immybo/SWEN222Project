@@ -50,6 +50,8 @@ public class GameListener implements KeyListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if(zone == null) return;
+		
 		Point clickWorldPoint;
 		try {
 			clickWorldPoint = panel.getWorldCoordinate(e.getPoint());
@@ -106,6 +108,8 @@ public class GameListener implements KeyListener, MouseListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		if(zone == null) return;
+		
 		try{
 			if(e.getKeyCode() == KeyEvent.VK_W){
 				client.moveForward();
@@ -145,6 +149,8 @@ public class GameListener implements KeyListener, MouseListener {
 		
 		@Override
 		public void actionPerformed(ActionEvent e){
+			if(zone == null) return;
+			
 			try {
 				client.interact(interaction);
 				panel.removeInteractionMenu(); // menu closes once you click an interaction
