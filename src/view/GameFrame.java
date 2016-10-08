@@ -2,8 +2,9 @@ package view;
 
 import javax.swing.*;
 
+import model.World;
 import model.Zone;
-import network.Client;
+import network.client.Client;
 
 import java.awt.*;
 
@@ -24,13 +25,13 @@ public class GameFrame extends JFrame {
     // Shows the player information about the current game -
     // For example, their inventory, health
     private JPanel informationPanel;
-    private Client client;
 
     public GameFrame(){
         setSizeDefault();
         this.setLayout(new BorderLayout());
-
-        canvas = new RenderPanel();
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+        
+        canvas = new RenderPanel(this);
         informationPanel = new InformationPanel(this);
 
         this.add(canvas, BorderLayout.WEST);
@@ -70,6 +71,12 @@ public class GameFrame extends JFrame {
     	int height = DEFAULT_HEIGHT;
     	if(height > screenSize.getHeight() * 0.9)
     		height = (int)(screenSize.getHeight() * 0.9);
+    	
+    	if(width > 1024){
+    		width = 1024;
+    		height = (int)(1024 * ((double)screenSize.getHeight() / screenSize.getWidth()));
+    	}
+    	
     	this.setPreferredSize(new Dimension(width, height));
     }
 

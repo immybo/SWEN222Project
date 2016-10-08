@@ -1,13 +1,13 @@
-package network;
+package network.server;
 
 import java.net.Socket;
+import java.awt.Point;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
-import model.Character;
+import model.Player;
 import model.Interaction;
-import model.World;
 import network.Protocol.Event;
 
 /**
@@ -24,7 +24,7 @@ public class ServerRecvThread extends Thread {
 	private Server parentServer;
 	
 	/* character for the client this thread is managing */
-	private Character character;
+	private Player player;
 	
 	/* socket connected to client and its inward stream */
 	private Socket socket;
@@ -36,10 +36,10 @@ public class ServerRecvThread extends Thread {
 	 * @param socket -- socket on which to communicate with client
 	 * @param character -- in-game character this thread's client controls
 	 */
-	public ServerRecvThread(Server parentServer, Socket socket, Character character) {
-		this.socket = socket;
+	public ServerRecvThread(Server parentServer, ObjectInputStream in, Player player) {
+		this.in = in;
 		this.parentServer = parentServer;
-		this.character = character;
+		this.player = player;
 	}
 	
 	/**
@@ -63,19 +63,27 @@ public class ServerRecvThread extends Thread {
 			return false;
 		}
 		Event packetType = (Event)readObj;
-		World w = parentServer.getWorld();
+		
 		switch (packetType) {
 		case FORWARD:
-			w.moveCharacterForward(character);
+			player.moveForward();
 			break;
 		case BACKWARD:
-			w.moveCharacterBackward(character);
+			player.moveBackwards();
+			break;
+		case MOVE_TO_POINT:
+			readObj = in.readObject();
+			if(!(readObj instanceof Point)){
+				System.err.println("Received malformed interaction from "+socket.getRemoteSocketAddress());
+				break;
+			}
+			player.moveToPoint((Point)readObj);
 			break;
 		case ROTATE_CLOCKWISE:
-			w.rotateCharacter(true, character);
+			player.rotate(true);
 			break;
 		case ROTATE_ANTICLOCKWISE:
-			w.rotateCharacter(false, character);
+			player.rotate(false);
 			break;
 		case INTERACT:
 			readObj = in.readObject();
@@ -83,11 +91,12 @@ public class ServerRecvThread extends Thread {
 				System.err.println("Received malformed interaction from "+socket.getRemoteSocketAddress());
 				break;
 			}
-			Interaction interaction = (Interaction)readObj;
-			w.interact(interaction, character);
+			System.err.println("Server event receiver: not calling unimplemented interaction method");
+			//Interaction interaction = (Interaction)readObj;
+			//player.interact(interaction);
 			break;
 		default:
-			System.err.println("Unhandled event : "+packetType);
+			System.err.println("Unhandled event in server event receiver: "+packetType);
 			break;
 		}
 		return true;
@@ -96,11 +105,11 @@ public class ServerRecvThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			in = new ObjectInputStream(socket.getInputStream());
-			
+			/* while we can, process events being sent to us */
 			while(processUpstream())
 				;
 			
+			/* loop broken, ask the server to stop */
 			parentServer.stop();
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();

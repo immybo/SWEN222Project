@@ -30,6 +30,7 @@ public class Protocol {
 		/* movement */
 		FORWARD,
 		BACKWARD,
+		MOVE_TO_POINT,
 		
 		/* rotation */
 		ROTATE_CLOCKWISE,

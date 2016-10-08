@@ -1,4 +1,4 @@
-package network;
+package network.server;
 
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -8,16 +8,20 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import model.World;
-import model.Character;
+import network.Protocol;
+import network.NetworkError;
+import model.Player;
 
 public class Server {
 	
 	private ServerSocket sock;
 	private int port;
 	private Socket[] clientSocks;
+	private ObjectOutputStream[] outs;
+	private ObjectInputStream[] ins;
 	private int clientCount;
 	private World world;
-	private Character[] characters;
+	private Player[] players;
 	private Thread[] workerThreads;
 	
 	/**
@@ -37,32 +41,30 @@ public class Server {
 		
 		/* FIXME HACK set up world and players */
 		world = World.testWorld();
-		this.characters = new Character[2];
-		characters[0] = world.getPupo();
-		characters[1] = world.getYelo();
+		this.players = new Player[2];
+		players[0] = world.getPupo();
+		players[1] = world.getYelo();
 		
 	}
 	
 	/**
 	 * Initialise the server
 	 * 
-	 * @return true on success of already initialised, false on error
+	 * @throws NetworkError
 	 */
-	public boolean initialise() {
+	public void initialise() {
 		/* has the server already been initialised? */
 		if (sock != null && sock.isBound()) {
-			return true;
+			return;
 		}
 		try {
 			sock = new ServerSocket();
 			sock.setReuseAddress(true);
 			sock.bind(new InetSocketAddress(port));
 			System.out.println("Server listening on port "+port);
-			return true;
+			return;
 		} catch (IOException e) {
-			/* FIXME gui popup instead */
-			System.err.println("Error binding on port " + port + ": " + e.getMessage());
-			return false;
+			throw new NetworkError("Error binding on port " + port + ": " + e.getMessage());
 		}
 	}
 	
@@ -71,6 +73,7 @@ public class Server {
 	 * Clean up resources allocated to the server
 	 * 
 	 * @return true on success, false otherwise
+	 * @throws NetworkError 
 	 */
 	private boolean cleanup() {
 		try {
@@ -79,9 +82,7 @@ public class Server {
 			}
 			return true;
 		} catch (IOException e) {
-			/* FIXME gui popup instead */
-			System.err.println("Error closing server socket: " + e.getMessage());
-			return false;
+			throw new NetworkError("cleanup: Error closing server socket: " + e.getMessage());
 		}
 	}
 	
@@ -102,11 +103,7 @@ public class Server {
 	 * @return true if handshake succeeds, false otherwise
 	 * @throws IOException
 	 */
-	public boolean doHandshake(Socket clientSocket) throws IOException {
-		/* DataInputStream and co. make sending packets of varied data types easy */
-		ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
-		ObjectOutputStream out = new ObjectOutputStream(clientSocket.getOutputStream());
-		
+	public boolean doHandshake(ObjectInputStream in, ObjectOutputStream out) throws IOException {
 		/* send the server's magic sequence and wait for a reply */
 		out.writeObject(Protocol.SERVER_MAGIC);
 		
@@ -142,20 +139,23 @@ public class Server {
 		int totalPlayers = 2;
 		
 		clientSocks = new Socket[totalPlayers];
+		outs = new ObjectOutputStream[totalPlayers];
+		ins= new ObjectInputStream[totalPlayers];
 		
-		/* try to initialise, bailing altogether if it fails */
-		if (!initialise()) {
-			System.err.println("Initialising failed. Stop.");
-			return;
-		}
 		
+		/* initialise the main server listener socket */
+		initialise();
+		
+		/* main connection accept loop */
 		while (!sock.isClosed() && clientCount < clientSocks.length) {
 			try {
 				Socket client = sock.accept();
 				System.out.println("Accepted connection from "+client.getInetAddress());
-		
+				outs[clientCount] = new ObjectOutputStream(client.getOutputStream());
+				ins[clientCount] = new ObjectInputStream(client.getInputStream());
+				
 				/* attempt basic sanity-check */
-				if (doHandshake(client)) {
+				if (doHandshake(ins[clientCount], outs[clientCount])) {
 					System.out.println("Magic phrase exchange succeeded");
 					clientSocks[clientCount] = client;
 					clientCount++;
@@ -179,7 +179,7 @@ public class Server {
 			Thread sendThread;
 			Thread recvThread;
 			try {
-				sendThread = new ServerSendThread(this, clientSocks[i], characters[i]); 
+				sendThread = new ServerSendThread(this, outs[i], players[i]); 
 			} catch (IOException e) {
 				e.printStackTrace();
 				System.err.println("Error creating game state updater thread, bailing");
@@ -187,7 +187,7 @@ public class Server {
 				return;
 			}
 			
-			recvThread = new ServerRecvThread(this, clientSocks[i], characters[i]);
+			recvThread = new ServerRecvThread(this, ins[i], players[i]);
 			
 			sendThread.start();
 			recvThread.start();
@@ -195,16 +195,6 @@ public class Server {
 			workerThreads[(2 * i) + 1] = recvThread;
 		}
 	}
-	
-	
-	/**
-	 * Get the world of the hosted game
-	 * @return
-	 */
-	protected World getWorld() {
-		return this.world;
-	}
-	
 	
 	/**
 	 * Stop the server if it is running

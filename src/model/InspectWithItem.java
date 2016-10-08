@@ -1,16 +1,19 @@
 package model;
+
+import datastorage.Storable;
+
 /**
  * An interaction where when interacted will show a message and give an item. This interaction can only happen once and is a substitute for "Inspect". After the interaction has run, it will replace itself wtih
- * 
+ *
  * @author Martin Chau
  *
  */
-public class InspectWithItem implements Interaction {
+public class InspectWithItem extends Interaction implements Storable{
 	private Entity entity;
 	private Item item;
 	private String giveDescription;
 	private String altDescription;
-	
+
 	public InspectWithItem(Entity entity, Item item, String giveDescription, String altDescription){
 		this.entity = entity;
 		this.item = item;
@@ -24,7 +27,7 @@ public class InspectWithItem implements Interaction {
 
 	@Override
 	public void execute(Player p) {
-		//TODO takes a player and the object. 
+		//TODO takes a player and the object.
 		// show description, give item,  remove interaction, and add a standard interactions
 		if(p.getInventory().hasRoom()){
 			//show dialog box to user
@@ -34,6 +37,18 @@ public class InspectWithItem implements Interaction {
 		} else {
 			//show dialog box
 		}
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		if(o instanceof InspectWithItem){
+			InspectWithItem i = (InspectWithItem) o;
+			if(this.entity.equals(i.entity) && this.item.equals(i.item)
+					&& this.giveDescription.equals(i.giveDescription) && this.altDescription.equals(i.altDescription)){
+				return super.equals(o);
+			}
+		}
+		return false;
 	}
 
 }

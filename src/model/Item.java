@@ -6,7 +6,8 @@ import java.io.Serializable;
 import org.w3c.dom.*;
 
 import datastorage.*;
-import util.*;
+import util.PointD;
+import view.Drawable;
 
 /**
  * Defines something which exists on the world or
@@ -226,23 +227,34 @@ public abstract class Item implements Storable, Serializable, Drawable {
 	}
 	
 	@Override
-	public boolean equals(Object other){
-		if(other instanceof Item){
-			return ((Item)other).id == this.id; // Simple ID check for equal items
+	public boolean equals(Object o){
+		if(o instanceof Item){
+			Item i = (Item) o;
+			if(this.inInventory == i.inInventory && 
+					(this.worldPosition == i.worldPosition || this.worldPosition.equals(i.worldPosition))
+					&& this.stackSize == i.stackSize && this.stackable == i.stackable
+					&& this.id == i.id)
+				return true;
 		}
 		return false;
 	}
 	
-	private String drawID;
+	private String drawImagePath;
 	
 	@Override
-	public String getDrawID() {
-		return this.drawID;
+	public String getDrawImagePath() {
+		return this.drawImagePath;
 	}
-
-	@Override
-	public void setDrawID(String drawID) {
-		this.drawID = drawID;
-		
+    @Override
+    public PointD getDrawPosition() {
+        return new PointD(this.worldPosition.getX(),this.worldPosition.getY());
+    }
+    @Override
+    public double getDepthOffset() {
+        return 0.1;
+    }
+    @Override
+	public int getYOffset() {
+		return 0;
 	}
 }

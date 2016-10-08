@@ -1,16 +1,21 @@
 package model;
-	/**
+
+import java.io.Serializable;
+
+import datastorage.Storable;
+
+/**
 	 * An interaction that can be done on any gate, this interaction will check the player's inventory for a valid key and consume it, therefore opening the gate, if no suitable key exists then show dialog saying no key exists
-	 * 
+	 *
 	 * @author Martin Chau
 	 *
 	 */
-	public class UseKey implements Interaction{
+	public class UseKey extends Interaction implements Serializable, Storable{
 		private KeyGate keyGate;
 		public UseKey(KeyGate keyGate){
 			this.keyGate = keyGate;
 		}
-		
+
 		@Override
 		public String getText() {
 			return "Use Key";
@@ -37,7 +42,8 @@ package model;
 				//set the gate to open
 				keyGate.unlock();
 				keyGate.open();
-				keyGate.setDrawID(matchKey.getKeyID() + "-open");
+				keyGate.setPassable(true);
+				keyGate.setDrawImagePath(matchKey.getKeyID() + "-open");
 				//remove key from play inventory
 				p.getInventory().removeItem(matchKey);
 				//remove interaction from gate
@@ -46,6 +52,16 @@ package model;
 			}
 		}
 		
+		@Override
+		public boolean equals(Object o){
+			if(o instanceof UseKey){
+				UseKey uk = (UseKey) o;
+				if(this.keyGate.equals(uk.keyGate))
+					return super.equals(o);
+			}
+			return false;
+		}
+
 
 	}
 

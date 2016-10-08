@@ -1,13 +1,13 @@
-package network;
+package network.client;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.net.Socket;
 
 import model.Inventory;
 import model.Zone;
 import view.GameFrame;
 import view.RenderPanel;
+import network.NetworkError;
 
 /**
  * Client worker thread for listening to the server's socket, with client sending stuff to the server
@@ -17,14 +17,13 @@ import view.RenderPanel;
 public class ClientThread extends Thread{
 
 	/* socket connected to server and input stream */
-	private Socket socket;
 	private ObjectInputStream in;
 	private GameFrame frame;
 	
 	private boolean running;
 
-	public ClientThread(Socket socket, GameFrame frame) {
-		this.socket = socket;
+	public ClientThread(ObjectInputStream in, GameFrame frame) {
+		this.in = in;
 		this.frame = frame;
 	}
 
@@ -63,14 +62,12 @@ public class ClientThread extends Thread{
 	@Override
 	public void run() {
 		try {
-			this.in = new ObjectInputStream(socket.getInputStream());
 			this.running = true;
 			while(isRunning()){
 				processDownstream();
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new NetworkError(e);
 		}
 	}
 	

@@ -5,10 +5,11 @@ import java.awt.Point;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import datastorage.Storable;
 import datastorage.StorableFactory;
 import util.PointD;
 
-public class Key extends Item {
+public class Key extends Item implements Storable{
 	private String keyID;
 
 	public Key(Point worldPosition, String keyID) {
@@ -40,7 +41,11 @@ public class Key extends Item {
 	}
 	
 	@Override
-	public boolean equals(Object other){
-		return other instanceof Key && super.equals(other);
+	public boolean equals(Object o){
+		if(o instanceof Key){
+			Key k = (Key) o;
+			return this.keyID.equals(k.keyID) && super.equals(o);
+		}
+		return false;
 	}
 }

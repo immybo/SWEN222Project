@@ -1,6 +1,9 @@
 package model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+
+import datastorage.Storable;
 
 /**
  * Defines something which has certain interactions that
@@ -11,7 +14,7 @@ import java.util.ArrayList;
  * @author Robert Campbell
  *
  */
-public abstract class Interactable {
+public abstract class Interactable implements Serializable, Storable {
 	private ArrayList<Interaction> interactions = new ArrayList<Interaction>();
 	
 	/**
@@ -44,6 +47,11 @@ public abstract class Interactable {
 	 * @return An array of all interactions that this interactable can perform.
 	 */
 	public Interaction[] getInteractions(){
-		return (Interaction[]) interactions.toArray();
+		return interactions.toArray(new Interaction[0]);
+	}
+	
+	@Override
+	public boolean equals(Object o){
+		return o instanceof Interactable;
 	}
 }

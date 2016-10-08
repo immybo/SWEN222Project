@@ -1,13 +1,18 @@
-package network;
+package network.client;
 
 
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
+import java.awt.Point;
 import java.io.IOException;
 import java.net.Socket;
+import java.lang.Thread.UncaughtExceptionHandler;
 
 import model.Interaction;
+import model.Zone;
 import view.GameFrame;
+import network.NetworkError;
+import network.Protocol;
 import network.Protocol.Event;
 
 public class Client {
@@ -17,7 +22,7 @@ public class Client {
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private ClientThread clientThread;
-
+	private UncaughtExceptionHandler errorHandler;
 	private GameFrame frame;
 	
 	/**
@@ -76,21 +81,24 @@ public class Client {
 	 */
 	public void run() {
 		try {
+			/* create socket connection to host:port */
 			sock = new Socket(host, port);
+			
+			/* create input+output streams for objects */
 			out = new ObjectOutputStream(sock.getOutputStream());
 			in = new ObjectInputStream(sock.getInputStream());
+			
+			/* attempt handshake with server, bailing if it fails */
 			if (!doHandshake(sock)) {
-				System.err.println("Handshaking with server failed");
 				sock.close();
-				return;
+				throw new NetworkError("Handshaking with server failed");
 			}
-			System.err.println("Starting client thread");
-			this.clientThread = new ClientThread(this.sock, this.frame);
+			System.out.println("Starting client thread");
+			this.clientThread = new ClientThread(in, this.frame);
+			this.clientThread.setUncaughtExceptionHandler(errorHandler);
 			this.clientThread.start();
 		} catch (IOException e) {
-			System.err.printf("Error connecting to %s:%d : %s\n",
-						host, port,
-						e.getMessage());
+			throw new NetworkError(e);
 		}
 	}
 	
@@ -100,9 +108,23 @@ public class Client {
 		try {
 			this.sock.close();
 		} catch (IOException e) {
-			/* we don't care */
-			e.printStackTrace();
+			/* not too concerned at this point, so turn it into an Error */
+			throw new NetworkError(e);
 		}
+	}
+	
+	public void setUncaughtExceptionHandler(UncaughtExceptionHandler e) {
+		this.errorHandler = e;
+	}
+	
+	/**
+	 * Asks the server to move the player to the given point.
+	 * 
+	 * @param newPoint The point to move to.
+	 */
+	public void moveTo(Point newPoint) throws IOException {
+		out.writeObject(Event.MOVE_TO_POINT);
+		out.writeObject(newPoint);
 	}
 	
 	/**

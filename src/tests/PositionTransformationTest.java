@@ -13,7 +13,7 @@ public class PositionTransformationTest
     @SuppressWarnings("deprecation")
 	public void testPositionTransformation()
     {
-        PositionTransformation p = new PositionTransformation(2.5, 3);
+        PositionTransformation p = new PositionTransformation(2.5, 2.5, 3, 3);
         
         double[] x = new double[]{
         	1, -1, 20
