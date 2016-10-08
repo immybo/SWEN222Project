@@ -30,11 +30,10 @@ public class Furniture extends Entity implements Storable{
 	@Override
 	public String getDrawImagePath(DrawDirection d) {
 		DrawDirection drawDir = DrawDirection.getCompositeDirection(d, this.getCoord().getFacing());
-		String dir = "";
-		if(drawDir == DrawDirection.NE) dir = super.getDrawImagePath(d) + "TR.png";
-		else if(drawDir == DrawDirection.NW) dir = super.getDrawImagePath(d) + "TR.png";
-		else if(drawDir == DrawDirection.SE) dir = super.getDrawImagePath(d) + "BR.png";
-		else if(drawDir == DrawDirection.SW) dir = super.getDrawImagePath(d) + "BL.png";
+		if(drawDir == DrawDirection.NE) return super.getDrawImagePath(d) + "TR.png";
+		else if(drawDir == DrawDirection.NW) return super.getDrawImagePath(d) + "TR.png";
+		else if(drawDir == DrawDirection.SE) return super.getDrawImagePath(d) + "BR.png";
+		else if(drawDir == DrawDirection.SW) return super.getDrawImagePath(d) + "BL.png";
 		return null;
 	}
 	
