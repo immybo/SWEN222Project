@@ -32,7 +32,6 @@ public class RenderPanel extends JPanel {
     private volatile Zone zone;
     private volatile Inventory inventory;
     private AffineTransform isoTransform;
-    private GameFrame frame;
     private GameListener listener;
     
     private JPopupMenu interactionMenu;
@@ -54,9 +53,7 @@ public class RenderPanel extends JPanel {
      * Creates a render panel without any listeners.
      * Mouse and key input will therefore do nothing.
      */
-    public RenderPanel(GameFrame frame){
-    	this.frame = frame;
-        this.setPreferredSize(new Dimension(1024,768));
+    public RenderPanel(){
         isoTransform = AffineTransform.getRotateInstance(Math.PI*0.25);
         isoTransform.preConcatenate(AffineTransform.getScaleInstance(1,0.574)); //Magic numbers are bad but oh well
         isoTransform.preConcatenate(AffineTransform.getTranslateInstance(512,20));

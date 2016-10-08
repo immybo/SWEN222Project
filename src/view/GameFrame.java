@@ -43,7 +43,7 @@ public class GameFrame extends JFrame {
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
-        canvas = new RenderPanel(this);
+        canvas = new RenderPanel();
         informationPanel = new InformationPanel(this);
 
         this.add(canvas, BorderLayout.WEST);

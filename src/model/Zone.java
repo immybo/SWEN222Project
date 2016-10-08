@@ -282,6 +282,24 @@ public class Zone implements Storable, Serializable {
 
 		return tiles[point.y][point.x];
 	}
+	
+	/**
+	 * Sets a tile at a given point. Note that this
+	 * generally shouldn't be done during gameplay,
+	 * as it may break things if something is trying
+	 * to move there!
+	 * 
+	 * @param point The point to set the tile at.
+	 * @param tile The tile to set the point to.
+	 */
+	public void setTile(Point point, Tile tile){
+		if(point.x >= tiles[0].length || point.x < 0)
+			throw new IllegalArgumentException("Trying to set a tile at an invalid X: " + point.getX());
+		if(point.y >= tiles.length || point.y < 0)
+			throw new IllegalArgumentException("Trying to set a tile at an invalid Y: " + point.getY());
+		
+		tiles[point.y][point.x] = tile;
+	}
 
 	/**
 	 * Returns the character at the given point,
