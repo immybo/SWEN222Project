@@ -98,11 +98,12 @@ public class ServerRecvThread extends Thread {
 			break;
 		case ATTACK:
 			readObj = in.readObject();
-			if (!(readObj instanceof Enemy)) {
+			if (!(readObj instanceof Point)) {
 				System.err.println("Received malformed point in attack command");
 				break;
 			}
-			player.attack((Enemy)readObj);
+			Enemy target = player.getZone().getEnemy((Point)readObj);
+			player.attack(target);
 			break;
 		default:
 			System.err.println("Unhandled event in server event receiver: "+packetType);
