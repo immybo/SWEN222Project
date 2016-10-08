@@ -254,6 +254,7 @@ public class Zone implements Storable, Serializable {
 	public List<Character> getCharacters(){
 		return this.characters;
 	}
+	
 
 	/**
 	 * Adds a character to this zone.
@@ -324,6 +325,26 @@ public class Zone implements Storable, Serializable {
 			int y = c.getCoord().getPoint().y;
 			if(x == point.x && y == point.y)
 				return c;
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns an enemy at the given point, if
+	 * one exists. If more than one enemy exists at 
+	 * the given point, no guarantee is made as
+	 * to which will be returned.
+	 * 
+	 * @param point The point to query.
+	 * @return An enemy that was at the point, or null if there was none.
+	 */
+	public Enemy getEnemy(Point point){
+		for(Character c : getCharacters()){
+			if(c instanceof Enemy &&
+					c.getCoord().getPoint().x == point.x &&
+					c.getCoord().getPoint().y == point.y){
+				return (Enemy)c;
+			}
 		}
 		return null;
 	}

@@ -18,6 +18,6 @@ public class Sword extends Weapon {
 
 	@Override
 	public int getDamage() {
-		return 1;
+		return 10;
 	}
 }

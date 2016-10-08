@@ -15,6 +15,7 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 
 import util.Coord;
+import model.Enemy;
 import model.Interactable;
 import model.Interaction;
 import model.Zone;
@@ -57,12 +58,22 @@ public class GameListener implements KeyListener, MouseListener {
 			return;
 		}
 		
-		// Move to the point
+		// Move to the point or attack an enemy
 		if(e.getButton() == MouseEvent.BUTTON1){
-			try {
-				client.moveTo(clickWorldPoint);
-			} catch (IOException e1) { // Do nothing?
-				e1.printStackTrace();
+			if(zone.getEnemy(clickWorldPoint) != null){
+				Enemy toAttack = zone.getEnemy(clickWorldPoint);
+				try {
+					client.attack(toAttack);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+			else{
+				try {
+					client.moveTo(clickWorldPoint);
+				} catch (IOException e1) { // Do nothing?
+					e1.printStackTrace();
+				}
 			}
 		}
 		// Check for interactables to get the menu of
