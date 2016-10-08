@@ -1,5 +1,6 @@
 package model;
 
+import view.GameFrame;
 import datastorage.Storable;
 
 /**
@@ -31,16 +32,18 @@ public class BuyItem extends Interaction implements Storable{
 	public void execute(Player p) {
 		// show description, give item,  remove interaction, and add a standard interactions
 		
-		//TODO show YES/NO box to user.
-		boolean no = false;
+		String title = "Buy item?";
+		String text = "Are you sure you want to buy a " + itemName + "?";
+		boolean no = GameFrame.instance().displayBooleanQuestion(title, text) == 1;
+		
 		if(no){
-			//dialog box with not purchased as too full 
+			
 		}
 		if(p.getInventory().hasRoom()){
 			p.getInventory().addItem(this.item);
 			this.entity.removeInteraction(this);
 		} else {
-			//show dialog box
+			GameFrame.instance().displayMessage("You can't purchase this item as your inventory is full.");
 		}
 	}
 	

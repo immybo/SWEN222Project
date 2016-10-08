@@ -15,6 +15,8 @@ import java.awt.*;
  * @author Robert Campbell
  */
 public class GameFrame extends JFrame {
+	private static GameFrame frame;
+	
     private static final int DEFAULT_WIDTH = 3000;
     private static final int DEFAULT_HEIGHT = 3000;
 
@@ -26,7 +28,7 @@ public class GameFrame extends JFrame {
     // For example, their inventory, health
     private JPanel informationPanel;
 
-    public GameFrame(){
+    private GameFrame(){
         setSizeDefault();
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -91,5 +93,22 @@ public class GameFrame extends JFrame {
     
     public RenderPanel getRenderPanel() {
     	return canvas;
+    }
+    
+    public int displayBooleanQuestion(String title, String text){
+    	String[] options = { "Yes" , "No" };
+    	return JOptionPane.showOptionDialog(this, text, title, JOptionPane.DEFAULT_OPTION,
+    										JOptionPane.QUESTION_MESSAGE, null, options, 1);
+    }
+    
+    public void displayMessage(String text){
+    	JOptionPane.showMessageDialog(this, text);
+    }
+    
+    public static GameFrame instance(){
+    	if(frame != null){
+    		return frame;
+    	}
+    	return new GameFrame();
     }
 }
