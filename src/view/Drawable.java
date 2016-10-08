@@ -13,7 +13,7 @@ public interface Drawable {
      * Get the path to the image that will be used to draw this object.
      * @return Path to the display image
      */
-	public String getDrawImagePath();
+	public String getDrawImagePath(DrawDirection d);
 
     /**
      * Get the x and y position of the object. This is where the object will be drawn on the screen.

@@ -7,6 +7,7 @@ import org.w3c.dom.*;
 import datastorage.Storable;
 import util.Coord;
 import util.PointD;
+import view.DrawDirection;
 import view.Drawable;
 
 /**
@@ -63,7 +64,7 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 	private String drawImagePath;
 
 	@Override
-	public String getDrawImagePath() {
+	public String getDrawImagePath(DrawDirection d) {
 		return this.drawImagePath;
 	}
 

@@ -14,6 +14,7 @@ import org.w3c.dom.*;
 
 import util.Coord;
 import util.Direction;
+import view.DrawDirection;
 
 public class Player extends Character implements Storable, Serializable {
 	public final boolean pupo; //!pupo --> yelo
@@ -174,7 +175,7 @@ public class Player extends Character implements Storable, Serializable {
 	}
 
 	@Override
-	public String getDrawImagePath() {
+	public String getDrawImagePath(DrawDirection d) {
 		if(pupo)
 			return "images/pupo.png";
 		else

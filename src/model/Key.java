@@ -8,6 +8,7 @@ import org.w3c.dom.Element;
 import datastorage.Storable;
 import datastorage.StorableFactory;
 import util.PointD;
+import view.DrawDirection;
 
 public class Key extends Item implements Storable{
 	private String keyID;
@@ -26,7 +27,7 @@ public class Key extends Item implements Storable{
 		return this.keyID;
 	}
 	@Override
-	public String getDrawImagePath(){
+	public String getDrawImagePath(DrawDirection d){
 		return "images/" +keyID + "KeyIso.png";
 	}
 	

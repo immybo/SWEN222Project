@@ -8,6 +8,7 @@ import org.w3c.dom.*;
 import datastorage.Storable;
 import datastorage.StorableFactory;
 import util.PointD;
+import view.DrawDirection;
 import view.Drawable;
 
 /**
@@ -79,7 +80,7 @@ public abstract class Tile implements Storable,Serializable, Drawable {
 	private String drawImagePath;
 	
 	@Override
-	public String getDrawImagePath() {
+	public String getDrawImagePath(DrawDirection d) {
 		return this.drawImagePath;
 	}
 

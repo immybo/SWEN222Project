@@ -5,6 +5,7 @@ import java.awt.Point;
 import org.w3c.dom.Element;
 
 import datastorage.StorableFactory;
+import view.DrawDirection;
 
 /**
  * A floor tile is a simple tile which doesn't collide with
@@ -45,7 +46,7 @@ public class FloorTile extends Tile {
 	}
 
 	@Override
-	public String getDrawImagePath() {
+	public String getDrawImagePath(DrawDirection d) {
 		return "images/testFloorAIso.png";
 	}
 }

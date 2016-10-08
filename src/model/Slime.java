@@ -1,6 +1,7 @@
 package model;
 
 import util.Coord;
+import view.DrawDirection;
 
 /**
  * A Slime is just a simple Enemy.
@@ -14,7 +15,7 @@ public class Slime extends Enemy{
 	}
 
 	@Override
-	public String getDrawImagePath() {
+	public String getDrawImagePath(DrawDirection d) {
 		return "images/slime.png";
 	}
 }

@@ -6,6 +6,7 @@ import datastorage.Storable;
 import model.Gate.State;
 import util.Coord;
 import util.PointD;
+import view.DrawDirection;
 
 /**
  * Defines a gate which may be opened by a key.
@@ -41,7 +42,7 @@ public class KeyGate extends Gate implements Serializable, Storable {
 	}
 	
 	@Override
-    public String getDrawImagePath() {
+    public String getDrawImagePath(DrawDirection d) {
         if (super.getState() == State.OPEN) {
             return "images/"+ keyID + "GateOpen.png";
         } else if (super.getState() == State.CLOSED) {

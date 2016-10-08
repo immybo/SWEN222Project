@@ -5,6 +5,7 @@ import java.awt.Point;
 import org.w3c.dom.Element;
 
 import datastorage.StorableFactory;
+import view.DrawDirection;
 
 /**
  * A wall tile is a tile that acts as a boundary which will collide with any other object
@@ -21,7 +22,7 @@ public class WallTile extends Tile {
 		return true;
 	}
 	@Override
-	public String getDrawImagePath() {
+	public String getDrawImagePath(DrawDirection d) {
 		return "images/testWall.png";
 	}
 	
