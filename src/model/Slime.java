@@ -10,7 +10,7 @@ import util.Coord;
  */
 public class Slime extends Enemy{
 	public Slime(Zone zone, Coord coord) {
-		super(zone, coord, 50);
+		super(zone, coord, 10);
 	}
 
 	@Override

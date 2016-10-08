@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 import org.w3c.dom.Element;
 
 import util.Coord;
@@ -11,7 +13,7 @@ import util.Coord;
  * 
  * @author Robert Campbell
  */
-public abstract class Enemy extends Character {
+public abstract class Enemy extends Character implements Serializable {
 	private int health;
 	private int maxHealth;
 	
@@ -39,5 +41,6 @@ public abstract class Enemy extends Character {
 	
 	public void damage(int amount){
 		health -= amount;
+		System.out.println("remaininghealth: " + health);
 	}
 }

@@ -80,6 +80,7 @@ public class World implements Storable {
 		//key, i have no idea what size does atm.
 		newZones[0].addItem(new Key(new Point(1,2), "testKey"));
 		newZones[0].addEntity(new KeyGate(Gate.State.LOCKED, newZones[0], new Coord(new Direction(Direction.NORTH), new Point (1,4)), "testKey"));
+		newZones[0].addCharacter(new Slime(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1, 3))));
 		//characters
 		Player pupo = new Player(newZones[0], new Coord(new Direction(Direction.NORTH), new Point(1,1)), true);
 		Player yelo = new Player(newZones[0], new Coord(new Direction(Direction.SOUTH),new Point(1,7)), false);
