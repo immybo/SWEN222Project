@@ -65,6 +65,7 @@ public class ServerRecvThread extends Thread {
 		}
 		Event packetType = (Event)readObj;
 		
+	synchronized (player) {
 		switch (packetType) {
 		case FORWARD:
 			player.moveForward();
@@ -109,6 +110,7 @@ public class ServerRecvThread extends Thread {
 			break;
 		}
 		return true;
+	}
 	}
 	
 	@Override
