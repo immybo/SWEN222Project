@@ -1,15 +1,14 @@
 package editor;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 
 import datastorage.XMLInterface;
 import model.*;
@@ -18,30 +17,21 @@ import view.RenderPanel;
 public class EditPanel extends JPanel {
 	private RenderPanel canvas;
 	private Zone zone;
-	private List<JButton> objectButtons;
 	
 	private CoordinatePanel coordPanel;
 	private ZoneConfigPanel zoneConfigPanel;
+	private ComponentPanel componentPanel;
 	
 	public EditPanel(RenderPanel canvas){
 		this.setLayout(new BorderLayout());
 		this.add(coordPanel = new CoordinatePanel(), BorderLayout.NORTH);
 		this.add(zoneConfigPanel = new ZoneConfigPanel(), BorderLayout.SOUTH);
+		this.add(componentPanel = new ComponentPanel(), BorderLayout.CENTER);
 		this.canvas = canvas;
 		
-		// TODO allow setting zone size, going between multiple zones
+		// TODO allow going between multiple zones
 		zone = getEmptyZone(5, 5, "default");
 		canvas.setZone(zone);
-		
-		objectButtons = new LinkedList<JButton>();
-		
-		JButton wallButton = new JButton("Wall");
-		wallButton.addActionListener((ActionEvent e)->{
-			if(coordPanel.hasValidCoordinates())
-				setTile(new WallTile(coordPanel.getCurrentPoint()));
-		});
-		
-		this.add(wallButton);
 	}
 	
 	private void setTile(Tile newTile){
@@ -59,7 +49,6 @@ public class EditPanel extends JPanel {
 				zoneTiles[y][x] = new FloorTile(new Point(x, y));
 			}
 		}
-		// TODO allow zone naming
 		return new Zone(name, zoneTiles);
 	}
 	
@@ -179,6 +168,24 @@ public class EditPanel extends JPanel {
 			catch(NumberFormatException e){
 				return false;
 			}
+		}
+	}
+	
+	private class ComponentPanel extends JPanel {
+		private ComponentPanel(){
+			JButton wallButton = new JButton("Wall");
+			wallButton.addActionListener((ActionEvent e)->{
+				if(coordPanel.hasValidCoordinates())
+					setTile(new WallTile(coordPanel.getCurrentPoint()));
+			});
+			JButton floorButton = new JButton("Floor");
+			floorButton.addActionListener((ActionEvent e)->{
+				if(coordPanel.hasValidCoordinates())
+					setTile(new FloorTile(coordPanel.getCurrentPoint()));
+			});
+			
+			this.add(wallButton);
+			this.add(floorButton);
 		}
 	}
 }

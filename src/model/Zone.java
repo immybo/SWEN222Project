@@ -64,6 +64,14 @@ public class Zone implements Storable, Serializable {
 		this.id = id;
 	}
 	
+	public int getWidth(){
+		return tiles[0].length;
+	}
+	
+	public int getHeight(){
+		return tiles.length;
+	}
+	
 	/**
 	 * Calculates the shortest path from the given start point to the
 	 * given end point on this zone. This path must not collide
