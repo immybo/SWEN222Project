@@ -256,6 +256,6 @@ public abstract class Item implements Storable, Serializable, Drawable {
     }
     @Override
 	public int getYOffset() {
-		return 0;
+		return 39;
 	}
 }

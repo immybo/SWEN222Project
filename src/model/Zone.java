@@ -451,8 +451,8 @@ public class Zone implements Storable, Serializable {
 	 *
 	 * @return All items in this zone.
 	 */
-	public Item[] getItems(){
-		return items.toArray(new Item[0]);
+	public List<Item> getItems(){
+		return items;
 	}
 
 	/**
