@@ -1,6 +1,7 @@
 package model;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import datastorage.Storable;
@@ -13,7 +14,7 @@ import util.Coord;
  * @author Martin Chau
  *
  */
-public class UsePortal extends Interaction implements Storable{
+public class UsePortal extends Interaction implements Storable, Serializable {
 	private Portal portal;
 
 	/**

@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 import datastorage.Storable;
 
 /**
@@ -8,7 +10,7 @@ import datastorage.Storable;
  * @author Martin Chau
  *
  */
-public class InspectWithItem extends Interaction implements Storable{
+public class InspectWithItem extends Interaction implements Storable, Serializable {
 	private Entity entity;
 	private Item item;
 	private String giveDescription;

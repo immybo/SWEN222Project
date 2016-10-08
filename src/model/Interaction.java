@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 import org.w3c.dom.*;
 
 import datastorage.Storable;
@@ -10,7 +12,7 @@ import datastorage.Storable;
  *
  * @author Robert Campbell
  */
-public abstract class Interaction implements Storable {
+public abstract class Interaction implements Storable, Serializable {
 	/**
 	 * Returns the human-readable text of this interaction.
 	 * Note that this does not necessarily return the same

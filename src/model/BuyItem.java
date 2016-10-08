@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 import view.GameFrame;
 import datastorage.Storable;
 
@@ -10,7 +12,7 @@ import datastorage.Storable;
  * @author Martin Chau
  *
  */
-public class BuyItem extends Interaction implements Storable{
+public class BuyItem extends Interaction implements Storable, Serializable {
 	private Entity entity;
 	private Item item;
 	private String itemName;
