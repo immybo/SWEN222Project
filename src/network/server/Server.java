@@ -106,6 +106,7 @@ public class Server {
 	public boolean doHandshake(ObjectInputStream in, ObjectOutputStream out) throws IOException {
 		/* send the server's magic sequence and wait for a reply */
 		out.writeObject(Protocol.SERVER_MAGIC);
+		out.reset();
 		
 		/* receive the object from the other side, bailing if it cannot be reconstructed */
 		Object rawResponse = null;

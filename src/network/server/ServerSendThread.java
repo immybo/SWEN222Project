@@ -22,7 +22,7 @@ public class ServerSendThread extends Thread {
 		boolean running = true;
 		while(running) {
 			try {
-				synchronized (character) {
+				synchronized (parentServer) {
 					for (Character c : character.getZone().getCharacters()) {
 						System.err.printf("Character %s is at %s, facing %s\n",
 								c.toString(),
