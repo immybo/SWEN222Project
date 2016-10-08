@@ -27,8 +27,7 @@ public class ServerRecvThread extends Thread {
 	/* character for the client this thread is managing */
 	private Player player;
 	
-	/* socket connected to client and its inward stream */
-	private Socket socket;
+	/* inward stream */
 	private ObjectInputStream in;
 	
 	/**
@@ -76,7 +75,7 @@ public class ServerRecvThread extends Thread {
 		case MOVE_TO_POINT:
 			readObj = in.readObject();
 			if(!(readObj instanceof Point)){
-				System.err.println("Received malformed move to point from "+socket.getRemoteSocketAddress());
+				System.err.println("Received malformed point in move command");
 				break;
 			}
 			player.moveToPoint((Point)readObj);
@@ -90,7 +89,7 @@ public class ServerRecvThread extends Thread {
 		case INTERACT:
 			readObj = in.readObject();
 			if (!(readObj instanceof Interaction)) {
-				System.err.println("Received malformed interaction from "+socket.getRemoteSocketAddress());
+				System.err.println("Received malformed interaction in interact command");
 				break;
 			}
 			System.err.println("Server event receiver: not calling unimplemented interaction method");
@@ -100,7 +99,7 @@ public class ServerRecvThread extends Thread {
 		case ATTACK:
 			readObj = in.readObject();
 			if (!(readObj instanceof Enemy)) {
-				System.err.println("Received malformed enemy in attack command from "+socket.getRemoteSocketAddress());
+				System.err.println("Received malformed point in attack command");
 				break;
 			}
 			player.attack((Enemy)readObj);
