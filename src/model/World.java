@@ -267,7 +267,7 @@ public class World implements Storable {
 		zones[0].addItem(new Coin(new Point(2,7)));
 		zones[0].addItem(new Key(new Point(3,3), "blue"));
 		zones[0].addItem(new Key(new Point(8,7), "green"));
-		zones[0].addItem(new Key(new Point(10,4), "white"));
+		zones[0].addItem(new Key(new Point(10,4), "orange"));
 		Furniture shop1 = new Furniture(zones[0],new Coord(new Direction(Direction.NORTH),new Point(4,1)),null,"Looks like a shop");
 		shop1.addInteraction(new BuyItem(shop1, new Key(null, "blue"), "blue key", 7));
 		shop1.setDrawImagePath("images/shopKeeperIso.png");
@@ -275,7 +275,7 @@ public class World implements Storable {
 		zones[0].addEntity(new KeyGate(Gate.State.LOCKED, zones[0], new Coord(new Direction(Direction.NORTH),new Point(3,6)), "blue"));
 		zones[0].addEntity(new KeyGate(Gate.State.LOCKED, zones[0], new Coord(new Direction(Direction.NORTH),new Point(5,6)), "blue"));
 		zones[0].addEntity(new KeyGate(Gate.State.LOCKED, zones[0], new Coord(new Direction(Direction.NORTH),new Point(4,9)), "red"));
-		zones[0].addEntity(new KeyGate(Gate.State.LOCKED, zones[0], new Coord(new Direction(Direction.NORTH),new Point(8,2)), "white"));
+		zones[0].addEntity(new KeyGate(Gate.State.LOCKED, zones[0], new Coord(new Direction(Direction.NORTH),new Point(8,2)), "orange"));
 		zones[0].addEntity(new KeyGate(Gate.State.LOCKED, zones[0], new Coord(new Direction(Direction.NORTH),new Point(9,2)), "green"));
 		zones[0].addEntity(new Portal(zones[0], new Coord(new Direction(Direction.NORTH),new Point(6,10)), "1"));
 		zones[0].addEntity(new Portal(zones[0], new Coord(new Direction(Direction.NORTH),new Point(1,10)), "2"));
@@ -331,10 +331,10 @@ public class World implements Storable {
 		zones[1].addItem(new Coin(new Point(5,5)));
 		zones[1].addItem(new Key(new Point(1,5), "blue"));
 		Furniture shop2 = new Furniture(zones[1],new Coord(new Direction(Direction.NORTH),new Point(5,1)),null,"Looks like a shop");
-		shop2.addInteraction(new BuyItem(shop2, new Key(null, "grey"), "grey key", 8));
+		shop2.addInteraction(new BuyItem(shop2, new Key(null, "yellow"), "yellow key", 8));
 		shop2.setDrawImagePath("images/shopKeeperIso.png");
 		zones[1].addEntity(shop2);
-		zones[1].addEntity(new KeyGate(Gate.State.LOCKED, zones[1], new Coord(new Direction(Direction.NORTH),new Point(6,3)), "grey"));
+		zones[1].addEntity(new KeyGate(Gate.State.LOCKED, zones[1], new Coord(new Direction(Direction.NORTH),new Point(6,3)), "yellow"));
 		zones[1].addEntity(new Portal(zones[1], new Coord(new Direction(Direction.NORTH),new Point(3,3)), "2"));
 		zones[1].addEntity(new Portal(zones[1], new Coord(new Direction(Direction.NORTH),new Point(8,3)), "4"));
 		
