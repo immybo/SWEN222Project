@@ -252,6 +252,14 @@ public class Zone implements Storable, Serializable {
 	 * @return A list of all characters contained within this zone.
 	 */
 	public List<Character> getCharacters(){
+		// Remove dead enemies
+		for(Character c : characters){
+			if(c instanceof Enemy){
+				if(((Enemy)c).isDead())
+					characters.remove(c);
+			}
+		}
+		
 		return this.characters;
 	}
 	
