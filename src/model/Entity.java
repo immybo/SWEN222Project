@@ -88,7 +88,7 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 	
 	@Override
 	public int getYOffset() {
-		return 0;
+		return 39;
 	}
 
 	@Override

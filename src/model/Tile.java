@@ -101,6 +101,6 @@ public abstract class Tile implements Storable,Serializable, Drawable {
 	*/
 	@Override
 	public int getYOffset() {
-		return 0;
+		return 35;
 	}
 }

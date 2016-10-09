@@ -39,7 +39,11 @@ public class Portal extends Entity implements Storable{
 	
 	@Override
 	public String getDrawImagePath(DrawDirection d){
-		return "images/portal.png";
+		return "images/portalTR.png";
+	}
+	@Override
+	public int getYOffset() {
+		return 39;
 	}
 
 	@Override
