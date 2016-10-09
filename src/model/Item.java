@@ -226,6 +226,19 @@ public abstract class Item implements Storable, Serializable, Drawable {
 		return elem;
 	}
 	
+	public Element toXMLElement(Document doc, String type){
+		Element elem = doc.createElement(type);
+		elem.setAttribute("inInventory", inInventory+"");
+		elem.setAttribute("ID", id+"");
+		elem.setAttribute("stackable", stackable+"");
+		elem.setAttribute("stacksize", stackSize+"");
+		if(!inInventory){
+			elem.setAttribute("worldX", worldPosition.x+"");
+			elem.setAttribute("worldY", worldPosition.y+"");
+		}
+		return elem;
+	}
+	
 	@Override
 	public boolean equals(Object o){
 		if(o instanceof Item){

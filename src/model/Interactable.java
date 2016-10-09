@@ -52,6 +52,10 @@ public abstract class Interactable implements Serializable, Storable {
 	
 	@Override
 	public boolean equals(Object o){
-		return o instanceof Interactable;
+		if(o instanceof Interactable){
+			Interactable i = (Interactable) o;
+			return this.interactions.equals(i.interactions);
+		}
+		return false;
 	}
 }

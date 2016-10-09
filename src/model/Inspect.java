@@ -2,7 +2,11 @@ package model;
 
 import java.io.Serializable;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import datastorage.Storable;
+import datastorage.StorableFactory;
 
 /**
  * The simplest type of interaction that most if not all interactables will have, showing a string description when called.
@@ -35,5 +39,21 @@ public class Inspect extends Interaction implements Serializable, Storable {
 			return this.description.equals(i.description) && super.equals(o);
 		}
 		return false;
+	}
+	
+	@Override
+	public Element toXMLElement(Document doc){
+		Element elem = super.toXMLElement(doc, "Inspect");
+		elem.setAttribute("description", description);
+		super.toXMLElement(doc);
+		return elem;
+	}
+	
+	public static class Factory implements StorableFactory<Inspect> {
+		@Override
+		public Inspect fromXMLElement(Element elem) {
+			String description = elem.getAttribute("description");
+			return new Inspect(description);
+		}
 	}
 }

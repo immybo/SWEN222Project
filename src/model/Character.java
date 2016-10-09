@@ -174,4 +174,12 @@ public abstract class Character implements Serializable, Storable, Drawable {
 	public int getYOffset() {
 		return 0;
 	}
+
+	public Element toXMLElement(Document doc, String type) {
+		// TODO Auto-generated method stub
+		Element elem = doc.createElement(type);
+		elem.setAttribute("coord", coord.toString());
+		elem.setAttribute("zoneID", zone.getID() + "");
+		return elem;
+	}
 }

@@ -221,15 +221,15 @@ public class Inventory implements Storable, Serializable {
 
 		throw new IllegalStateException("No next available slot in an inventory that still has room");
 	}
-	
+
 	@Override
 	public boolean equals(Object o){
 		if(o instanceof Inventory){
 			Inventory i = (Inventory) o;
 			if(this.currentNumItems == i.currentNumItems && this.storageCapacity == i.storageCapacity
-				&& Arrays.equals(this.items, i.items)){
-					return true;
-				}
+					&& Arrays.equals(this.items, i.items)){
+				return true;
+			}
 		}
 		return false;
 	}
@@ -237,12 +237,13 @@ public class Inventory implements Storable, Serializable {
 	@Override
 	public Element toXMLElement(Document doc) {
 		Element elem = doc.createElement("inventory");
-		elem.setAttribute("capacity", getStorageCapacity()+"");
+		elem.setAttribute("capacity", this.getStorageCapacity()+"");
 
 		for(int i = 0; i < items.length; i++){
 			if(items[i] != null){
 				Element child = items[i].toXMLElement(doc);
 				child.setAttribute("index", i+"");
+				elem.appendChild(child);
 			}
 		}
 
@@ -260,12 +261,14 @@ public class Inventory implements Storable, Serializable {
 				Node n = nl.item(i);
 
 				Item item = null;
+				
 				switch(n.getNodeName()){
-				case "key":
+				case "Key":
 					item = new Key.KeyFactory().fromXMLElement((Element)n);
 					break;
-				case "coin":
-
+				case "Coin":
+					item = new Coin.Factory().fromXMLElement((Element)n);
+					break;
 				}
 
 				if(item == null)

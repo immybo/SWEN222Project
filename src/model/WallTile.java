@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Point;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import datastorage.StorableFactory;
@@ -49,5 +50,11 @@ public class WallTile extends Tile {
 				throw new RuntimeException("Trying to parse incorrect XML for a tile factory; tile class invalid.");
 			}
 		}
+	}
+
+	@Override
+	public Element toXMLElement(Document doc) {
+		// TODO Auto-generated method stub
+		return super.toXMLElement(doc, "FloorTile");
 	}
 }

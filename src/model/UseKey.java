@@ -2,7 +2,11 @@ package model;
 
 import java.io.Serializable;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import datastorage.Storable;
+import datastorage.StorableFactory;
 
 /**
 	 * An interaction that can be done on any gate, this interaction will check the player's inventory for a valid key and consume it, therefore opening the gate, if no suitable key exists then show dialog saying no key exists
@@ -61,7 +65,21 @@ import datastorage.Storable;
 			}
 			return false;
 		}
-
+		
+		@Override
+		public Element toXMLElement(Document doc){
+			Element elem = super.toXMLElement(doc);
+			elem.appendChild(keyGate.toXMLElement(doc));
+			super.toXMLElement(doc);
+			return elem;
+		}
+		
+		public static class Factory implements StorableFactory<UseKey> {
+			@Override
+			public UseKey fromXMLElement(Element elem) {
+				return null;
+			}
+		}
 
 	}
 

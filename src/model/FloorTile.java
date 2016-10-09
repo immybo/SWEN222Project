@@ -2,6 +2,7 @@ package model;
 
 import java.awt.Point;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import datastorage.StorableFactory;
@@ -47,5 +48,10 @@ public class FloorTile extends Tile {
 	@Override
 	public String getDrawImagePath() {
 		return "images/testFloorAIso.png";
+	}
+
+	@Override
+	public Element toXMLElement(Document doc) {
+		return super.toXMLElement(doc, "FloorTile");
 	}
 }

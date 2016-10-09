@@ -28,7 +28,7 @@ public class Key extends Item implements Storable{
 	
 	@Override
 	public Element toXMLElement(Document doc){
-		Element elem = super.toXMLElement(doc);
+		Element elem = super.toXMLElement(doc, "Key");
 		elem.setAttribute("keyID", keyID);
 		return elem;
 	}

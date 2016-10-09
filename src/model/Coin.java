@@ -33,6 +33,12 @@ public class Coin extends Item{
 		return false;
 	}
 	
+	@Override
+	public Element toXMLElement(Document doc){
+		Element elem = super.toXMLElement(doc, "Coin");
+		return elem;
+	}
+	
 	public static class Factory implements StorableFactory<Coin> {
 		@Override
 		public Coin fromXMLElement(Element elem) {

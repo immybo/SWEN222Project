@@ -131,7 +131,7 @@ public class Player extends Character implements Storable, Serializable {
 	
 	@Override
 	public Element toXMLElement(Document doc){
-		Element elem = super.toXMLElement(doc);
+		Element elem = super.toXMLElement(doc, "Player");
 		elem.setNodeValue("playablecharacter");
 		elem.setAttribute("pupo", pupo+"");
 		elem.appendChild(this.inventory.toXMLElement(doc));

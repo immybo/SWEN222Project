@@ -5,6 +5,8 @@ import java.io.Serializable;
 import org.w3c.dom.*;
 
 import datastorage.Storable;
+import datastorage.StorableFactory;
+import model.Tile.TileFactory;
 import util.Coord;
 import util.PointD;
 import view.Drawable;
@@ -31,7 +33,17 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 			if (z.getID() == zoneID)
 				this.zone = z;
 		}
-		this.inventory = new Inventory.Factory().fromXMLElement(elem);
+		NodeList nl = elem.getChildNodes();
+		this.inventory = new Inventory.Factory().fromXMLElement((Element) nl.item(0));
+		for(int i = 1 ; i < nl.getLength() ; i++){
+			Node n = nl.item(i);
+			
+			switch(n.getNodeName()){
+			case "Inspect":
+				this.addInteraction(new Inspect.Factory().fromXMLElement((Element) nl.item(i)));
+				break;
+			}
+		}
 	}
 
 	private Zone zone;
@@ -93,6 +105,9 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 		elem.setAttribute("zoneID", zone.getID()+"");
 		elem.setAttribute("coord", worldPosition.toString());
 		elem.appendChild(inventory.toXMLElement(doc));
+		for(Interaction inter : this.getInteractions()){
+			elem.appendChild(inter.toXMLElement(doc));
+		}
 		return elem;
 	}
 	

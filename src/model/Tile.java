@@ -40,8 +40,8 @@ public abstract class Tile implements Storable,Serializable, Drawable {
 	 * 
 	 */
 	
-	@Override
-	public Element toXMLElement(Document doc){
+	
+	public Element toXMLElement(Document doc, String type){
 		Element elem = doc.createElement("tile"+position.x+":"+position.y);
 		elem.setAttribute("xpos", position.x+"");
 		elem.setAttribute("ypos", position.y+"");

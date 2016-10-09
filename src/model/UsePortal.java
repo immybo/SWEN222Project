@@ -3,7 +3,11 @@ package model;
 import java.awt.Point;
 import java.util.ArrayList;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import datastorage.Storable;
+import datastorage.StorableFactory;
 import util.Coord;
 
 /**
@@ -69,5 +73,20 @@ public class UsePortal extends Interaction implements Storable{
 				return super.equals(o);
 		}
 		return false;
+	}
+	
+	@Override
+	public Element toXMLElement(Document doc){
+		Element elem = super.toXMLElement(doc);
+		elem.appendChild(portal.toXMLElement(doc));
+		super.toXMLElement(doc);
+		return elem;
+	}
+	
+	public static class Factory implements StorableFactory<UsePortal> {
+		@Override
+		public UsePortal fromXMLElement(Element elem) {
+			return null;
+		}
 	}
 }

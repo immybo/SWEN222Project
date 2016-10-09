@@ -96,6 +96,42 @@ public class DataStorageTests extends TestCase {
 		assertEquals(wall, importedWall);
 	}
 	
+	@Test
+	public void testEntityStorage(){
+		Zone zone = new Zone("zone1", TestUtil.generateTiles(3,3));
+		Coord coord = new Coord(new Direction(0), new Point(1,1));
+		Inventory inventory = new Inventory(2);
+		Furniture furniture = new Furniture(zone, coord, inventory, "TESTING");
+		XMLInterface.saveToFile(furniture, new File("src/tests/testfiles/testxml1.xml"));
+		Zone[] zones = new Zone[1];
+		zones[0] = zone;
+		Furniture importedFurniture = XMLInterface.loadFromFile(new Furniture.Factory(zones), new File("src/tests/testfiles/testxml1.xml"));
+		
+		assertEquals(furniture, importedFurniture);
+	}
+	
+	@Test
+	public void testInteractionStorage(){
+		Inspect inspect = new Inspect("this is an interaction yes?");
+		XMLInterface.saveToFile(inspect, new File("src/tests/testfiles/testxml1.xml"));
+		
+		Inspect importedInspect = XMLInterface.loadFromFile(new Inspect.Factory(), new File("src/tests/testfiles/testxml1.xml"));
+		
+		assertEquals(inspect, importedInspect);
+	}
+	
+	@Test
+	public void testInventory(){
+		Coin coin = new Coin();
+		Inventory inventory = new Inventory(2);
+		inventory.addItem(coin);
+		XMLInterface.saveToFile(inventory, new File("src/tests/testfiles/testxml1.xml"));
+		
+		Inventory importedInventory = XMLInterface.loadFromFile(new Inventory.Factory(), new File("src/tests/testfiles/testxml1.xml"));
+		
+		assertEquals(inventory, importedInventory);
+	}
+	
 	public void deleteTestXMLFile(){
 		try {
 			Files.deleteIfExists(FileSystems.getDefault().getPath("testxml.xml"));

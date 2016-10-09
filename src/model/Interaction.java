@@ -36,6 +36,12 @@ public abstract class Interaction implements Storable {
 		return elem;
 	}
 	
+	public Element toXMLElement(Document doc, String type){
+		Element elem = doc.createElement(type);
+		elem.setAttribute("text", getText());
+		return elem;
+	}
+	
 	@Override
 	public boolean equals(Object o){
 		return o instanceof Interaction;
