@@ -62,6 +62,12 @@ public class World implements Storable {
 			portals.remove(second);
 		}
 	}
+	
+	public void tick(){
+		for(Zone zone : zones){
+			zone.tick();
+		}
+	}
 
 	public static World testWorld(){
 		Zone[] newZones = new Zone[1];

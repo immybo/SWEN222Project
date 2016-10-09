@@ -180,7 +180,7 @@ public class Server {
 			Thread sendThread;
 			Thread recvThread;
 			try {
-				sendThread = new ServerSendThread(this, outs[i], players[i]); 
+				sendThread = new ServerSendThread(this, outs[i], players[i], world); 
 			} catch (IOException e) {
 				e.printStackTrace();
 				System.err.println("Error creating game state updater thread, bailing");

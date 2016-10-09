@@ -60,6 +60,9 @@ public class Player extends Character implements Storable, Serializable {
 			}
 		}
 		else if(toMove != null){
+			if(toMove.equals(getCoord().getPoint()))
+				return;
+			
 			moveToPointTick(toMove);
 		}
 	}

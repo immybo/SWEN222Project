@@ -4,17 +4,20 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import model.Character;
+import model.World;
 import network.Protocol;
 
 public class ServerSendThread extends Thread {
 	private Character character;
 	private ObjectOutputStream out;
 	private Server parentServer;
+	private World world;
 	
-	public ServerSendThread(Server parentServer, ObjectOutputStream out, Character character) throws IOException {
+	public ServerSendThread(Server parentServer, ObjectOutputStream out, Character character, World world) throws IOException {
 		this.character = character;
 		this.parentServer = parentServer;
 		this.out = out;
+		this.world = world;
 	}
 	
 	@Override
@@ -23,6 +26,7 @@ public class ServerSendThread extends Thread {
 		while(running) {
 			try {
 				synchronized (parentServer) {
+					world.tick();
 					out.writeObject(character.getZone());
 					out.reset();
 				}
