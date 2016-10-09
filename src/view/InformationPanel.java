@@ -41,7 +41,7 @@ public class InformationPanel extends JPanel {
 			String host = JOptionPane.showInputDialog("Server hostame or ip:");
 			System.err.println("Host is: "+host);
 			try {
-				if(host != null && client == null) {
+				if(host != null) {
 					gameFrame.connect(host);
 				}
 			} catch (NetworkError ne) {
