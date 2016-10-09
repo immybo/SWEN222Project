@@ -474,6 +474,16 @@ public class Zone implements Storable, Serializable {
 	public void removeEntity(Entity e){
 		entities.remove(e);
 	}
+	
+	/**
+	 * Ticks movement, attacking, etc for objects
+	 * in this world.
+	 */
+	public void tick(){
+		for(Character c : getCharacters()){
+			c.tick();
+		}
+	}
 
 	@Override
 	public Element toXMLElement(Document doc) {

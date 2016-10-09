@@ -174,4 +174,12 @@ public abstract class Character implements Serializable, Storable, Drawable {
 	public int getYOffset() {
 		return 39;
 	}
+	
+	/**
+	 * Ticks any current processes this character
+	 * is undertaking. Default implementation does nothing.
+	 */
+	public void tick(){
+		// Do nothing
+	}
 }
