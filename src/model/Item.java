@@ -6,6 +6,7 @@ import java.io.Serializable;
 import org.w3c.dom.*;
 
 import datastorage.*;
+import model.Entity;
 import util.PointD;
 import view.DrawDirection;
 import view.Drawable;
@@ -238,6 +239,24 @@ public abstract class Item implements Storable, Serializable, Drawable {
 			elem.setAttribute("worldY", worldPosition.y+"");
 		}
 		return elem;
+	}
+	
+	public static class Factory implements StorableFactory<Item> {
+
+		@Override
+		public Item fromXMLElement(Element elem) {
+			return null;
+		}
+		
+		public Item fromNode(Node n){
+			switch(n.getNodeName()){
+			case "Key":
+				return new Key.Factory().fromXMLElement((Element) n);
+			case "Coin":
+				return new Coin.Factory().fromXMLElement((Element) n);
+			}
+			return null;
+		}
 	}
 	
 	@Override

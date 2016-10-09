@@ -38,7 +38,7 @@ public class Furniture extends Entity implements Storable{
 	
 	@Override
 	public Element toXMLElement(Document doc){
-		Element elem = super.toXMLElement(doc);
+		Element elem = super.toXMLElement(doc, "Furniture");
 		return elem;
 	}
 	

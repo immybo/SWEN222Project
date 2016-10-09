@@ -1,6 +1,11 @@
 package model;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import datastorage.Storable;
+import datastorage.StorableFactory;
+import model.Gate.State;
 import util.Coord;
 import util.PointD;
 import view.DrawDirection;
@@ -27,6 +32,17 @@ public abstract class Gate extends Entity implements Storable{
 	public Gate(State initial, Zone zone, Coord worldPosition){
 		super(zone, worldPosition, null);
 		state = initial;
+	}
+	
+	public Gate(Zone[] zones, Element elem){
+		super(elem, zones);
+		String stateString = elem.getAttribute("state");
+		if(stateString.equals("OPEN"))
+			state = State.OPEN;
+		else if(stateString.equals("CLOSED"))
+			state = State.CLOSED;
+		else
+			state = State.LOCKED;
 	}
 
 	public State state(){
@@ -141,4 +157,26 @@ public abstract class Gate extends Entity implements Storable{
     public State getState(){
     	return state;
     }
+    
+    @Override
+	public Element toXMLElement(Document doc, String type){
+		Element elem = super.toXMLElement(doc, type);
+		elem.setAttribute("State", state+"");
+		return elem;
+	}
+	
+	
+	public static class Factory implements StorableFactory<Furniture> {
+		
+		private Zone[] zones;
+		
+		public Factory (Zone[] zones){
+			this.zones = zones;
+		}
+		
+		public Furniture fromXMLElement(Element elem) {
+			return new Furniture(elem, zones);
+		}
+
+	}
 }

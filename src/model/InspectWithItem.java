@@ -2,7 +2,12 @@ package model;
 
 import java.io.Serializable;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import datastorage.Storable;
+import datastorage.StorableFactory;
 
 /**
  * An interaction where when interacted will show a message and give an item. This interaction can only happen once and is a substitute for "Inspect". After the interaction has run, it will replace itself wtih
@@ -51,6 +56,29 @@ public class InspectWithItem extends Interaction implements Storable, Serializab
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public Element toXMLElement(Document doc){
+		Element elem = super.toXMLElement(doc, "Inspect");
+		elem.setAttribute("giveDescription", giveDescription);
+		elem.setAttribute("altDescription", altDescription);
+		elem.appendChild(entity.toXMLElement(doc));
+		elem.appendChild(item.toXMLElement(doc));
+		super.toXMLElement(doc);
+		return elem;
+	}
+	
+	public static class Factory implements StorableFactory<InspectWithItem> {
+		@Override
+		public InspectWithItem fromXMLElement(Element elem) {
+			String giveDescription = elem.getAttribute("giveDescription");
+			String altDescription = elem.getAttribute("altDescription");
+			NodeList nl = elem.getChildNodes();
+			Entity entity = new Entity.Factory().fromNode(nl.item(0));
+			Item item = new Item.Factory().fromNode(nl.item(1));
+			return new InspectWithItem(entity, item, giveDescription, altDescription);
+		}
 	}
 
 }

@@ -1,6 +1,11 @@
-package model;
+ package model;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 import datastorage.Storable;
+import datastorage.StorableFactory;
+import model.Gate.State;
 import util.Coord;
 import view.DrawDirection;
 /**
@@ -18,6 +23,10 @@ public class Portal extends Entity implements Storable{
 		this.portalID = portalID;
 		this.addInteraction(new Inspect("Some kind of portal... I wonder where it leads."));
 		this.addInteraction(new UsePortal(this));
+	}
+	
+	public Portal(Element elem, Zone[] zone){
+		
 	}
 
 	/**
@@ -58,6 +67,36 @@ public class Portal extends Entity implements Storable{
 				return super.equals(o);
 		}
 		return false;
+	}
+	
+	@Override
+	public Element toXMLElement(Document doc){
+		Element elem = super.toXMLElement(doc, "Portal");	//FIXME can't save other portal, so how to load it??
+		elem.setAttribute("portalID", portalID);
+		return elem;
+	}
+	
+	
+	public static class Factory implements StorableFactory<Portal> {
+		
+		private Zone[] zones;
+		
+		public Factory (Zone[] zones){
+			this.zones = zones;
+		}
+		
+		public Portal fromXMLElement(Element elem) {
+			String portalID = elem.getAttribute("portalID");
+			long zoneID = Long.parseLong(elem.getAttribute("zoneID"));
+			Zone zone = zones[0];
+			for(Zone z : zones){
+				if(z.getID() == zoneID)
+					zone = z;
+			}
+			Coord coord = Coord.fromString(elem.getAttribute("coord"));
+			return new Portal(zone, coord, portalID); //FIXME some how set the pairPortal for this portal
+		}
+
 	}
 
 }

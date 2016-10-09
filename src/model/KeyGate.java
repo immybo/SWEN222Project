@@ -2,7 +2,11 @@ package model;
 
 import java.io.Serializable;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import datastorage.Storable;
+import datastorage.StorableFactory;
 import model.Gate.State;
 import util.Coord;
 import util.PointD;
@@ -15,13 +19,17 @@ import view.DrawDirection;
  */
 public class KeyGate extends Gate implements Serializable, Storable {
 	private String keyID;
-	private boolean passable;
 
 	public KeyGate(State initial, Zone zone, Coord worldPosition, String keyID) {
 		super(initial, zone, worldPosition);
 		this.keyID = keyID;
 		this.addInteraction(new Inspect("Looks like a gate... Is that a key hole?"));
 		this.addInteraction(new UseKey(this));
+	}
+	
+	public KeyGate(Element elem, Zone[] zones){
+		super(zones, elem);
+		this.keyID = elem.getAttribute("keyID");
 	}
 
 	/**
@@ -30,15 +38,6 @@ public class KeyGate extends Gate implements Serializable, Storable {
 	 */
 	public boolean openedBy(Key key){
 		return key.getKeyID().equals(this.keyID);
-	}
-
-	@Override
-	public boolean isPassable() {
-		return this.passable;
-	}
-
-	public void setPassable(boolean passable) {
-		this.passable = passable;
 	}
 	
 	@Override
@@ -58,9 +57,31 @@ public class KeyGate extends Gate implements Serializable, Storable {
 	public boolean equals(Object o){
 		if(o instanceof KeyGate){
 			KeyGate kg = (KeyGate) o;
-			if(this.keyID.equals(kg.keyID) && this.passable == kg.passable)
+			if(this.keyID.equals(kg.keyID))
 				return super.equals(o);
 		}
 		return false;
+	}
+	
+	@Override
+	public Element toXMLElement(Document doc){
+		Element elem = super.toXMLElement(doc, "KeyGate");
+		elem.setAttribute("keyID", keyID);
+		return elem;
+	}
+	
+	
+	public static class Factory implements StorableFactory<KeyGate> {
+		
+		private Zone[] zones;
+		
+		public Factory (Zone[] zones){
+			this.zones = zones;
+		}
+		
+		public KeyGate fromXMLElement(Element elem) {
+			return new KeyGate(elem, zones);
+		}
+
 	}
 }

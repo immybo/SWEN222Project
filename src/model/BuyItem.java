@@ -2,8 +2,13 @@ package model;
 
 import java.io.Serializable;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import view.GameFrame;
 import datastorage.Storable;
+import datastorage.StorableFactory;
 
 /**
  * An interaction where when interacted will subtract a certain amount of coins and exchange it for an item. 
@@ -59,6 +64,29 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public Element toXMLElement(Document doc){
+		Element elem = super.toXMLElement(doc, "Inspect");
+		elem.setAttribute("itemName", itemName);
+		elem.setAttribute("cost", cost+"");
+		elem.appendChild(entity.toXMLElement(doc));
+		elem.appendChild(item.toXMLElement(doc));
+		super.toXMLElement(doc);
+		return elem;
+	}
+	
+	public static class Factory implements StorableFactory<BuyItem> {
+		@Override
+		public BuyItem fromXMLElement(Element elem) {
+			String itemName = elem.getAttribute("itemName");
+			int cost = Integer.parseInt(elem.getAttribute("cost"));
+			NodeList nl = elem.getChildNodes();
+			Entity entity = new Entity.Factory().fromNode(nl.item(0));
+			Item item = new Item.Factory().fromNode(nl.item(1));
+			return new BuyItem(entity, item, itemName, cost);
+		}
 	}
 
 }

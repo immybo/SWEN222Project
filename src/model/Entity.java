@@ -115,6 +115,18 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 		return elem;
 	}
 	
+
+	public Element toXMLElement(Document doc, String type){
+		Element elem = doc.createElement(type);
+		elem.setAttribute("zoneID", zone.getID()+"");
+		elem.setAttribute("coord", worldPosition.toString());
+		elem.appendChild(inventory.toXMLElement(doc));
+		for(Interaction inter : this.getInteractions()){
+			elem.appendChild(inter.toXMLElement(doc));
+		}
+		return elem;
+	}
+	
 	@Override
 	public boolean equals(Object o){
 		if (this == o) {
@@ -130,5 +142,30 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 			}
 		}
 		return false;
+	}
+	
+	public static class Factory implements StorableFactory<Entity> {
+		
+		private Zone[] zones;
+		
+		public Factory(Zone[] zones){
+			this.zones = zones;
+		}
+
+		@Override
+		public Entity fromXMLElement(Element elem) {
+			return null;
+		}
+		public Entity fromNode(Node n){
+			switch(n.getNodeName()){
+			case "Furniture":
+				return new Furniture.Factory(zones).fromXMLElement((Element) n);
+			case "KeyGate":
+				return new KeyGate.Factory(zones).fromXMLElement((Element) n);
+			case "Portal":
+				return new Portal.Factory(zones).fromXMLElement((Element) n);
+			}
+			return null;
+		}
 	}
 }

@@ -260,16 +260,7 @@ public class Inventory implements Storable, Serializable {
 			for(int i = 0; i < nl.getLength(); i++){
 				Node n = nl.item(i);
 
-				Item item = null;
-				
-				switch(n.getNodeName()){
-				case "Key":
-					item = new Key.KeyFactory().fromXMLElement((Element)n);
-					break;
-				case "Coin":
-					item = new Coin.Factory().fromXMLElement((Element)n);
-					break;
-				}
+				Item item = new Item.Factory().fromNode(n);
 
 				if(item == null)
 					throw new XMLParseException("Invalid item class.");
