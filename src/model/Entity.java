@@ -9,6 +9,7 @@ import datastorage.StorableFactory;
 import model.Tile.TileFactory;
 import util.Coord;
 import util.PointD;
+import view.DrawDirection;
 import view.Drawable;
 
 /**
@@ -49,7 +50,10 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 	private Zone zone;
 	private Coord worldPosition;
 	private Inventory inventory;
-
+	
+	public Coord getCoord (){
+		return worldPosition;
+	}
 	/**
 	 * Teleports this entity to another position
 	 * @param coord The position to teleport this entity to.
@@ -75,7 +79,7 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 	private String drawImagePath;
 
 	@Override
-	public String getDrawImagePath() {
+	public String getDrawImagePath(DrawDirection d) {
 		return this.drawImagePath;
 	}
 
@@ -96,7 +100,7 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 	
 	@Override
 	public int getYOffset() {
-		return 0;
+		return 39;
 	}
 
 	@Override

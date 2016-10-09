@@ -49,6 +49,8 @@ public class GameListener implements KeyListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		if(zone == null) return;
+		
 		Point clickWorldPoint;
 		try {
 			clickWorldPoint = panel.getWorldCoordinate(e.getPoint());
@@ -57,12 +59,21 @@ public class GameListener implements KeyListener, MouseListener {
 			return;
 		}
 		
-		// Move to the point
+		// Move to the point or attack a point
 		if(e.getButton() == MouseEvent.BUTTON1){
-			try {
-				client.moveTo(clickWorldPoint);
-			} catch (IOException e1) { // Do nothing?
-				e1.printStackTrace();
+			if(zone.getEnemy(clickWorldPoint) != null){
+				try {
+					client.attack(clickWorldPoint);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+			}
+			else{
+				try {
+					client.moveTo(clickWorldPoint);
+				} catch (IOException e1) { // Do nothing?
+					e1.printStackTrace();
+				}
 			}
 		}
 		// Check for interactables to get the menu of
@@ -95,6 +106,8 @@ public class GameListener implements KeyListener, MouseListener {
 
 	@Override
 	public void keyPressed(KeyEvent e) {
+		if(zone == null) return;
+		
 		try{
 			if(e.getKeyCode() == KeyEvent.VK_W){
 				client.moveForward();
@@ -134,6 +147,8 @@ public class GameListener implements KeyListener, MouseListener {
 		
 		@Override
 		public void actionPerformed(ActionEvent e){
+			if(zone == null) return;
+			
 			try {
 				client.interact(interaction);
 				panel.removeInteractionMenu(); // menu closes once you click an interaction

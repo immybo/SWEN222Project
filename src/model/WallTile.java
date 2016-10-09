@@ -6,6 +6,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import datastorage.StorableFactory;
+import view.DrawDirection;
 
 /**
  * A wall tile is a tile that acts as a boundary which will collide with any other object
@@ -21,19 +22,10 @@ public class WallTile extends Tile {
 	public boolean collides(){
 		return true;
 	}
-	@Override
-	public String getDrawImagePath() {
-		return "images/testWall.png";
-	}
 	
 	@Override
-	public double getDepthOffset() {
-		return 0.5;
-	}
-	
-	@Override
-	public int getYOffset() {
-		return 31;
+	public String getDrawImagePath(DrawDirection d) {
+		return "images/wallTile.png";
 	}
 	
 	public static class Factory implements StorableFactory<WallTile> {

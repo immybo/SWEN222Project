@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 import view.GameFrame;
 import datastorage.Storable;
 
@@ -10,7 +12,7 @@ import datastorage.Storable;
  * @author Martin Chau
  *
  */
-public class BuyItem extends Interaction implements Storable{
+public class BuyItem extends Interaction implements Storable, Serializable {
 	private Entity entity;
 	private Item item;
 	private String itemName;
@@ -33,7 +35,7 @@ public class BuyItem extends Interaction implements Storable{
 		// show description, give item,  remove interaction, and add a standard interactions
 		
 		String title = "Buy item?";
-		String text = "Are you sure you want to buy a " + itemName + "?";
+		String text = "Are you sure you want to buy a " + itemName + " for " + cost + " coins?";
 		boolean no = GameFrame.instance().displayBooleanQuestion(title, text) == 1;
 		
 		if(no){

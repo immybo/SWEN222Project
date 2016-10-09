@@ -33,6 +33,7 @@ public class RenderPanel extends JPanel {
     private volatile Inventory inventory;
     private AffineTransform isoTransform;
     private GameListener listener;
+    private DrawDirection drawDirection = DrawDirection.NW;
     
     private JPopupMenu interactionMenu;
 
@@ -123,13 +124,14 @@ public class RenderPanel extends JPanel {
         PriorityQueue<Drawable> drawQueue = new PriorityQueue<>(11,new DrawableComparator());
         drawQueue.addAll(zone.getTiles());
         drawQueue.addAll(zone.getEntities());
+        drawQueue.addAll(zone.getItems());
         drawQueue.addAll(zone.getCharacters());
 
 
 
         while (!drawQueue.isEmpty()) {
         	Drawable d = drawQueue.poll();
-            String filename = d.getDrawImagePath();
+            String filename = d.getDrawImagePath(drawDirection);
             if (filename == null) {
                 continue;
             }
@@ -169,6 +171,11 @@ public class RenderPanel extends JPanel {
     	Point2D inverseTrans = new Point2D.Double();
     	isoTransform.createInverse().transform(new Point2D.Double(screenCoordinate.x, screenCoordinate.y), inverseTrans);
     	return new Point((int)(inverseTrans.getX()/TILE_WIDTH), (int)(inverseTrans.getY()/TILE_HEIGHT));
+    }
+    
+    public Point getScreenCoordinate(double worldX, double worldY){
+    	Point2D transformed = applyTransform(worldX * TILE_WIDTH, worldY * TILE_HEIGHT);
+    	return new Point((int)transformed.getX(), (int)transformed.getY());
     }
 
     private class DrawableComparator implements Comparator<Drawable> {

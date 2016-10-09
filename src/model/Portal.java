@@ -2,6 +2,7 @@ package model;
 
 import datastorage.Storable;
 import util.Coord;
+import view.DrawDirection;
 /**
  * Type of Entity that when interacted with will teleport the player to the other portal in the world.
  *
@@ -34,6 +35,15 @@ public class Portal extends Entity implements Storable{
 
 	public String getPortalID(){
 		return this.portalID;
+	}
+	
+	@Override
+	public String getDrawImagePath(DrawDirection d){
+		return "images/portalTR.png";
+	}
+	@Override
+	public int getYOffset() {
+		return 39;
 	}
 
 	@Override

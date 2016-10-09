@@ -4,17 +4,20 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import model.Character;
+import model.World;
 import network.Protocol;
 
 public class ServerSendThread extends Thread {
 	private Character character;
 	private ObjectOutputStream out;
 	private Server parentServer;
+	private World world;
 	
-	public ServerSendThread(Server parentServer, ObjectOutputStream out, Character character) throws IOException {
+	public ServerSendThread(Server parentServer, ObjectOutputStream out, Character character, World world) throws IOException {
 		this.character = character;
 		this.parentServer = parentServer;
 		this.out = out;
+		this.world = world;
 	}
 	
 	@Override
@@ -22,14 +25,11 @@ public class ServerSendThread extends Thread {
 		boolean running = true;
 		while(running) {
 			try {
-				for (Character c : character.getZone().getCharacters()) {
-					System.err.printf("Character %s is at %s, facing %s\n",
-							c.toString(),
-							c.getCoord().getPoint(),
-							c.getCoord().getFacing());
+				synchronized (parentServer) {
+					world.tick();
+					out.writeObject(character.getZone());
+					out.reset();
 				}
-				out.writeObject(character.getZone());
-				out.reset();
 				sleep(Protocol.UPDATE_DELAY);
 			} catch (InterruptedException | IOException e) {
 				e.printStackTrace();

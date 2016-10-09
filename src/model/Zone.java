@@ -64,6 +64,14 @@ public class Zone implements Storable, Serializable {
 		this.id = id;
 	}
 	
+	public int getWidth(){
+		return tiles[0].length;
+	}
+	
+	public int getHeight(){
+		return tiles.length;
+	}
+	
 	/**
 	 * Calculates the shortest path from the given start point to the
 	 * given end point on this zone. This path must not collide
@@ -244,8 +252,17 @@ public class Zone implements Storable, Serializable {
 	 * @return A list of all characters contained within this zone.
 	 */
 	public List<Character> getCharacters(){
+		// Remove dead enemies
+		for(Character c : characters){
+			if(c instanceof Enemy){
+				if(((Enemy)c).isDead())
+					characters.remove(c);
+			}
+		}
+		
 		return this.characters;
 	}
+	
 
 	/**
 	 * Adds a character to this zone.
@@ -316,6 +333,26 @@ public class Zone implements Storable, Serializable {
 			int y = c.getCoord().getPoint().y;
 			if(x == point.x && y == point.y)
 				return c;
+		}
+		return null;
+	}
+	
+	/**
+	 * Returns an enemy at the given point, if
+	 * one exists. If more than one enemy exists at 
+	 * the given point, no guarantee is made as
+	 * to which will be returned.
+	 * 
+	 * @param point The point to query.
+	 * @return An enemy that was at the point, or null if there was none.
+	 */
+	public Enemy getEnemy(Point point){
+		for(Character c : getCharacters()){
+			if(c instanceof Enemy &&
+					c.getCoord().getPoint().x == point.x &&
+					c.getCoord().getPoint().y == point.y){
+				return (Enemy)c;
+			}
 		}
 		return null;
 	}
@@ -414,8 +451,8 @@ public class Zone implements Storable, Serializable {
 	 *
 	 * @return All items in this zone.
 	 */
-	public Item[] getItems(){
-		return items.toArray(new Item[0]);
+	public List<Item> getItems(){
+		return items;
 	}
 
 	/**
@@ -436,6 +473,16 @@ public class Zone implements Storable, Serializable {
 	 */
 	public void removeEntity(Entity e){
 		entities.remove(e);
+	}
+	
+	/**
+	 * Ticks movement, attacking, etc for objects
+	 * in this world.
+	 */
+	public void tick(){
+		for(Character c : getCharacters()){
+			c.tick();
+		}
 	}
 
 	@Override

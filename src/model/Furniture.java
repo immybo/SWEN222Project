@@ -6,6 +6,7 @@ import org.w3c.dom.Element;
 import datastorage.Storable;
 import datastorage.StorableFactory;
 import util.Coord;
+import view.DrawDirection;
 
 /**
  * Represents a generic impassable entity that is able to be interacted with. Typically decorative in nature.
@@ -14,7 +15,6 @@ import util.Coord;
  *
  */
 public class Furniture extends Entity implements Storable{
-
 	public Furniture(Zone zone, Coord worldPosition, Inventory inventory, String description) {
 		super(zone, worldPosition, inventory);
 		this.addInteraction(new Inspect(description));
@@ -56,4 +56,16 @@ public class Furniture extends Entity implements Storable{
 		}
 
 	}
+
+	@Override
+	public String getDrawImagePath(DrawDirection d) {
+		DrawDirection drawDir = DrawDirection.getCompositeDirection(d, this.getCoord().getFacing());
+		if(drawDir == DrawDirection.NE) return super.getDrawImagePath(d) + "TR.png";
+		else if(drawDir == DrawDirection.NW) return super.getDrawImagePath(d) + "TR.png";
+		else if(drawDir == DrawDirection.SE) return super.getDrawImagePath(d) + "BR.png";
+		else if(drawDir == DrawDirection.SW) return super.getDrawImagePath(d) + "BL.png";
+		return null;
+	}
+	
+
 }

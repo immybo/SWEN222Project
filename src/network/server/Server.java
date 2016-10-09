@@ -40,7 +40,7 @@ public class Server {
 		clientCount = 0;
 		
 		/* FIXME HACK set up world and players */
-		world = World.testWorld();
+		world = World.firstLevel();
 		this.players = new Player[2];
 		players[0] = world.getPupo();
 		players[1] = world.getYelo();
@@ -106,6 +106,7 @@ public class Server {
 	public boolean doHandshake(ObjectInputStream in, ObjectOutputStream out) throws IOException {
 		/* send the server's magic sequence and wait for a reply */
 		out.writeObject(Protocol.SERVER_MAGIC);
+		out.reset();
 		
 		/* receive the object from the other side, bailing if it cannot be reconstructed */
 		Object rawResponse = null;
@@ -179,7 +180,7 @@ public class Server {
 			Thread sendThread;
 			Thread recvThread;
 			try {
-				sendThread = new ServerSendThread(this, outs[i], players[i]); 
+				sendThread = new ServerSendThread(this, outs[i], players[i], world); 
 			} catch (IOException e) {
 				e.printStackTrace();
 				System.err.println("Error creating game state updater thread, bailing");

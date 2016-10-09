@@ -7,6 +7,7 @@ import org.w3c.dom.Element;
 
 import datastorage.Storable;
 import datastorage.StorableFactory;
+import view.DrawDirection;
 
 /**
  * A coin is an item which is treated as a unit of currency.
@@ -44,6 +45,10 @@ public class Coin extends Item{
 		public Coin fromXMLElement(Element elem) {
 			return new Coin(elem);
 		}
+	}
+	@Override
+	public String getDrawImagePath(DrawDirection d){
+		return "images/coin.png";
 	}
 	
 }

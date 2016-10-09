@@ -6,6 +6,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import model.Enemy;
 import model.Player;
 import model.Interaction;
 import network.Protocol.Event;
@@ -26,8 +27,7 @@ public class ServerRecvThread extends Thread {
 	/* character for the client this thread is managing */
 	private Player player;
 	
-	/* socket connected to client and its inward stream */
-	private Socket socket;
+	/* inward stream */
 	private ObjectInputStream in;
 	
 	/**
@@ -63,41 +63,51 @@ public class ServerRecvThread extends Thread {
 			return false;
 		}
 		Event packetType = (Event)readObj;
-		
-		switch (packetType) {
-		case FORWARD:
-			player.moveForward();
-			break;
-		case BACKWARD:
-			player.moveBackwards();
-			break;
-		case MOVE_TO_POINT:
-			readObj = in.readObject();
-			if(!(readObj instanceof Point)){
-				System.err.println("Received malformed interaction from "+socket.getRemoteSocketAddress());
+		synchronized (parentServer) {
+			switch (packetType) {
+			case FORWARD:
+				player.moveForward();
+				break;
+			case BACKWARD:
+				player.moveBackwards();
+				break;
+			case MOVE_TO_POINT:
+				readObj = in.readObject();
+				if(!(readObj instanceof Point)){
+					System.err.println("Received malformed point in move command");
+					break;
+				}
+				player.moveToPoint((Point)readObj);
+				break;
+			case ROTATE_CLOCKWISE:
+				player.rotate(true);
+				break;
+			case ROTATE_ANTICLOCKWISE:
+				player.rotate(false);
+				break;
+			case INTERACT:
+				readObj = in.readObject();
+				if (!(readObj instanceof Interaction)) {
+					System.err.println("Received malformed interaction in interact command");
+					break;
+				}
+				System.err.println("Server event receiver: not calling unimplemented interaction method");
+				//Interaction interaction = (Interaction)readObj;
+				//player.interact(interaction);
+				break;
+			case ATTACK:
+				readObj = in.readObject();
+				if (!(readObj instanceof Point)) {
+					System.err.println("Received malformed point in attack command");
+					break;
+				}
+				Enemy target = player.getZone().getEnemy((Point)readObj);
+				player.attack(target);
+				break;
+			default:
+				System.err.println("Unhandled event in server event receiver: "+packetType);
 				break;
 			}
-			player.moveToPoint((Point)readObj);
-			break;
-		case ROTATE_CLOCKWISE:
-			player.rotate(true);
-			break;
-		case ROTATE_ANTICLOCKWISE:
-			player.rotate(false);
-			break;
-		case INTERACT:
-			readObj = in.readObject();
-			if (!(readObj instanceof Interaction)) {
-				System.err.println("Received malformed interaction from "+socket.getRemoteSocketAddress());
-				break;
-			}
-			System.err.println("Server event receiver: not calling unimplemented interaction method");
-			//Interaction interaction = (Interaction)readObj;
-			//player.interact(interaction);
-			break;
-		default:
-			System.err.println("Unhandled event in server event receiver: "+packetType);
-			break;
 		}
 		return true;
 	}

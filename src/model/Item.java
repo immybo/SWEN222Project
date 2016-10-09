@@ -7,6 +7,7 @@ import org.w3c.dom.*;
 
 import datastorage.*;
 import util.PointD;
+import view.DrawDirection;
 import view.Drawable;
 
 /**
@@ -255,7 +256,7 @@ public abstract class Item implements Storable, Serializable, Drawable {
 	private String drawImagePath;
 	
 	@Override
-	public String getDrawImagePath() {
+	public String getDrawImagePath(DrawDirection d) {
 		return this.drawImagePath;
 	}
     @Override
@@ -268,6 +269,6 @@ public abstract class Item implements Storable, Serializable, Drawable {
     }
     @Override
 	public int getYOffset() {
-		return 0;
+		return 39;
 	}
 }

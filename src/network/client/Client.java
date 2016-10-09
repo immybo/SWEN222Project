@@ -164,6 +164,17 @@ public class Client {
 	}
 	
 	/**
+	 * Asks the server to attack at a point with the player.
+	 * 
+	 * @param point The point to attack (occupant(s))
+	 * @throws IOException
+	 */
+	public void attack(Point point) throws IOException {
+		out.writeObject(Event.ATTACK);
+		out.writeObject(point);
+	}
+	
+	/**
 	 * Ask the server to execute the specified interaction
 	 * @param interaction
 	 * @throws IOException

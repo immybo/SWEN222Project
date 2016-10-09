@@ -172,7 +172,15 @@ public abstract class Character implements Serializable, Storable, Drawable {
 	
 	@Override
 	public int getYOffset() {
-		return 0;
+		return 39;
+	}
+	
+	/**
+	 * Ticks any current processes this character
+	 * is undertaking. Default implementation does nothing.
+	 */
+	public void tick(){
+		// Do nothing
 	}
 
 	public Element toXMLElement(Document doc, String type) {
