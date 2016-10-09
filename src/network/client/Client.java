@@ -104,9 +104,18 @@ public class Client {
 	
 	public void disconnect(){
 		System.out.println("Disconnecting from server");
-		this.clientThread.shutdown();
+		if (clientThread != null)
+			this.clientThread.shutdown();
 		try {
-			this.sock.close();
+			if (sock != null)
+				this.sock.close();
+			
+			try {
+				if (clientThread != null)
+					clientThread.join();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		} catch (IOException e) {
 			/* not too concerned at this point, so turn it into an Error */
 			throw new NetworkError(e);
