@@ -109,17 +109,22 @@ public class GameListener implements KeyListener, MouseListener {
 		if(zone == null) return;
 		
 		try{
-			if(e.getKeyCode() == KeyEvent.VK_W){
+			switch (e.getKeyCode()) {
+			case KeyEvent.VK_W:
 				client.moveForward();
-			}
-			else if(e.getKeyCode() == KeyEvent.VK_S){
+				break;
+			case KeyEvent.VK_S:
 				client.moveBackward();
-			}
-			else if(e.getKeyCode() == KeyEvent.VK_A){
+				break;
+			case KeyEvent.VK_A:
 				client.rotateAnticlockwise();
-			}
-			else if(e.getKeyCode() == KeyEvent.VK_D){
+				break;
+			case KeyEvent.VK_D:
 				client.rotateClockwise();
+				break;
+			default:
+				System.err.println("Unhandled keycode in GameListener: "+e.getKeyCode());
+				break;
 			}
 		}
 		catch(IOException ex){} // Do nothing?

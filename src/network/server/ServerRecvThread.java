@@ -58,7 +58,7 @@ public class ServerRecvThread extends Thread {
 		}
 		
 		/* ensure casting to Event is safe */
-		if (!(readObj instanceof Event)) {
+		if (readObj == null || !(readObj instanceof Event)) {
 			System.err.println("object read not instance of Event, ignoring");
 			return false;
 		}
@@ -73,7 +73,7 @@ public class ServerRecvThread extends Thread {
 				break;
 			case MOVE_TO_POINT:
 				readObj = in.readObject();
-				if(!(readObj instanceof Point)){
+				if(readObj == null || !(readObj instanceof Point)){
 					System.err.println("Received malformed point in move command");
 					break;
 				}
@@ -87,7 +87,7 @@ public class ServerRecvThread extends Thread {
 				break;
 			case INTERACT:
 				readObj = in.readObject();
-				if (!(readObj instanceof Interaction)) {
+				if (readObj == null || !(readObj instanceof Interaction)) {
 					System.err.println("Received malformed interaction in interact command");
 					break;
 				}
@@ -97,12 +97,13 @@ public class ServerRecvThread extends Thread {
 				break;
 			case ATTACK:
 				readObj = in.readObject();
-				if (!(readObj instanceof Point)) {
+				if (readObj == null || !(readObj instanceof Point)) {
 					System.err.println("Received malformed point in attack command");
 					break;
 				}
 				Enemy target = player.getZone().getEnemy((Point)readObj);
-				player.attack(target);
+				if (target != null)
+					player.attack(target);
 				break;
 			default:
 				System.err.println("Unhandled event in server event receiver: "+packetType);

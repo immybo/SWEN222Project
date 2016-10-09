@@ -23,7 +23,7 @@ public class Protocol {
 	public static final String CLIENT_MAGIC = "no\n";
 
 	/* delay between game state updates (milliseconds) */
-	public static final long UPDATE_DELAY = 1000;
+	public static final long UPDATE_DELAY = 200;
 	
 	/* Events that can be communicated between client and server */
 	public static enum Event {

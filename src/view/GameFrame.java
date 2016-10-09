@@ -34,6 +34,7 @@ public class GameFrame extends JFrame {
     // Shows the player information about the current game -
     // For example, their inventory, health
     private InformationPanel informationPanel;
+	private Client client;
 
     /**
      * Internal constructor for GameFrame.
@@ -131,7 +132,10 @@ public class GameFrame extends JFrame {
      * @throws NetworkError
      */
 	public void connect(String hostname) throws NetworkError {
-		Client client = new Client(this, hostname);
+		if (client != null) {
+			client.disconnect();
+		}
+		client = new Client(this, hostname);
 		informationPanel.setClient(client);
 		getRenderPanel().attachToClient(client);
 		client.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {

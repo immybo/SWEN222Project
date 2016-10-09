@@ -143,6 +143,7 @@ public class Player extends Character implements Storable, Serializable {
 		if(ok){
 			for(Item item : getZone().getItems(this.getCoord().getPoint())){
 				item.onCollision(this);
+				getZone().removeItem(item);
 			}
 		}
 		
@@ -205,13 +206,14 @@ public class Player extends Character implements Storable, Serializable {
 	public String getDrawImagePath(DrawDirection d) {
 		DrawDirection drawDir = DrawDirection.getCompositeDirection(d, this.getCoord().getFacing());
 		String dir = "";
-		if(drawDir == DrawDirection.NE) dir = "TR.png";
-		else if(drawDir == DrawDirection.NW) dir = "TR.png";
-		else if(drawDir == DrawDirection.SE) dir = "BR.png";
-		else if(drawDir == DrawDirection.SW) dir = "BL.png";
-		if(pupo)
-			return ("images/pupo" + dir);
-		else
-			return ("images/yelo" + dir);
+		switch (drawDir) {
+		case NE: dir = "TR"; break;
+		case NW: dir = "TL"; break;
+		case SE: dir = "BR"; break;
+		case SW: dir = "BL"; break;
+		default: throw new IllegalStateException();
+		}
+		String who = pupo ? "pupo" : "yelo";
+		return ("images/" + who + dir + ".png");
 	}
 }
