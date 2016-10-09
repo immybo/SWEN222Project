@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.net.Socket;
 import java.lang.Thread.UncaughtExceptionHandler;
 
-import model.Enemy;
 import model.Interaction;
 import model.Zone;
 import view.GameFrame;
@@ -165,14 +164,14 @@ public class Client {
 	}
 	
 	/**
-	 * Asks the server to attack the given enemy with the player.
+	 * Asks the server to attack at a point with the player.
 	 * 
-	 * @param enemy The enemy to attack.
+	 * @param point The point to attack (occupant(s))
 	 * @throws IOException
 	 */
-	public void attack(Enemy enemy) throws IOException {
+	public void attack(Point point) throws IOException {
 		out.writeObject(Event.ATTACK);
-		out.writeObject(enemy);
+		out.writeObject(point);
 	}
 	
 	/**
