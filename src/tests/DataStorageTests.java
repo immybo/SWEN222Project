@@ -21,8 +21,10 @@ public class DataStorageTests extends TestCase {
 	@Test
 	public void testZoneStorage(){
 		Tile[][] tiles = TestUtil.generateTiles(10,10);
-		
+		tiles[0][0] = new WallTile(new Point(0,0));
+		tiles[0][1] = new WallTile(new Point(1,0));
 		Zone zone = new Zone("zone", tiles);
+		zone.addCharacter(new Player(zone, new Coord(new Direction(1), new Point(1,1)), false));
 		XMLInterface.saveToFile(zone,  new File("testxml.xml"));
 		
 		Zone importedZone = XMLInterface.loadFromFile(new Zone.ZoneFactory(), new File("testxml.xml"));

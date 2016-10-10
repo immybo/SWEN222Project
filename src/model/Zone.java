@@ -45,6 +45,7 @@ public class Zone implements Storable, Serializable {
 
 		items = new ArrayList<Item>();
 		entities = new ArrayList<Entity>();
+		this.characters = new ArrayList<Character>();
 
 		this.id = nextID++;
 	}
@@ -62,6 +63,54 @@ public class Zone implements Storable, Serializable {
 		entities = new ArrayList<Entity>();
 
 		this.id = id;
+	}
+	
+	/**
+	 * Creates a zone from a Element
+	 * @param elem
+	 */
+	public Zone(Element elem){
+		Zone[] zones = new Zone[1];
+		zones[0] = this;
+		this.id = Long.parseLong(elem.getAttribute("ID"));
+		this.name = elem.getAttribute("name");
+		int width = Integer.parseInt(elem.getAttribute("width"));
+		int height = Integer.parseInt(elem.getAttribute("height"));
+		this.tiles = new Tile[height][width];
+		TileFactory factory = new TileFactory();
+		int i = 0;
+		NodeList children = elem.getChildNodes();
+		for(; i < width*height; i++){
+			String positionString = children.item(i).getNodeName().substring(4);
+			int x = Integer.parseInt(positionString.split(":")[0]);
+			int y = Integer.parseInt(positionString.split(":")[1]);
+			tiles[y][x] = factory.fromXMLElement((Element)children.item(i));
+		}
+		int noItems = Integer.parseInt(elem.getAttribute("noItems")) + i;
+		this.items = new ArrayList<Item>();
+		Item.Factory itemFactory = new Item.Factory();
+		for(; i < noItems ; i++){
+			Item item = itemFactory.fromNode(children.item(i));
+			this.items.add(item);
+		}
+		int noEntities = Integer.parseInt(elem.getAttribute("noEntities"))  + i;
+		this.entities = new ArrayList<Entity>();
+		Entity.Factory entityFactory = new Entity.Factory(zones);
+		for(; i < noEntities ; i++){
+			Entity entity = entityFactory.fromNode(children.item(i));
+			this.entities.add(entity);
+		}
+		int noCharacters = Integer.parseInt(elem.getAttribute("noCharacters")) + i;
+		this.characters = new ArrayList<Character>();
+		Character.Factory characterFactory = new Character.Factory(zones);
+		for(; i < noCharacters ; i++){
+			Character character = characterFactory.fromNode(children.item(i));
+			this.characters.add(character);
+		}
+
+		// Make sure IDs don't overlap
+		if(id >= nextID)
+			nextID = id + 1;
 	}
 	
 	public int getWidth(){
@@ -497,31 +546,25 @@ public class Zone implements Storable, Serializable {
 				elem.appendChild(tiles[x][y].toXMLElement(doc));
 			}
 		}
+		elem.setAttribute("noItems", items.size()+"");
+		for(Item i : items)
+			elem.appendChild(i.toXMLElement(doc));
+		
+		elem.setAttribute("noEntities" , entities.size()+"");
+		for(Entity e : entities)
+			elem.appendChild(e.toXMLElement(doc));
+		
+		elem.setAttribute("noCharacters", characters.size()+"");
+		for(Character c : characters)
+			elem.appendChild(c.toXMLElement(doc));
+		
 		return elem;
 	}
 
 	public static class ZoneFactory implements StorableFactory<Zone> {
 		@Override
 		public Zone fromXMLElement(Element elem) {
-			long id = Long.parseLong(elem.getAttribute("ID"));
-			String name = elem.getAttribute("name");
-			int width = Integer.parseInt(elem.getAttribute("width"));
-			int height = Integer.parseInt(elem.getAttribute("height"));
-			Tile[][] tiles = new Tile[height][width];
-			TileFactory factory = new TileFactory();
-
-			NodeList children = elem.getChildNodes();
-			for(int i = 0; i < children.getLength(); i++){
-				String positionString = children.item(i).getNodeName().substring(4);
-				int x = Integer.parseInt(positionString.split(":")[0]);
-				int y = Integer.parseInt(positionString.split(":")[1]);
-				tiles[y][x] = factory.fromXMLElement((Element)children.item(i));
-			}
-
-			// Make sure IDs don't overlap
-			if(id >= nextID)
-				nextID = id + 1;
-			return new Zone(name, tiles, id);
+			return new Zone(elem);
 		}
 	}
 
@@ -544,6 +587,9 @@ public class Zone implements Storable, Serializable {
 					}
 				}
 			}
+			if(!this.entities.equals(zone.entities)) return false;
+			if(!this.items.equals(zone.items)) return false;
+			if(!this.characters.equals(zone.characters)) return false;
 			return true;
 		}
 		return false;

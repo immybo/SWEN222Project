@@ -46,7 +46,6 @@ public class WallTile extends Tile {
 
 	@Override
 	public Element toXMLElement(Document doc) {
-		// TODO Auto-generated method stub
-		return super.toXMLElement(doc, "FloorTile");
+		return super.toXMLElement(doc, "WallTile");
 	}
 }

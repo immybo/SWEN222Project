@@ -148,7 +148,7 @@ public abstract class Character implements Serializable, Storable, Drawable {
 	public boolean equals(Object o){
 		if(o instanceof Character){
 			Character c = (Character) o;
-			if(this.getCoord().equals(c.getCoord()) && this.getZone().equals(c.getZone())){
+			if(this.getCoord().equals(c.getCoord()) && this.getZone().getID() == c.getZone().getID()){
 				return true;
 			}
 		}
