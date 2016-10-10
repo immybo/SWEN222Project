@@ -18,6 +18,15 @@ public class Slime extends Enemy {
 
 	@Override
 	public String getDrawImagePath(DrawDirection d) {
-		return "images/slime.png";
+		DrawDirection drawDir = DrawDirection.getCompositeDirection(d, this.getCoord().getFacing());
+		String dir = "";
+		switch (drawDir) {
+		case NE: dir = "TR"; break;
+		case NW: dir = "TL"; break;
+		case SE: dir = "BR"; break;
+		case SW: dir = "BL"; break;
+		default: throw new IllegalStateException();
+		}
+		return ("images/redSlime" +  dir + ".png");
 	}
 }
