@@ -192,4 +192,24 @@ public class Client {
 		out.writeObject(Event.INTERACT);
 		out.writeObject(interaction);
 	}
+	
+	/**
+	 * Ask the server to save the world state to file
+	 * @param name -- the filename to save to server-side
+	 * @throws IOException
+	 */
+	public void saveWorld(String name) throws IOException {
+		out.writeObject(Event.GAME_SAVE);
+		out.writeUTF(name);
+	}
+	
+	/**
+	 * Ask the server to load the world state from file
+	 * @param name -- the filename to save to server-side
+	 * @throws IOException
+	 */
+	public void loadWorld(String name) throws IOException {
+		out.writeObject(Event.GAME_LOAD);
+		out.writeUTF(name);
+	}
 }
