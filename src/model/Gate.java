@@ -53,7 +53,7 @@ public abstract class Gate extends Entity implements Storable{
 	 * Returns whether or not this gate is currently passable.
 	 * Gates are only passable if they are in the open state.
 	 */
-	public boolean passable(){
+	public boolean isPassable(){
 		return state == State.OPEN;
 	}
 

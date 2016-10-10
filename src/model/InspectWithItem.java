@@ -70,13 +70,13 @@ public class InspectWithItem extends Interaction implements Storable, Serializab
 	}
 	
 	public static class Factory implements StorableFactory<InspectWithItem> {
-		
+
 		private Zone[] zones;
 		
-		public Factory(Zone[] zones){
+		public Factory (Zone[] zones){
 			this.zones = zones;
 		}
-		
+
 		@Override
 		public InspectWithItem fromXMLElement(Element elem) {
 			String giveDescription = elem.getAttribute("giveDescription");

@@ -79,8 +79,9 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 	public static class Factory implements StorableFactory<BuyItem> {
 		
 		private Zone[] zones;
-		
-		public Factory(Zone[] zones){
+				
+		public Factory (Zone[] zones){
+
 			this.zones = zones;
 		}
 		@Override
@@ -89,6 +90,7 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 			int cost = Integer.parseInt(elem.getAttribute("cost"));
 			NodeList nl = elem.getChildNodes();
 			Entity entity = new Entity.Factory(zones).fromNode(nl.item(0)); //Needs zones
+
 			Item item = new Item.Factory().fromNode(nl.item(1));
 			return new BuyItem(entity, item, itemName, cost);
 		}

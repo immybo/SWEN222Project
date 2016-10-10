@@ -47,7 +47,7 @@ public class GameFrame extends JFrame {
         canvas = new RenderPanel();
         informationPanel = new InformationPanel(this);
 
-        this.add(canvas, BorderLayout.WEST);
+        this.add(canvas, BorderLayout.CENTER);
         this.add(informationPanel, BorderLayout.EAST);
 
         pack();
