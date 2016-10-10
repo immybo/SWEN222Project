@@ -13,7 +13,6 @@ import datastorage.StorableFactory;
 import model.Tile.TileFactory;
 import util.Coord;
 import util.Direction;
-import util.PointD;
 
 /**
  * A zone is a discrete section of the world.
@@ -23,6 +22,7 @@ import util.PointD;
  * @author Robert Campbell
  */
 public class Zone implements Storable, Serializable {
+	private static final long serialVersionUID = 4935905094895442060L;
 	private static long nextID = 0;
 	private long id;
 

@@ -7,9 +7,7 @@ import org.w3c.dom.Element;
 
 import datastorage.Storable;
 import datastorage.StorableFactory;
-import model.Gate.State;
 import util.Coord;
-import util.PointD;
 import view.DrawDirection;
 
 /**
@@ -18,6 +16,7 @@ import view.DrawDirection;
  * @author Robert Campbell
  */
 public class KeyGate extends Gate implements Serializable, Storable {
+	private static final long serialVersionUID = 887504501051715305L;
 	private String keyID;
 
 	public KeyGate(State initial, Zone zone, Coord worldPosition, String keyID) {

@@ -4,11 +4,7 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 import datastorage.Storable;
-import datastorage.StorableFactory;
 import util.Coord;
 
 /**
@@ -19,6 +15,7 @@ import util.Coord;
  *
  */
 public class UsePortal extends Interaction implements Storable, Serializable {
+	private static final long serialVersionUID = -7601751065430972886L;
 	private Portal portal;
 
 	/**

@@ -19,6 +19,7 @@ import view.Drawable;
  * @author Robert Campbell
  */
 public abstract class Tile implements Storable,Serializable, Drawable {
+	private static final long serialVersionUID = 2409639214430439572L;
 	private Point position;
 	
 	public Tile(Point position){

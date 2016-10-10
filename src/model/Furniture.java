@@ -14,7 +14,9 @@ import view.DrawDirection;
  * @author Martin Chau
  *
  */
-public class Furniture extends Entity implements Storable{
+public class Furniture extends Entity implements Storable {
+	private static final long serialVersionUID = 3656699617612256479L;
+
 	public Furniture(Zone zone, Coord worldPosition, Inventory inventory, String description) {
 		super(zone, worldPosition, inventory);
 		this.addInteraction(new Inspect(description));

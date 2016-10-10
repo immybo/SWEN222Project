@@ -6,7 +6,6 @@ import java.io.Serializable;
 import org.w3c.dom.*;
 
 import datastorage.*;
-import model.Entity;
 import util.PointD;
 import view.DrawDirection;
 import view.Drawable;
@@ -21,6 +20,7 @@ import view.Drawable;
  * @author Robert Campbell
  */
 public abstract class Item implements Storable, Serializable, Drawable {
+	private static final long serialVersionUID = -7157946014751399986L;
 	private boolean inInventory;
 	private Point worldPosition;
 	

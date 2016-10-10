@@ -5,10 +5,7 @@ import datastorage.StorableFactory;
 
 import java.awt.Point;
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.Timer;
-import java.util.TimerTask;
 
 import org.w3c.dom.*;
 
@@ -17,6 +14,7 @@ import util.Direction;
 import view.DrawDirection;
 
 public class Player extends Character implements Storable, Serializable {
+	private static final long serialVersionUID = -3708487301391970342L;
 	public final boolean pupo; //!pupo --> yelo
 	private Inventory inventory;
 	private Weapon equipped;

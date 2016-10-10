@@ -15,7 +15,9 @@ import datastorage.StorableFactory;
  *
  */
 public class Inspect extends Interaction implements Serializable, Storable {
+	private static final long serialVersionUID = 2533033331746954099L;
 	private String description;
+	
 	public Inspect(String description){
 		//TODO add the dialog box popup for parameters
 		this.description = description;

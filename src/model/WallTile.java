@@ -14,6 +14,7 @@ import view.DrawDirection;
  * @author Martin Chau
  */
 public class WallTile extends Tile {
+	private static final long serialVersionUID = -2471395280514065097L;
 
 	public WallTile(Point position) {
 		super(position);

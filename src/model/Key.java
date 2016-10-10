@@ -7,10 +7,10 @@ import org.w3c.dom.Element;
 
 import datastorage.Storable;
 import datastorage.StorableFactory;
-import util.PointD;
 import view.DrawDirection;
 
 public class Key extends Item implements Storable{
+	private static final long serialVersionUID = -6877497241147657342L;
 	private String keyID;
 
 	public Key(Point worldPosition, String keyID) {

@@ -6,7 +6,6 @@ import org.w3c.dom.*;
 
 import datastorage.Storable;
 import datastorage.StorableFactory;
-import model.Tile.TileFactory;
 import util.Coord;
 import util.PointD;
 import view.DrawDirection;
@@ -18,8 +17,7 @@ import view.Drawable;
  * @author Martin Chau
  */
 public abstract class Entity extends Interactable implements Serializable, Drawable, Storable {
-
-	public Entity(){}
+	private static final long serialVersionUID = 3586592516798073269L;
 
 	public Entity(Zone zone, Coord worldPosition, Inventory inventory) {
 		this.zone = zone;

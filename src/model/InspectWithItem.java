@@ -16,6 +16,7 @@ import datastorage.StorableFactory;
  *
  */
 public class InspectWithItem extends Interaction implements Storable, Serializable {
+	private static final long serialVersionUID = 3600680322909171302L;
 	private Entity entity;
 	private Item item;
 	private String giveDescription;

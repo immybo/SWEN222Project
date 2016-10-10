@@ -3,19 +3,15 @@ package model;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
 
 import datastorage.Storable;
 import datastorage.StorableFactory;
-import model.Zone.ZoneFactory;
 import util.Coord;
 import util.Direction;
-import util.PointD;
 
 public class World implements Storable {
 	private String name;

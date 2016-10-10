@@ -15,6 +15,8 @@ import view.DrawDirection;
  * @author Robert Campbell
  */
 public class FloorTile extends Tile {
+	private static final long serialVersionUID = -2290369020120941233L;
+
 	public FloorTile(Point position) {
 		super(position);
 	}
