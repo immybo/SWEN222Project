@@ -85,13 +85,7 @@ public class Push extends Interaction implements Storable, Serializable {
 
 	@Override
 	public boolean equals(Object o) {
-		if (o instanceof Push) {
-			Push i = (Push) o;
-			if (this.entity.equals(i.entity)) {
-				return super.equals(o);
-			}
-		}
-		return false;
+		return o instanceof Push;
 	}
 
 	@Override

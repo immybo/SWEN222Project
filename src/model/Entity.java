@@ -51,11 +51,6 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 				inspectItem.setEntity(this);
 				this.addInteraction(inspectItem);
 				break;
-			case "Push":
-				Push push = new Push();
-				push.setEntity(this);
-				this.addInteraction(push);
-				break;
 			}
 		}
 	}
@@ -119,7 +114,8 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 		if(inventory!=null)
 			elem.appendChild(inventory.toXMLElement(doc));
 		for(Interaction inter : this.getInteractions()){
-			elem.appendChild(inter.toXMLElement(doc));
+			if(!(inter instanceof Push))
+				elem.appendChild(inter.toXMLElement(doc));
 		}
 		return elem;
 	}

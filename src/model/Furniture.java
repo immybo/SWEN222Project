@@ -25,6 +25,7 @@ public class Furniture extends Entity implements Storable {
 	
 	public Furniture(Element elem, Zone[] zones){
 		super(elem, zones);
+		this.addInteraction(new Push(this));
 	}
 
 	@Override

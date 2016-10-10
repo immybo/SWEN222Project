@@ -82,8 +82,8 @@ public class Zone implements Storable, Serializable {
 		NodeList children = elem.getChildNodes();
 		for(; i < width*height; i++){
 			String positionString = children.item(i).getNodeName().substring(4);
-			int x = Integer.parseInt(positionString.split(":")[0]);
-			int y = Integer.parseInt(positionString.split(":")[1]);
+			int x = Integer.parseInt(((Element)children.item(i)).getAttribute("xpos"));
+			int y = Integer.parseInt(((Element)children.item(i)).getAttribute("ypos"));
 			tiles[y][x] = factory.fromXMLElement((Element)children.item(i));
 		}
 		int noItems = Integer.parseInt(elem.getAttribute("noItems")) + i;
