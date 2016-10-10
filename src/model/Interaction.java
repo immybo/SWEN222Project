@@ -32,7 +32,17 @@ public abstract class Interaction implements Storable, Serializable {
 	 * @param p Player that starts the interaction
 	 */
 	public abstract void execute(Player p);
-	
+
+	/**
+	 * An interaction can display a message that it wants
+	 * to be displayed to any player that performs it.
+	 * The default of an empty string indicates that no
+	 * message will be displayed.
+	 * 
+	 * @return The message to be displayed.
+	 */
+	public String getMessageText(){ return ""; }
+
 	public Element toXMLElement(Document doc, String type){
 		Element elem = doc.createElement(type);
 		elem.setAttribute("text", getText());

@@ -46,13 +46,16 @@ public class InspectWithItem extends Interaction implements Storable, Serializab
 		//TODO takes a player and the object.
 		// show description, give item,  remove interaction, and add a standard interactions
 		if(p.getInventory().hasRoom()){
-			//show dialog box to user
 			p.getInventory().addItem(this.item);
 			this.entity.removeInteraction(this);
 			this.entity.addInteraction(new Inspect(this.altDescription));
 		} else {
-			//show dialog box
 		}
+	}
+	
+	@Override
+	public String getMessageText(){
+		return giveDescription;
 	}
 	
 	@Override
