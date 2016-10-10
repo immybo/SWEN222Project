@@ -84,9 +84,16 @@ public class UsePortal extends Interaction implements Storable, Serializable {
 	}
 	
 	public static class Factory implements StorableFactory<UsePortal> {
+		
+		private Zone[] zones;
+		
+		public Factory (Zone[] zones){
+			this.zones = zones;
+		}
+		
 		@Override
 		public UsePortal fromXMLElement(Element elem) {
-			Portal portal = new Portal.Factory().fromXMLElement((Element)elem.getFirstChild());
+			Portal portal = new Portal.Factory(zones).fromXMLElement((Element)elem.getFirstChild());
 			return new UsePortal(portal);
 		}
 	}

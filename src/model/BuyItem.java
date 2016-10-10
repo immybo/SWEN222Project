@@ -78,12 +78,17 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 	}
 	
 	public static class Factory implements StorableFactory<BuyItem> {
+		private Zone[] zones;
+		
+		public Factory (Zone[] zones){
+			this.zones = zones;
+		}
 		@Override
 		public BuyItem fromXMLElement(Element elem) {
 			String itemName = elem.getAttribute("itemName");
 			int cost = Integer.parseInt(elem.getAttribute("cost"));
 			NodeList nl = elem.getChildNodes();
-			Entity entity = new Entity.Factory().fromNode(nl.item(0));
+			Entity entity = new Entity.Factory(zones).fromNode(nl.item(0));
 			Item item = new Item.Factory().fromNode(nl.item(1));
 			return new BuyItem(entity, item, itemName, cost);
 		}
