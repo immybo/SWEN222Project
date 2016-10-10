@@ -120,7 +120,7 @@ public class Inventory implements Storable, Serializable {
 	 * @param type The class whose items will be removed.
 	 * @return How many items were removed.
 	 */
-	public int removeAllOfType(Class type){
+	public int removeAllOfType(Class<? extends Item> type){
 		int found = 0;
 		for(int i = 0; i< items.length; i++){
 			if(items[i].getClass().equals(type)){
@@ -137,7 +137,7 @@ public class Inventory implements Storable, Serializable {
 	 * @param type The class whose items will be returned.
 	 * @return An array of indices of items of the given class.
 	 */
-	public Integer[] getAllOfType(Class type){
+	public Integer[] getAllOfType(Class<? extends Item> type){
 		List<Integer> elements = new LinkedList<Integer>();
 		for(int i = 0; i< items.length; i++){
 			if(items[i] != null && items[i].getClass().equals(type)){
