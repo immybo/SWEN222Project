@@ -2,6 +2,9 @@ package model;
 
 import java.io.Serializable;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import datastorage.Storable;
 
 /**
@@ -10,7 +13,7 @@ import datastorage.Storable;
  * @author Martin Chau
  *
  */
-public class UseKey extends Interaction implements Serializable, Storable {
+public class UseKey extends Interaction implements Serializable {
 	private static final long serialVersionUID = 2006816371515001453L;
 	private KeyGate keyGate;
 	
@@ -66,6 +69,10 @@ public class UseKey extends Interaction implements Serializable, Storable {
 		return false;
 	}
 
+	@Override
+	public Element toXMLElement(Document doc) {
+		return super.toXMLElement(doc, "UseKey");
+	}
 	
 }
 

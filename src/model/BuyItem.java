@@ -79,7 +79,7 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 	
 	@Override
 	public Element toXMLElement(Document doc){
-		Element elem = super.toXMLElement(doc, "Inspect");
+		Element elem = super.toXMLElement(doc, "BuyItem");
 		elem.setAttribute("itemName", itemName);
 		elem.setAttribute("cost", cost+"");
 		elem.appendChild(item.toXMLElement(doc));

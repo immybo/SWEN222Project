@@ -68,11 +68,10 @@ public class InspectWithItem extends Interaction implements Storable, Serializab
 	
 	@Override
 	public Element toXMLElement(Document doc){
-		Element elem = super.toXMLElement(doc, "Inspect");
+		Element elem = super.toXMLElement(doc, "InspectWithItem");
 		elem.setAttribute("giveDescription", giveDescription);
 		elem.setAttribute("altDescription", altDescription);
 		elem.appendChild(item.toXMLElement(doc));
-		super.toXMLElement(doc);
 		return elem;
 	}
 	

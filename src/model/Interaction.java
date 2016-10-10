@@ -32,13 +32,6 @@ public abstract class Interaction implements Storable, Serializable {
 	 * @param p Player that starts the interaction
 	 */
 	public abstract void execute(Player p);
-
-	@Override
-	public Element toXMLElement(Document doc){
-		Element elem = doc.createElement("interaction");
-		elem.setAttribute("text", getText());
-		return elem;
-	}
 	
 	public Element toXMLElement(Document doc, String type){
 		Element elem = doc.createElement(type);

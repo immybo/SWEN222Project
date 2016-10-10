@@ -36,6 +36,13 @@ public class Push extends Interaction implements Storable, Serializable {
 		this.entity = entity;
 	}
 
+	public Push() {
+	}
+	
+	public void setEntity(Entity e){
+		this.entity = e;
+	}
+
 	@Override
 	public String getText() {
 		return "Push";
@@ -89,20 +96,15 @@ public class Push extends Interaction implements Storable, Serializable {
 
 	@Override
 	public Element toXMLElement(Document doc) {
-		return null;
+		Element elem = super.toXMLElement(doc, "Push");
+		return elem;
 	}
 
 	public static class Factory implements StorableFactory<Push> {
 
-		private Zone[] zones;
-
-		public Factory(Zone[] zones) {
-			this.zones = zones;
-		}
-
 		@Override
 		public Push fromXMLElement(Element elem) {
-			return null;
+			return new Push();
 		}
 	}
 

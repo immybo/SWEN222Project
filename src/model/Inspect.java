@@ -46,7 +46,6 @@ public class Inspect extends Interaction implements Serializable, Storable {
 	public Element toXMLElement(Document doc){
 		Element elem = super.toXMLElement(doc, "Inspect");
 		elem.setAttribute("description", description);
-		super.toXMLElement(doc);
 		return elem;
 	}
 	

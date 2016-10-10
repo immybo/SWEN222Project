@@ -4,6 +4,9 @@ import java.awt.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import datastorage.Storable;
 import util.Coord;
 import view.GameFrame;
@@ -15,7 +18,7 @@ import view.GameFrame;
  * @author Martin Chau
  *
  */
-public class UsePortal extends Interaction implements Storable, Serializable {
+public class UsePortal extends Interaction implements Serializable {
 	private static final long serialVersionUID = -7601751065430972886L;
 	private Portal portal;
 
@@ -73,5 +76,11 @@ public class UsePortal extends Interaction implements Storable, Serializable {
 		}
 		return false;
 	}
+
+	@Override
+	public Element toXMLElement(Document doc) {
+		return super.toXMLElement(doc, "UsePortal");
+	}
+	
 	
 }
