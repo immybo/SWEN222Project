@@ -107,8 +107,12 @@ public class World implements Storable {
 	public Element toXMLElement(Document doc) {
 		Element elem = doc.createElement("World");
 		elem.setAttribute("name", name);
-		for(Zone z : zones)
+		int i = 0;
+		for(Zone z : zones){
+			System.out.println("Zone " + i);
+			i++;
 			elem.appendChild(z.toXMLElement(doc));
+		}
 		elem.appendChild(Pupo.toXMLElement(doc));
 		elem.appendChild(Yelo.toXMLElement(doc));
 		return elem;
@@ -321,7 +325,7 @@ public class World implements Storable {
 		y=1;x=0;
 		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=5;addFloor(tiles,toAdd,x,y);x=x+toAdd;
-		toAdd=3;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		toAdd=4;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		//y=2
 		y=2;x=0;
 		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
@@ -336,7 +340,7 @@ public class World implements Storable {
 		y=4;x=0;
 		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=5;addFloor(tiles,toAdd,x,y);x=x+toAdd;
-		toAdd=3;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		toAdd=4;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		//y=5
 		y=5;x=0;
 		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
