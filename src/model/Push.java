@@ -49,10 +49,10 @@ public class Push extends Interaction implements Storable, Serializable {
 	}
 
 	@Override
-	public void execute(Player player) {
+	public String execute(Player player) {
 
 		if (!(player.getZone().equals(this.entity.getZone())))
-			return;
+			return "This entity is in a different zone, you cheater";
 		Point p = player.getCoord().getPoint();
 		Point[] points = new Point[4];
 		points[0] = new Point(p.x - 1, p.y);
@@ -77,10 +77,11 @@ public class Push extends Interaction implements Storable, Serializable {
 			pushOnto = new Point(points[3].x, points[3].y + 1);
 		}
 		if (entity.getZone().checkForObstruction(pushOnto))
-			return;
+			return "Something hard is in the way";
 		if (entity.getZone().getItem(pushOnto) != null)
-			return;
+			return "An item is in the way";
 		entity.teleportTo(new Coord(entity.getCoord().getFacing(),pushOnto));
+		return "You pushed it you strong blob";
 	}
 
 	@Override

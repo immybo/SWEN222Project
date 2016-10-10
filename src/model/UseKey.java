@@ -27,7 +27,7 @@ public class UseKey extends Interaction implements Serializable {
 	}
 
 	@Override
-	public void execute(Player p) {
+	public String execute(Player p) {
 		// get player inventory
 		Item[] pInven = p.getInventory().getItems();
 		Key matchKey = null;
@@ -42,7 +42,7 @@ public class UseKey extends Interaction implements Serializable {
 			}
 		}
 		if(matchKey == null) {
-			//show dialog of "Your keys dont seem to fit"
+			return "Your key doesnt seem to fit";
 		} else {
 			//set the gate to open
 			keyGate.unlock();
@@ -56,6 +56,7 @@ public class UseKey extends Interaction implements Serializable {
 			//remove interaction from gate
 			keyGate.removeInteraction(this);
 			keyGate.addInteraction(new Inspect("It looks to be an open gate."));
+			return "Alohomora";
 		}
 	}
 

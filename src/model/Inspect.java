@@ -29,11 +29,7 @@ public class Inspect extends Interaction implements Serializable, Storable {
 	}
 
 	@Override
-	public void execute(Player p) {
-	}
-	
-	@Override
-	public String getMessageText(){
+	public String execute(Player p) {
 		return description;
 	}
 	

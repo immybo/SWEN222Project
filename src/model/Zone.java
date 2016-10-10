@@ -626,4 +626,8 @@ public class Zone implements Storable, Serializable {
 		return null;
 	}
 	
+	public String getName(){
+		return this.name;
+	}
+	
 }
