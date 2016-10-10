@@ -47,7 +47,6 @@ public class UseKey extends Interaction implements Serializable, Storable{
 			//set the gate to open
 			keyGate.unlock();
 			keyGate.open();
-			keyGate.setPassable(true);
 			keyGate.setDrawImagePath(matchKey.getKeyID() + "-open");
 			//remove key from play inventory
 			p.getInventory().removeItem(matchKey);
@@ -67,7 +66,7 @@ public class UseKey extends Interaction implements Serializable, Storable{
 		return false;
 	}
 
-	@Override
+	/*@Override
 	public Element toXMLElement(Document doc){
 		Element elem = super.toXMLElement(doc, "UseKey");
 		elem.appendChild(keyGate.toXMLElement(doc));
@@ -80,7 +79,7 @@ public class UseKey extends Interaction implements Serializable, Storable{
 			KeyGate keyGate = new KeyGate.Factory().fromXMLElement((Element) elem.getChildNodes().item(0));
 			return new UseKey(keyGate);
 		}
-	}
+	}*/
 
 }
 

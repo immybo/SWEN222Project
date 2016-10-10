@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
 import datastorage.Storable;
 import datastorage.StorableFactory;
@@ -189,5 +190,29 @@ public abstract class Character implements Serializable, Storable, Drawable {
 		elem.setAttribute("coord", coord.toString());
 		elem.setAttribute("zoneID", zone.getID() + "");
 		return elem;
+	}
+	
+public static class Factory implements StorableFactory<Character> {
+		
+		private Zone[] zones;
+		
+		public Factory(Zone[] zones){
+			this.zones = zones;
+		}
+
+		@Override
+		public Character fromXMLElement(Element elem) {
+			return null;
+		}
+		
+		public Character fromNode(Node n){
+			switch(n.getNodeName()){
+			case "Player":
+				return new Player.Factory(zones).fromXMLElement((Element) n);
+			case "Slime":
+				return new Slime.Factory(zones).fromXMLElement((Element) n);
+			}
+			return null;
+		}
 	}
 }

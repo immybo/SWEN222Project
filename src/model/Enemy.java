@@ -2,8 +2,11 @@ package model;
 
 import java.io.Serializable;
 
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
+import datastorage.StorableFactory;
 import util.Coord;
 
 /**
@@ -42,5 +45,32 @@ public abstract class Enemy extends Character implements Serializable {
 	public void damage(int amount){
 		health -= amount;
 		System.out.println("remaininghealth: " + health);
+	}
+	
+	@Override
+	public Element toXMLElement(Document doc){
+		Element elem = super.toXMLElement(doc, "Enemy");
+		
+		return elem;
+	}
+	
+	public static class Factory implements StorableFactory<Enemy> {
+		private Zone[] zones;
+		public Factory(Zone[] zones){
+			this.zones = zones;
+		}
+		
+		@Override
+		public Enemy fromXMLElement(Element elem) {
+			return null;
+		}
+		
+		public Enemy fromNode(Node n){
+			switch(n.getNodeName()){
+			case "Slime":
+				return new Slime.Factory(zones).fromXMLElement((Element) n);
+			}
+			return null;
+		}
 	}
 }
