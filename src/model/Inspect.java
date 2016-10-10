@@ -7,6 +7,7 @@ import org.w3c.dom.Element;
 
 import datastorage.Storable;
 import datastorage.StorableFactory;
+import view.GameFrame;
 
 /**
  * The simplest type of interaction that most if not all interactables will have, showing a string description when called.
@@ -19,7 +20,6 @@ public class Inspect extends Interaction implements Serializable, Storable {
 	private String description;
 	
 	public Inspect(String description){
-		//TODO add the dialog box popup for parameters
 		this.description = description;
 	}
 
@@ -30,8 +30,7 @@ public class Inspect extends Interaction implements Serializable, Storable {
 
 	@Override
 	public void execute(Player p) {
-		// TODO show dialog box with the description
-		System.out.println("inspecting");
+		GameFrame.instance().displayMessage(description);
 	}
 	
 	@Override

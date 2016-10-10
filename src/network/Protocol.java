@@ -39,5 +39,9 @@ public class Protocol {
 		/* interaction */
 		INTERACT,
 		ATTACK,
+		
+		/* game state actions */
+		GAME_SAVE,
+		GAME_LOAD,
 	};
 }

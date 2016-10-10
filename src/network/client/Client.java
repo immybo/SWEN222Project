@@ -9,7 +9,6 @@ import java.net.Socket;
 import java.lang.Thread.UncaughtExceptionHandler;
 
 import model.Interaction;
-import model.Zone;
 import view.GameFrame;
 import network.NetworkError;
 import network.Protocol;
@@ -178,9 +177,9 @@ public class Client {
 	 * @param point The point to attack (occupant(s))
 	 * @throws IOException
 	 */
-	public void attack(Point point) throws IOException {
+	public void attack(long enemyID) throws IOException {
 		out.writeObject(Event.ATTACK);
-		out.writeObject(point);
+		out.writeLong(enemyID);
 	}
 	
 	/**
@@ -191,5 +190,25 @@ public class Client {
 	public void interact(Interaction interaction) throws IOException {
 		out.writeObject(Event.INTERACT);
 		out.writeObject(interaction);
+	}
+	
+	/**
+	 * Ask the server to save the world state to file
+	 * @param name -- the filename to save to server-side
+	 * @throws IOException
+	 */
+	public void saveWorld(String name) throws IOException {
+		out.writeObject(Event.GAME_SAVE);
+		out.writeUTF(name);
+	}
+	
+	/**
+	 * Ask the server to load the world state from file
+	 * @param name -- the filename to save to server-side
+	 * @throws IOException
+	 */
+	public void loadWorld(String name) throws IOException {
+		out.writeObject(Event.GAME_LOAD);
+		out.writeUTF(name);
 	}
 }
