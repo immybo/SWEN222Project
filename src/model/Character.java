@@ -26,6 +26,12 @@ public abstract class Character implements Serializable, Storable, Drawable {
 	private Coord coord;
 	private Zone zone;
 
+	/* ID to be used by next constructed character */
+	private static long nextID = 0;
+	
+	/* runtime-unique id of this character */
+	private long id;
+	
 	/**
 	 * Creates a new character with the given parameters.
 	 *
@@ -35,6 +41,7 @@ public abstract class Character implements Serializable, Storable, Drawable {
 	public Character(Zone zone, Coord coord) {
 		this.zone = zone;
 		this.coord = coord;
+		this.id = nextID++;
 	}
 
 	/**
@@ -50,6 +57,7 @@ public abstract class Character implements Serializable, Storable, Drawable {
 			if (z.getID() == zoneID)
 				this.zone = z;
 		}
+		this.id = nextID++;
 	}
 	
 	/**
@@ -144,6 +152,10 @@ public abstract class Character implements Serializable, Storable, Drawable {
 		this.zone = zone;
 	}
 
+	public long getID() {
+		return this.id;
+	}
+	
 	@Override
 	public boolean equals(Object o){
 		if(o instanceof Character){
