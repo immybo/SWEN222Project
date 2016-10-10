@@ -140,7 +140,7 @@ public class GameFrame extends JFrame {
 		if (client != null) {
 			client.disconnect();
 		}
-		client = new Client(this, hostname);
+		client = new Client(hostname);
 		informationPanel.setClient(client);
 		getRenderPanel().attachToClient(client);
 		client.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
@@ -159,10 +159,18 @@ public class GameFrame extends JFrame {
 	 * @param e The cause of the network error.
 	 */
 	public void showNetworkErrorBox(Throwable e) {
-			JOptionPane.showMessageDialog(this.getParent(), "Network Error: "+e.getMessage(),
-				"Error", JOptionPane.OK_OPTION);
+			showMessageBox("Network Error: "+e.getMessage());
 	}
     
+	/**
+	 * Show a message box popup with the given message
+	 * @param message -- message to show
+	 */
+	public void showMessageBox(String message) {
+		JOptionPane.showMessageDialog(this.getParent(), message,
+				"Game", JOptionPane.OK_OPTION);
+	}
+	
 	/**
 	 * Gets the current instance of GameFrame,
 	 * or creates a new one if no instance is

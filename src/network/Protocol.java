@@ -40,6 +40,9 @@ public class Protocol {
 		INTERACT,
 		ATTACK,
 		
+		/* downlink messages */
+		POPUP_MESSAGE,
+		
 		/* game state actions */
 		GAME_SAVE,
 		GAME_LOAD,
