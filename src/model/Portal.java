@@ -26,7 +26,7 @@ public class Portal extends Entity implements Storable{
 	}
 	
 	public Portal(Element elem, Zone[] zone){
-		
+		super(elem, zone);
 	}
 
 	/**

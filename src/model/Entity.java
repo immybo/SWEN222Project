@@ -19,8 +19,6 @@ import view.Drawable;
 public abstract class Entity extends Interactable implements Serializable, Drawable, Storable {
 	private static final long serialVersionUID = 3586592516798073269L;
 
-	public Entity(){}
-
 	public Entity(Zone zone, Coord worldPosition, Inventory inventory) {
 		this.zone = zone;
 		this.worldPosition = worldPosition;
