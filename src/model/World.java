@@ -164,7 +164,7 @@ public class World implements Storable {
 	
 	
 	public static World firstLevel(){
-		Zone[] zones = new Zone[4];
+		Zone[] zones = new Zone[5];
 		
 		// ZONE 0 / Memory and Decisions.
 		Tile[][] tiles = new Tile[12][13];
@@ -254,8 +254,8 @@ public class World implements Storable {
 		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=4;addFloor(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
-		toAdd=3;addFloor(tiles,toAdd,x,y);x=x+toAdd;
-		toAdd=4;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		toAdd=4;addFloor(tiles,toAdd,x,y);x=x+toAdd;
+		toAdd=3;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		//y=11
 		y=11;x=0;
 		toAdd=13;addWall(tiles,toAdd,x,y);x=x+toAdd;
@@ -283,6 +283,7 @@ public class World implements Storable {
 		zones[0].addEntity(new Portal(zones[0], new Coord(new Direction(Direction.NORTH),new Point(1,10)), "2"));
 		zones[0].addEntity(new Portal(zones[0], new Coord(new Direction(Direction.NORTH),new Point(10,6)), "4"));
 		zones[0].addEntity(new Portal(zones[0], new Coord(new Direction(Direction.NORTH),new Point(11,2)), "5"));
+		zones[0].addEntity(new Portal(zones[0], new Coord(new Direction(Direction.NORTH),new Point(9,10)), "6"));
 		Furniture totem1 = new Furniture(zones[0],new Coord(new Direction(Direction.NORTH),new Point(6,1)),null,"Some sort of totem, nothing inside");
 		totem1.setDrawImagePath("images/totem");
 		Furniture totem2 = new Furniture(zones[0],new Coord(new Direction(Direction.NORTH),new Point(8,3)),null,"Some sort of totem, nothing inside");
@@ -535,6 +536,50 @@ public class World implements Storable {
 		zones[3].addEntity(new KeyGate(Gate.State.LOCKED, zones[3], new Coord(new Direction(Direction.NORTH),new Point(6,9)), "purple"));
 		zones[3].addEntity(new Portal(zones[3], new Coord(new Direction(Direction.NORTH),new Point(6,6)), "3"));
 		zones[3].addEntity(new Portal(zones[3], new Coord(new Direction(Direction.NORTH),new Point(10,7)), "5"));
+		
+		//ZONE 4 / FightClub
+		tiles = new Tile[8][7];
+		//y=0
+		y=0;x=0;
+		toAdd=7;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		//y=1
+		y=1;x=0;
+		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		toAdd=5;addFloor(tiles,toAdd,x,y);x=x+toAdd;
+		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		//y=2
+		y=1;x=0;
+		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		toAdd=5;addFloor(tiles,toAdd,x,y);x=x+toAdd;
+		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		//y=3
+		y=1;x=0;
+		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		toAdd=5;addFloor(tiles,toAdd,x,y);x=x+toAdd;
+		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		//y=4
+		y=1;x=0;
+		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		toAdd=5;addFloor(tiles,toAdd,x,y);x=x+toAdd;
+		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		//y=5
+		y=1;x=0;
+		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		toAdd=5;addFloor(tiles,toAdd,x,y);x=x+toAdd;
+		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		//y=6
+		y=1;x=0;
+		toAdd=3;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		toAdd=1;addFloor(tiles,toAdd,x,y);x=x+toAdd;
+		toAdd=3;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		//y=7
+		y=7;x=0;
+		toAdd=7;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		zones[4] = new Zone("Fight Club", tiles);
+		zones[4].addEntity(new Portal(zones[4], new Coord(new Direction(Direction.NORTH),new Point(3,6)), "6"));
+		//Slime 
+		Slime slime1 = new Slime(zones[4], new Coord(new Direction(Direction.SOUTH),new Point(3,3)));
+		zones[4].addCharacter(slime1);
 		
 		//characters
 		Player pupo = new Player(zones[0], new Coord(new Direction(Direction.EAST), new Point(1,1)), true);
