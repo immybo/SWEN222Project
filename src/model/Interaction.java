@@ -30,8 +30,9 @@ public abstract class Interaction implements Storable, Serializable {
 	 * open similarly coloured doors.
 	 *
 	 * @param p Player that starts the interaction
+	 * @param message to return to player
 	 */
-	public abstract void execute(Player p);
+	public abstract String execute(Player p);
 
 	/**
 	 * An interaction can display a message that it wants

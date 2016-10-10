@@ -36,7 +36,7 @@ public class UsePortal extends Interaction implements Serializable {
 	}
 
 	@Override
-	public void execute(Player player) {
+	public String execute(Player player) {
 
 		Portal origin = this.portal;
 		Portal destination = origin.getPairPortal();
@@ -55,8 +55,7 @@ public class UsePortal extends Interaction implements Serializable {
 			}
 		}
 		if(freePosition == null){
-			GameFrame.instance().displayMessage("There appears to be no room on the other end of this portal.");
-			return;
+			return "Theres no room on the other side";
 		}
 		//remove the player from the origin zone and add to destination zone;
 		origin.getZone().removeCharacter(player);
@@ -64,7 +63,7 @@ public class UsePortal extends Interaction implements Serializable {
 		//set the player's zone and position
 		player.setZone(destination.getZone());
 		player.setCoord(new Coord(player.getCoord().getFacing(), freePosition));
-		//show dialog you are now in zone lalal
+		return "*Doctor Who Theme Song* ... you are now in zone " + destination.getZone().getName();
 	}
 	
 	@Override

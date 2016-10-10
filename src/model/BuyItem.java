@@ -34,6 +34,7 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 	public BuyItem(Entity entity, Item item, String itemName, int cost){
 		this.entity = entity;
 		this.item = item;
+		item.onPickUp();
 		this.itemName = itemName;
 		this.cost = cost;
 	}
@@ -46,25 +47,28 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 
 	@Override
 	public String getText() {
-		return "Buy "+this.itemName;
+		return "Buy "+this.itemName + " for " + cost + " coins";
 	}
 
 	@Override
-	public void execute(Player p) {
-		// show description, give item,  remove interaction, and add a standard interactions
-		
-		String title = "Buy item?";
-		String text = "Are you sure you want to buy a " + itemName + " for " + cost + " coins?";
-		boolean no = GameFrame.instance().displayBooleanQuestion(title, text) == 1;
-		
-		if(no){
-			return;
-		}
+	public String execute(Player p) {
 		if(p.getInventory().hasRoom()){
+			boolean enoughCoins = false;
+			Coin c = null;
+			for(Item i: p.getInventory().getItems()){
+				if(i instanceof Coin){
+					c = (Coin) i;
+					if(c.getStackSize()>=cost) enoughCoins = true;
+				}
+			}
+			if(!enoughCoins) return "You are too poor";
+			if(c.getStackSize()==cost) p.getInventory().removeItem(c);
+			else c.setStackSize(c.getStackSize() - cost);
 			p.getInventory().addItem(this.item);
 			this.entity.removeInteraction(this);
+			return "Youve bought a " +this.itemName + " for " + cost + " coins";
 		} else {
-			GameFrame.instance().displayMessage("You can't purchase this item as your inventory is full.");
+			return "You're too heavy to purchase anything";
 		}
 	}
 	
