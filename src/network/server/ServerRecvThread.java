@@ -1,6 +1,7 @@
 package network.server;
 
-import java.net.Socket;
+import datastorage.XMLInterface;
+
 import java.awt.Point;
 import java.io.EOFException;
 import java.io.IOException;
@@ -65,6 +66,20 @@ public class ServerRecvThread extends Thread {
 		Event packetType = (Event)readObj;
 		synchronized (parentServer) {
 			switch (packetType) {
+			case GAME_LOAD:
+				String loadFile = in.readUTF();
+				if (loadFile == null) {
+					System.err.println("Got null filename to load from; not trying to load");
+				}
+				parentServer.setWorld(XMLInterface.loadGame(loadFile));
+				break;
+			case GAME_SAVE:
+				String saveFile = in.readUTF();
+				if (saveFile == null) {
+					System.err.println("Got null filename to save to; not trying to save");
+				}
+				XMLInterface.saveGame(parentServer.getWorld(), saveFile);
+				break;
 			case FORWARD:
 				player.moveForward();
 				break;

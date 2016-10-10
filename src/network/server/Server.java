@@ -253,4 +253,20 @@ public class Server {
 		/* stop + cleanup if not already done */
 		s.stop();
 	}
+
+	/**
+	 * Get the world the server is serving to clients
+	 * @return
+	 */
+	protected World getWorld() {
+		return this.world;
+	}
+	
+	/**
+	 * Set the world the server is serving to clients 
+	 * @param newWorld -- world to use 
+	 */
+	protected void setWorld(World newWorld) {
+		this.world = newWorld;
+	}
 }
