@@ -213,4 +213,23 @@ public class Player extends Character implements Storable, Serializable {
 		String who = pupo ? "pupo" : "yelo";
 		return ("images/" + who + dir + ".png");
 	}
+	
+	/**
+	 * Attempts to drop an item in front of the player, this space must be completely free from items and entities, and item dropped must be in inventory
+	 * 
+	 * @param item Item to drop
+	 * @return Returns true if drop was successful, false if otherwise
+	 */
+	public boolean dropItem(Item item){
+		if(!inventory.containsItem(item)) return false; //item must be in inventory
+		Point dropOnto = Direction.move(this.getCoord().getPoint(), this.getCoord().getFacing(), 1);
+		if (this.getZone().checkForObstruction(dropOnto)) //space to drop must be free of entites/players
+			return false;
+		if (this.getZone().getItem(dropOnto) != null) //space to drop must be free of other items
+			return false;
+		item.onDrop(this.getZone(), dropOnto); //set item to world
+		this.getInventory().removeItem(item); //remove item from inventory
+		return true;
+		
+	}
 }

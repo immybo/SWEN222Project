@@ -89,14 +89,7 @@ public class Push extends Interaction implements Storable, Serializable {
 
 	@Override
 	public Element toXMLElement(Document doc) {
-		// TODO fix this josh, data storage man
-		Element elem = super.toXMLElement(doc, "Inspect");
-		elem.setAttribute("giveDescription", giveDescription);
-		elem.setAttribute("altDescription", altDescription);
-		elem.appendChild(entity.toXMLElement(doc));
-		elem.appendChild(item.toXMLElement(doc));
-		super.toXMLElement(doc);
-		return elem;
+		return null;
 	}
 
 	public static class Factory implements StorableFactory<Push> {
@@ -109,12 +102,7 @@ public class Push extends Interaction implements Storable, Serializable {
 
 		@Override
 		public Push fromXMLElement(Element elem) {
-			String giveDescription = elem.getAttribute("giveDescription");
-			String altDescription = elem.getAttribute("altDescription");
-			NodeList nl = elem.getChildNodes();
-			Entity entity = new Entity.Factory(zones).fromNode(nl.item(0));
-			Item item = new Item.Factory().fromNode(nl.item(1));
-			return new Push(entity, item, giveDescription, altDescription);
+			return null;
 		}
 	}
 
