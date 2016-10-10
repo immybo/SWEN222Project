@@ -6,7 +6,21 @@ import junit.framework.TestCase;
 import network.client.Client;
 import network.server.Server;
 
+/**
+ * Basic testing to ensure simple functionality of the
+ * networking components
+ * 
+ * @author David Phillips
+ *
+ */
 public class NetworkTests extends TestCase {
+	
+	/**
+	 * Helper class for running server in background in tests
+	 * 
+	 * @author David Phillips
+	 *
+	 */
 	private class BackgroundServer extends Thread {
 		private Server s;
 		
@@ -20,6 +34,13 @@ public class NetworkTests extends TestCase {
 			s.stop();
 		}
 	}
+	
+	/**
+	 * Helper class for running client in the background in tests
+	 * 
+	 * @author David Phillips
+	 *
+	 */
 	private class BackgroundClient extends Thread {
 		public Client c;
 		@Override
