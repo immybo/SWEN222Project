@@ -41,4 +41,15 @@ public enum DrawDirection {
 		}
 		return null; //shouldnt reach
 	}
+	
+	public static DrawDirection getAnticlockwiseDirection(DrawDirection original){
+		if(original == DrawDirection.NW) return DrawDirection.NE;
+		else if(original == DrawDirection.NE) return DrawDirection.SE;
+		else if(original == DrawDirection.SE) return DrawDirection.SW;
+		else return DrawDirection.NW;
+	}
+	
+	public static DrawDirection getClockwiseDirection(DrawDirection original){
+		return getAnticlockwiseDirection(getAnticlockwiseDirection(getAnticlockwiseDirection(original)));
+	}
 }

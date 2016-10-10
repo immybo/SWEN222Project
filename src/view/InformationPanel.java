@@ -24,8 +24,6 @@ public class InformationPanel extends JPanel {
 	private JButton loadButton;
 	private JButton connectButton;
 
-	private JButton forwardButton;
-	private JButton backwardButton;
 	private JButton rotateAntiButton;
 	private JButton rotateButton;
 	
@@ -69,6 +67,16 @@ public class InformationPanel extends JPanel {
 			if(result == 0)
 				loadGame();
 		});
+		
+		rotateButton = new JButton("<- Rotate View");
+		rotateButton.addActionListener((ActionEvent e)->{
+			gameFrame.getRenderPanel().rotateAntiClockwise();
+		});
+		
+		rotateAntiButton = new JButton("Rotate View ->");
+		rotateAntiButton.addActionListener((ActionEvent e)->{
+			gameFrame.getRenderPanel().rotateClockwise();
+		});
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(3, 3));
@@ -77,6 +85,8 @@ public class InformationPanel extends JPanel {
 		buttonPanel.add(loadButton, 1);
 		buttonPanel.add(exitButton, 2);
 		buttonPanel.add(connectButton, 3);
+		buttonPanel.add(rotateButton, 4);
+		buttonPanel.add(rotateAntiButton, 5);
 
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}

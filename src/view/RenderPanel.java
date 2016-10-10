@@ -60,6 +60,15 @@ public class RenderPanel extends JPanel {
         isoTransform.preConcatenate(AffineTransform.getTranslateInstance(512,20));
     }
     
+    public void rotateClockwise(){
+    	drawDirection = DrawDirection.getClockwiseDirection(drawDirection);
+    	repaint();
+    }
+    public void rotateAntiClockwise(){
+    	drawDirection = DrawDirection.getAnticlockwiseDirection(drawDirection);
+    	repaint();
+    }
+    
     public void attachToClient(Client client){
         listener = new GameListener(client, this);
         this.addMouseListener(listener);
