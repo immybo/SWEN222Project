@@ -15,6 +15,7 @@ import datastorage.Storable;
  *
  */
 public abstract class Interactable implements Serializable, Storable {
+	private static final long serialVersionUID = 4932231803603496537L;
 	private ArrayList<Interaction> interactions = new ArrayList<Interaction>();
 	
 	/**

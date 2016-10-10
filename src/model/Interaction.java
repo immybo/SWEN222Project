@@ -13,6 +13,8 @@ import datastorage.Storable;
  * @author Robert Campbell
  */
 public abstract class Interaction implements Storable, Serializable {
+	private static final long serialVersionUID = -8279745242900716669L;
+
 	/**
 	 * Returns the human-readable text of this interaction.
 	 * Note that this does not necessarily return the same

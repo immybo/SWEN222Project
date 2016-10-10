@@ -1,10 +1,7 @@
 package model;
 
 import java.awt.Point;
-import java.awt.geom.Point2D;
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -23,6 +20,7 @@ import util.Direction;
  * @author Robert Campbell
  */
 public abstract class Character implements Serializable, Storable, Drawable {
+	private static final long serialVersionUID = -8377078297825212109L;
 	private Coord coord;
 	private Zone zone;
 

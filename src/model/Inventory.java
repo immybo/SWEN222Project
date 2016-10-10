@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.omg.PortableInterceptor.NON_EXISTENT;
 import org.w3c.dom.*;
 
 import datastorage.*;
@@ -18,6 +17,7 @@ import datastorage.*;
  * @author Robert Campbell
  */
 public class Inventory implements Storable, Serializable {
+	private static final long serialVersionUID = 549205869207817829L;
 	private int currentNumItems;
 	private Item[] items;
 	private int storageCapacity;

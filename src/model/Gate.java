@@ -5,9 +5,7 @@ import org.w3c.dom.Element;
 
 import datastorage.Storable;
 import datastorage.StorableFactory;
-import model.Gate.State;
 import util.Coord;
-import util.PointD;
 import view.DrawDirection;
 
 /**
@@ -20,7 +18,9 @@ import view.DrawDirection;
  *
  * @author Robert Campbell
  */
-public abstract class Gate extends Entity implements Storable{
+public abstract class Gate extends Entity implements Storable {
+	private static final long serialVersionUID = -532830362301640709L;
+
 	public enum State {
 		OPEN,
 		CLOSED,

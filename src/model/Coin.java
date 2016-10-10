@@ -5,7 +5,6 @@ import java.awt.Point;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import datastorage.Storable;
 import datastorage.StorableFactory;
 import view.DrawDirection;
 
@@ -14,7 +13,8 @@ import view.DrawDirection;
  * 
  * @author Robert Campbell
  */
-public class Coin extends Item{
+public class Coin extends Item {
+	private static final long serialVersionUID = -9106634193261392380L;
 	public Coin(Point worldPosition) {
 		super(worldPosition, true);
 	}

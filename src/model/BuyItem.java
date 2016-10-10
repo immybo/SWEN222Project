@@ -18,6 +18,7 @@ import datastorage.StorableFactory;
  *
  */
 public class BuyItem extends Interaction implements Storable, Serializable {
+	private static final long serialVersionUID = 8169296467720083387L;
 	private Entity entity;
 	private Item item;
 	private String itemName;

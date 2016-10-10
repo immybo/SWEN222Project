@@ -17,6 +17,7 @@ import util.Coord;
  * @author Robert Campbell
  */
 public abstract class Enemy extends Character implements Serializable {
+	private static final long serialVersionUID = 4466958619144779648L;
 	private int health;
 	private int maxHealth;
 	

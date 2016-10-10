@@ -8,6 +8,8 @@ import java.awt.Point;
  *
  */
 public class Sword extends Weapon {
+	private static final long serialVersionUID = 7703183004816103712L;
+
 	public Sword(){
 		super(false);
 	}

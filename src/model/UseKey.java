@@ -2,12 +2,7 @@ package model;
 
 import java.io.Serializable;
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
 import datastorage.Storable;
-import datastorage.StorableFactory;
 
 /**
  * An interaction that can be done on any gate, this interaction will check the player's inventory for a valid key and consume it, therefore opening the gate, if no suitable key exists then show dialog saying no key exists
@@ -15,8 +10,10 @@ import datastorage.StorableFactory;
  * @author Martin Chau
  *
  */
-public class UseKey extends Interaction implements Serializable, Storable{
+public class UseKey extends Interaction implements Serializable, Storable {
+	private static final long serialVersionUID = 2006816371515001453L;
 	private KeyGate keyGate;
+	
 	public UseKey(KeyGate keyGate){
 		this.keyGate = keyGate;
 	}

@@ -5,7 +5,6 @@ import org.w3c.dom.Element;
 
 import datastorage.Storable;
 import datastorage.StorableFactory;
-import model.Gate.State;
 import util.Coord;
 import view.DrawDirection;
 /**
@@ -15,6 +14,7 @@ import view.DrawDirection;
  */
 
 public class Portal extends Entity implements Storable{
+	private static final long serialVersionUID = -8322710806750756876L;
 	private Portal pairPortal;
 	private String portalID;
 
