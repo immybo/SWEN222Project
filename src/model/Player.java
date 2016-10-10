@@ -211,7 +211,8 @@ public class Player extends Character implements Storable, Serializable {
 		default: throw new IllegalStateException();
 		}
 		String who = pupo ? "pupo" : "yelo";
-		return ("images/" + who + dir + ".png");
+		String wep = equipped!=null ? "Sword" : "";
+		return ("images/" + who + wep + dir + ".png");
 	}
 	
 	/**

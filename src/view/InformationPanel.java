@@ -1,5 +1,6 @@
 package view;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
@@ -9,6 +10,8 @@ import network.client.Client;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 
@@ -24,13 +27,13 @@ public class InformationPanel extends JPanel {
 	private JButton loadButton;
 	private JButton connectButton;
 
-	private JButton forwardButton;
-	private JButton backwardButton;
 	private JButton rotateAntiButton;
 	private JButton rotateButton;
 	
 	private Client client;
 	private GameFrame gameFrame;
+	
+	private JPanel iconPanel;
 
 	public InformationPanel(GameFrame gameFrame){
 		this.gameFrame = gameFrame;
@@ -69,6 +72,33 @@ public class InformationPanel extends JPanel {
 			if(result == 0)
 				loadGame();
 		});
+		
+		rotateButton = new JButton("<- Rotate View");
+		rotateButton.addActionListener((ActionEvent e)->{
+			gameFrame.getRenderPanel().rotateAntiClockwise();
+		});
+		
+		rotateAntiButton = new JButton("Rotate View ->");
+		rotateAntiButton.addActionListener((ActionEvent e)->{
+			gameFrame.getRenderPanel().rotateClockwise();
+		});
+		
+		try{
+			iconPanel = new JPanel(){
+				private final BufferedImage image = ImageIO.read(new File("images/logo.png"));
+				
+				@Override
+				public void paint(Graphics g){
+					super.paint(g);
+					g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
+				}
+			};
+			iconPanel.setPreferredSize(new Dimension((int)this.getPreferredSize().getWidth(), 200));
+			this.add(iconPanel, BorderLayout.NORTH);
+		}
+		catch(IOException e){
+			// We don't care, just don't add it
+		}
 
 		JPanel buttonPanel = new JPanel();
 		buttonPanel.setLayout(new GridLayout(3, 3));
@@ -77,6 +107,8 @@ public class InformationPanel extends JPanel {
 		buttonPanel.add(loadButton, 1);
 		buttonPanel.add(exitButton, 2);
 		buttonPanel.add(connectButton, 3);
+		buttonPanel.add(rotateButton, 4);
+		buttonPanel.add(rotateAntiButton, 5);
 
 		this.add(buttonPanel, BorderLayout.SOUTH);
 	}

@@ -23,7 +23,14 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 	private Item item;
 	private String itemName;
 	private int cost;
-
+	
+	/**
+	 * 
+	 * @param entity Entity that you can purchase from
+	 * @param item Item that is bought
+	 * @param itemName Name of item to be bought
+	 * @param cost
+	 */
 	public BuyItem(Entity entity, Item item, String itemName, int cost){
 		this.entity = entity;
 		this.item = item;

@@ -85,10 +85,6 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 	
 	public abstract boolean isPassable();
 
-	public void onCollision(Player p){
-		// Default implementation: do nothing
-	}
-
 	private String drawImagePath;
 
 	@Override
