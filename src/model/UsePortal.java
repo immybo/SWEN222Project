@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import datastorage.Storable;
 import util.Coord;
+import view.GameFrame;
 
 /**
  * An interaction that can be done on a portal
@@ -51,7 +52,7 @@ public class UsePortal extends Interaction implements Storable, Serializable {
 			}
 		}
 		if(freePosition == null){
-			//TODO show dialog no room on other side... should very rarely happen
+			GameFrame.instance().displayMessage("There appears to be no room on the other end of this portal.");
 			return;
 		}
 		//remove the player from the origin zone and add to destination zone;

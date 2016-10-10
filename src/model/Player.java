@@ -35,7 +35,6 @@ public class Player extends Character implements Storable, Serializable {
 		this.pupo = Boolean.parseBoolean(elem.getAttribute("pupo"));
 		Inventory.Factory factory = new Inventory.Factory();
 		this.inventory = factory.fromXMLElement((Element)elem.getChildNodes().item(0));
-		// TODO parse the inventory from the element
 	}
 	
 	/**

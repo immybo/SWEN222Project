@@ -105,7 +105,6 @@ public class World implements Storable {
 
 	@Override
 	public Element toXMLElement(Document doc) {
-		// TODO Auto-generated method stub
 		Element elem = doc.createElement("World");
 		elem.setAttribute("name", name);
 		for(Zone z : zones)
