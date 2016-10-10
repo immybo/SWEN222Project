@@ -321,7 +321,7 @@ public class World implements Storable {
 		y=1;x=0;
 		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=5;addFloor(tiles,toAdd,x,y);x=x+toAdd;
-		toAdd=3;addWall(tiles,toAdd,x,y);x=x+toAdd;
+		toAdd=4;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		//y=2
 		y=2;x=0;
 		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
