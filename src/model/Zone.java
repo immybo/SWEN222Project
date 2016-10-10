@@ -609,5 +609,18 @@ public class Zone implements Storable, Serializable {
 	public int hashCode(){
 		return name.hashCode();
 	}
+
+	/**
+	 * Get the first character with a specified ID
+	 * @param characterID -- character ID to search for
+	 * @return character if found, else null
+	 */
+	public Character getCharacterFromID(long characterID) {
+		for (Character c : characters) {
+			if (c.getID() == characterID)
+				return c;
+		}
+		return null;
+	}
 	
 }

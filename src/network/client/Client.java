@@ -177,9 +177,9 @@ public class Client {
 	 * @param point The point to attack (occupant(s))
 	 * @throws IOException
 	 */
-	public void attack(Point point) throws IOException {
+	public void attack(long enemyID) throws IOException {
 		out.writeObject(Event.ATTACK);
-		out.writeObject(point);
+		out.writeLong(enemyID);
 	}
 	
 	/**

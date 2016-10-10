@@ -7,6 +7,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import model.Character;
 import model.Enemy;
 import model.Player;
 import model.Interaction;
@@ -111,14 +112,17 @@ public class ServerRecvThread extends Thread {
 				//player.interact(interaction);
 				break;
 			case ATTACK:
-				readObj = in.readObject();
-				if (readObj == null || !(readObj instanceof Point)) {
-					System.err.println("Received malformed point in attack command");
+				long characterID = in.readLong();
+				Character target = player.getZone().getCharacterFromID(characterID);
+				if (target == null) {
+					System.err.println("Cannot find character with id "+characterID+", bail");
 					break;
 				}
-				Enemy target = player.getZone().getEnemy((Point)readObj);
-				if (target != null)
-					player.attack(target);
+				if (!(target instanceof Enemy)) {
+					System.err.println("Received non-enemy character to attack. Violent sod tried to attack a"+target.getClass());
+					break;
+				}
+				player.attack((Enemy)target);
 				break;
 			default:
 				System.err.println("Unhandled event in server event receiver: "+packetType);
