@@ -30,7 +30,11 @@ public class Inspect extends Interaction implements Serializable, Storable {
 
 	@Override
 	public void execute(Player p) {
-		GameFrame.instance().displayMessage(description);
+	}
+	
+	@Override
+	public String getMessageText(){
+		return description;
 	}
 	
 	@Override

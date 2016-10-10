@@ -6,11 +6,13 @@ import java.awt.Point;
 import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import model.Character;
 import model.Enemy;
 import model.Player;
 import model.Interaction;
+import network.Protocol;
 import network.Protocol.Event;
 
 /**
@@ -29,8 +31,9 @@ public class ServerRecvThread extends Thread {
 	/* character for the client this thread is managing */
 	private Player player;
 	
-	/* inward stream */
+	/* inward + outward streams */
 	private ObjectInputStream in;
+	private ObjectOutputStream out;
 	
 	/**
 	 * Construct a ServerThread object
@@ -38,7 +41,7 @@ public class ServerRecvThread extends Thread {
 	 * @param socket -- socket on which to communicate with client
 	 * @param character -- in-game character this thread's client controls
 	 */
-	public ServerRecvThread(Server parentServer, ObjectInputStream in, Player player) {
+	public ServerRecvThread(Server parentServer, ObjectInputStream in, ObjectOutputStream out, Player player) {
 		this.in = in;
 		this.parentServer = parentServer;
 		this.player = player;
@@ -108,8 +111,14 @@ public class ServerRecvThread extends Thread {
 					break;
 				}
 				System.err.println("Server event receiver: not calling unimplemented interaction method");
-				//Interaction interaction = (Interaction)readObj;
-				//player.interact(interaction);
+				Interaction interaction = (Interaction)readObj;
+				interaction.execute(player);
+				/* check for feedback message */
+				String message = interaction.getMessageText();
+				if (message != null && message.length() != 0) {
+					out.writeObject(Event.POPUP_MESSAGE);
+					out.writeUTF(message);
+				}
 				break;
 			case ATTACK:
 				long characterID = in.readLong();
