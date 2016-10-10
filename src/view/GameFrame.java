@@ -8,6 +8,7 @@ import network.NetworkError;
 import network.client.Client;
 
 import java.awt.*;
+import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 
 /**
@@ -41,6 +42,7 @@ public class GameFrame extends JFrame {
      */
     private GameFrame(){
         setSizeDefault();
+        this.setTitle("The Adventures of Pupo and Yelo");
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
@@ -49,6 +51,9 @@ public class GameFrame extends JFrame {
 
         this.add(canvas, BorderLayout.CENTER);
         this.add(informationPanel, BorderLayout.EAST);
+        
+        ImageIcon img = new ImageIcon("images/icon.png");
+        this.setIconImage(img.getImage());
 
         pack();
     }
