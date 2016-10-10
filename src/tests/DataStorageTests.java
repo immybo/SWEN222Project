@@ -134,6 +134,16 @@ public class DataStorageTests extends TestCase {
 		assertEquals(inventory, importedInventory);
 	}
 	
+	@Test
+	public void testWorldStorage(){
+		World world = World.firstLevel();
+		XMLInterface.saveToFile(world, new File("src/tests/testfiles/testxml1.xml"));
+		
+		World importedWorld = XMLInterface.loadFromFile(new World.Factory(), new File("src/tests/testfiles/testxml1.xml"));
+		
+		assertEquals(world, importedWorld);
+	}
+	
 	public void deleteTestXMLFile(){
 		try {
 			Files.deleteIfExists(FileSystems.getDefault().getPath("testxml.xml"));

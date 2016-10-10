@@ -106,7 +106,13 @@ public class World implements Storable {
 	@Override
 	public Element toXMLElement(Document doc) {
 		// TODO Auto-generated method stub
-		return null;
+		Element elem = doc.createElement("World");
+		elem.setAttribute("name", name);
+		for(Zone z : zones)
+			elem.appendChild(z.toXMLElement(doc));
+		elem.appendChild(Pupo.toXMLElement(doc));
+		elem.appendChild(Yelo.toXMLElement(doc));
+		return elem;
 	}
 
 	public Player getPupo() {
@@ -125,7 +131,13 @@ public class World implements Storable {
 
 		@Override
 		public World fromXMLElement(Element elem) {
-			// TODO Auto-generated method stub
+			String name = elem.getAttribute("name");
+			Zone[] zones = new Zone[elem.getChildNodes().getLength()];
+			int i = 0;
+			for(; i < elem.getChildNodes().getLength() - 2 ; i++ )
+				zones[i] = new Zone.ZoneFactory().fromXMLElement((Element) elem.getChildNodes().item(i));
+			Player Pupo = new Player.Factory(zones).fromXMLElement((Element) elem.getChildNodes().item(i));
+			Player Yelo = new Player.Factory(zones).fromXMLElement((Element) elem.getChildNodes().item(i+1));
 			return null;
 		}
 

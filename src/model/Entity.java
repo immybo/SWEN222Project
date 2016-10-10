@@ -118,7 +118,8 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 		Element elem = doc.createElement(type);
 		elem.setAttribute("zoneID", zone.getID()+"");
 		elem.setAttribute("coord", worldPosition.toString());
-		elem.appendChild(inventory.toXMLElement(doc));
+		if(inventory!=null)
+			elem.appendChild(inventory.toXMLElement(doc));
 		for(Interaction inter : this.getInteractions()){
 			elem.appendChild(inter.toXMLElement(doc));
 		}
