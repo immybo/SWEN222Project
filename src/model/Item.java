@@ -255,6 +255,8 @@ public abstract class Item implements Storable, Serializable, Drawable {
 				return new Key.Factory().fromXMLElement((Element) n);
 			case "Coin":
 				return new Coin.Factory().fromXMLElement((Element) n);
+			case "Sword":
+				return new Sword.Factory().fromXMLElement((Element) n);
 			}
 			return null;
 		}

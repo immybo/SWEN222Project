@@ -10,7 +10,7 @@ import org.w3c.dom.Element;
  * 
  * @author Robert Campbell
  */
-public abstract class Weapon extends Item {
+public abstract class Weapon extends Item{
 	private static final long serialVersionUID = 2838526635614165306L;
 
 	public Weapon(boolean stackable) {
