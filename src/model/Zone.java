@@ -553,12 +553,13 @@ public class Zone implements Storable, Serializable {
 		elem.setAttribute("noEntities" , entities.size()+"");
 		for(Entity e : entities)
 			elem.appendChild(e.toXMLElement(doc));
-		
-		elem.setAttribute("noCharacters", characters.size()+"");
+		int noCharacters = characters.size();
 		for(Character c : characters){
 			if(!(c instanceof Player))
 				elem.appendChild(c.toXMLElement(doc));
+			else noCharacters --;
 		}
+		elem.setAttribute("noCharacters", noCharacters+"");
 		return elem;
 	}
 

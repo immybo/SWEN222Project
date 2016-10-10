@@ -28,6 +28,13 @@ public class InspectWithItem extends Interaction implements Storable, Serializab
 		this.giveDescription = giveDescription;
 		this.altDescription = altDescription;
 	}
+	
+	public InspectWithItem(Item item, String giveDescription, String altDescription){
+		this.item = item;
+		this.giveDescription = giveDescription;
+		this.altDescription = altDescription;
+	}
+	
 	@Override
 	public String getText() {
 		return "Inspect";
@@ -64,7 +71,6 @@ public class InspectWithItem extends Interaction implements Storable, Serializab
 		Element elem = super.toXMLElement(doc, "Inspect");
 		elem.setAttribute("giveDescription", giveDescription);
 		elem.setAttribute("altDescription", altDescription);
-		elem.appendChild(entity.toXMLElement(doc));
 		elem.appendChild(item.toXMLElement(doc));
 		super.toXMLElement(doc);
 		return elem;
@@ -72,21 +78,18 @@ public class InspectWithItem extends Interaction implements Storable, Serializab
 	
 	public static class Factory implements StorableFactory<InspectWithItem> {
 
-		private Zone[] zones;
-		
-		public Factory (Zone[] zones){
-			this.zones = zones;
-		}
-
 		@Override
 		public InspectWithItem fromXMLElement(Element elem) {
 			String giveDescription = elem.getAttribute("giveDescription");
 			String altDescription = elem.getAttribute("altDescription");
 			NodeList nl = elem.getChildNodes();
-			Entity entity = new Entity.Factory(zones).fromNode(nl.item(0));
 			Item item = new Item.Factory().fromNode(nl.item(1));
-			return new InspectWithItem(entity, item, giveDescription, altDescription);
+			return new InspectWithItem(item, giveDescription, altDescription);
 		}
+	}
+
+	public void setEntity(Entity e) {
+		this.entity = e;
 	}
 
 }

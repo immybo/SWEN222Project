@@ -36,10 +36,20 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 		this.inventory = new Inventory.Factory().fromXMLElement((Element) nl.item(0));
 		for(int i = 1 ; i < nl.getLength() ; i++){
 			Node n = nl.item(i);
-			
 			switch(n.getNodeName()){
 			case "Inspect":
-				this.addInteraction(new Inspect.Factory().fromXMLElement((Element) nl.item(i)));
+				Inspect inspect = new Inspect.Factory().fromXMLElement((Element) n);
+				this.addInteraction(inspect);
+				break;
+			case "BuyItem":
+				BuyItem buy = new BuyItem.Factory().fromXMLElement((Element) n);
+				buy.setEntity(this);
+				this.addInteraction(buy);
+				break;
+			case "InspectWithItem":
+				InspectWithItem inspectItem = new InspectWithItem.Factory().fromXMLElement((Element) n);
+				inspectItem.setEntity(this);
+				this.addInteraction(inspectItem);
 				break;
 			}
 		}
@@ -100,19 +110,6 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 	public int getYOffset() {
 		return 39;
 	}
-
-	@Override
-	public Element toXMLElement(Document doc){
-		Element elem = doc.createElement("entity");
-		elem.setAttribute("zoneID", zone.getID()+"");
-		elem.setAttribute("coord", worldPosition.toString());
-		elem.appendChild(inventory.toXMLElement(doc));
-		for(Interaction inter : this.getInteractions()){
-			elem.appendChild(inter.toXMLElement(doc));
-		}
-		return elem;
-	}
-	
 
 	public Element toXMLElement(Document doc, String type){
 		Element elem = doc.createElement(type);

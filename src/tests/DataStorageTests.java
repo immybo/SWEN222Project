@@ -28,7 +28,7 @@ public class DataStorageTests extends TestCase {
 		XMLInterface.saveToFile(zone,  new File("testxml.xml"));
 		
 		Zone importedZone = XMLInterface.loadFromFile(new Zone.ZoneFactory(), new File("testxml.xml"));
-		
+		importedZone.addCharacter(new Player(zone, new Coord(new Direction(1), new Point(1,1)), false));
 		assertEquals(zone, importedZone);
 		deleteTestXMLFile();
 	}

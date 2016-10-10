@@ -66,27 +66,7 @@ public class UseKey extends Interaction implements Serializable, Storable {
 		return false;
 	}
 
-	/*@Override
-	public Element toXMLElement(Document doc){
-		Element elem = super.toXMLElement(doc, "UseKey");
-		elem.appendChild(keyGate.toXMLElement(doc));
-		return elem;
-	}
-
-	public static class Factory implements StorableFactory<UseKey> {
-		
-		private Zone[] zones;
-		
-		public Factory (Zone[] zones){
-			this.zones = zones;
-		}
-		@Override
-		public UseKey fromXMLElement(Element elem) {
-			KeyGate keyGate = new KeyGate.Factory(zones).fromXMLElement((Element) elem.getChildNodes().item(0));
-			return new UseKey(keyGate);
-		}
-	}*/
-
+	
 }
 
 

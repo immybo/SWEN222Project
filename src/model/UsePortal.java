@@ -74,25 +74,4 @@ public class UsePortal extends Interaction implements Storable, Serializable {
 		return false;
 	}
 	
-	/*@Override
-	public Element toXMLElement(Document doc){
-		Element elem = super.toXMLElement(doc, "UsePortal");
-		elem.appendChild(portal.toXMLElement(doc));
-		return elem;
-	}
-	
-	public static class Factory implements StorableFactory<UsePortal> {
-		
-		private Zone[] zones;
-		
-		public Factory (Zone[] zones){
-			this.zones = zones;
-		}
-		
-		@Override
-		public UsePortal fromXMLElement(Element elem) {
-			Portal portal = new Portal.Factory(zones).fromXMLElement((Element)elem.getFirstChild());
-			return new UsePortal(portal);
-		}
-	}*/
 }

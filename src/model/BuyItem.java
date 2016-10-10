@@ -31,6 +31,12 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 		this.cost = cost;
 	}
 	
+	public BuyItem(Item item, String itemName, int cost) {
+		this.item = item;
+		this.itemName = itemName;
+		this.cost = cost;
+	}
+
 	@Override
 	public String getText() {
 		return "Buy "+this.itemName;
@@ -55,6 +61,10 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 		}
 	}
 	
+	public void setEntity(Entity e){
+		this.entity = e;
+	}
+	
 	@Override
 	public boolean equals(Object o){
 		if(o instanceof BuyItem){
@@ -72,28 +82,19 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 		Element elem = super.toXMLElement(doc, "Inspect");
 		elem.setAttribute("itemName", itemName);
 		elem.setAttribute("cost", cost+"");
-		elem.appendChild(entity.toXMLElement(doc));
 		elem.appendChild(item.toXMLElement(doc));
 		return elem;
 	}
 	
 	public static class Factory implements StorableFactory<BuyItem> {
-		
-		private Zone[] zones;
-				
-		public Factory (Zone[] zones){
 
-			this.zones = zones;
-		}
 		@Override
 		public BuyItem fromXMLElement(Element elem) {
 			String itemName = elem.getAttribute("itemName");
 			int cost = Integer.parseInt(elem.getAttribute("cost"));
 			NodeList nl = elem.getChildNodes();
-			Entity entity = new Entity.Factory(zones).fromNode(nl.item(0)); //Needs zones
-
 			Item item = new Item.Factory().fromNode(nl.item(1));
-			return new BuyItem(entity, item, itemName, cost);
+			return new BuyItem(item, itemName, cost);
 		}
 	}
 
