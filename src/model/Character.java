@@ -136,22 +136,42 @@ public abstract class Character implements Serializable, Storable, Drawable {
 		setCoord(newCoord);
 	}
 
+	/**
+	 * get character's current position
+	 * @return Coord representing position
+	 */
 	public Coord getCoord() {
 		return coord;
 	}
 
+	/**
+	 * Set the position of the character, forgetting old position
+	 * @param coord -- new coordinate 
+	 */
 	public void setCoord(Coord coord) {
 		this.coord = coord;
 	}
 
+	/**
+	 * get the zone the character is in
+	 * @return Zone character is in, null if no zone
+	 */
 	public Zone getZone() {
 		return zone;
 	}
 
+	/**
+	 * Set the character's zone, forgetting old zone
+	 * @param zone -- new zone
+	 */
 	public void setZone(Zone zone) {
 		this.zone = zone;
 	}
-
+	
+	/**
+	 * Get the character's game-wide unique ID
+	 * @return
+	 */
 	public long getID() {
 		return this.id;
 	}
@@ -180,11 +200,13 @@ public abstract class Character implements Serializable, Storable, Drawable {
 	}
 
 	public double getDepthOffset() {
-		return 0.1; //to make it above the floor
+		 // makes it just above the floor
+		return 0.1;
 	}
 	
 	@Override
 	public int getYOffset() {
+		// FIXME someone document this
 		return 39;
 	}
 	
@@ -197,14 +219,13 @@ public abstract class Character implements Serializable, Storable, Drawable {
 	}
 
 	public Element toXMLElement(Document doc, String type) {
-		// TODO Auto-generated method stub
 		Element elem = doc.createElement(type);
 		elem.setAttribute("coord", coord.toString());
 		elem.setAttribute("zoneID", zone.getID() + "");
 		return elem;
 	}
 	
-public static class Factory implements StorableFactory<Character> {
+	public static class Factory implements StorableFactory<Character> {
 		
 		private Zone[] zones;
 		
