@@ -285,7 +285,9 @@ public class World implements Storable {
 		zones[0].addItem(new Key(new Point(8,7), "green"));
 		zones[0].addItem(new Key(new Point(10,4), "orange"));
 		Furniture shop1 = new Furniture(zones[0],new Coord(new Direction(Direction.SOUTH),new Point(4,1)),null,"Looks like a shop");
-		shop1.addInteraction(new BuyItem(shop1, new Key(null, "blue"), "blue key", 7));
+		Key blueKey = new Key(null, "blue");
+		blueKey.onPickUp();
+		shop1.addInteraction(new BuyItem(shop1, blueKey, "blue key", 7));
 		shop1.setDrawImagePath("images/shopKeeper");
 		zones[0].addEntity(shop1);
 		zones[0].addEntity(new KeyGate(Gate.State.LOCKED, zones[0], new Coord(new Direction(Direction.EAST),new Point(3,6)), "blue"));
@@ -348,7 +350,9 @@ public class World implements Storable {
 		zones[1].addItem(new Coin(new Point(5,5)));
 		zones[1].addItem(new Key(new Point(1,5), "blue"));
 		Furniture shop2 = new Furniture(zones[1],new Coord(new Direction(Direction.SOUTH),new Point(5,1)),null,"Looks like a shop");
-		shop2.addInteraction(new BuyItem(shop2, new Key(null, "yellow"), "yellow key", 8));
+		Key yellowKey = new Key(null, "yellow");
+		yellowKey.onPickUp();
+		shop2.addInteraction(new BuyItem(shop2, yellowKey, "yellow key", 8));
 		shop2.setDrawImagePath("images/shopKeeper");
 		zones[1].addEntity(shop2);
 		zones[1].addEntity(new KeyGate(Gate.State.LOCKED, zones[1], new Coord(new Direction(Direction.EAST),new Point(6,3)), "yellow"));

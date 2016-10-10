@@ -20,6 +20,7 @@ public class Furniture extends Entity implements Storable {
 	public Furniture(Zone zone, Coord worldPosition, Inventory inventory, String description) {
 		super(zone, worldPosition, inventory);
 		this.addInteraction(new Inspect(description));
+		this.addInteraction(new Push(this));
 	}
 	
 	public Furniture(Element elem, Zone[] zones){

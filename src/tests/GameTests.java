@@ -85,6 +85,7 @@ public class GameTests extends TestCase {
 				}
 			}
 		}
+		assertTrue(pupo.getZone().getItem(pupo.getCoord().getPoint())==null); //key shouldve disappeared
 		assertTrue(correctKey); //should have key
 		pupo.rotate(true);
 		assertTrue(pupo.moveForward());

@@ -139,6 +139,7 @@ public abstract class Item implements Storable, Serializable, Drawable {
 		if(inInventory())
 			throw new IllegalStateException("Attempting to pick up an item that is already contained in an inventory.");
 		inInventory = true;
+		worldPosition = null;
 	}
 	
 	/**
