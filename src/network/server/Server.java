@@ -188,7 +188,7 @@ public class Server {
 				return;
 			}
 			
-			recvThread = new ServerRecvThread(this, ins[i], players[i]);
+			recvThread = new ServerRecvThread(this, ins[i], outs[i], players[i]);
 			
 			sendThread.start();
 			recvThread.start();
