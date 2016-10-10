@@ -3,11 +3,14 @@ package network.client;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
+import javax.swing.JOptionPane;
+
 import model.Inventory;
 import model.Zone;
 import view.GameFrame;
 import view.RenderPanel;
 import network.NetworkError;
+import network.Protocol.Event;
 
 /**
  * Client worker thread for listening to the server's socket, with client sending stuff to the server
@@ -43,6 +46,17 @@ public class ClientThread extends Thread{
 		} else if (readObj instanceof Inventory) {
 			Inventory newInv = (Inventory)readObj;
 			panel.setInventory(newInv);
+		} else if (readObj instanceof Event) {
+			Event packetType = (Event)readObj;
+			switch (packetType) {
+			case POPUP_MESSAGE:
+				String message = in.readUTF();
+				frame.showMessageBox(message);
+				break;
+			default:
+				System.err.println("Unhandled packet type "+packetType);
+				break;
+			}
 		}
 		panel.repaint();
 		return;
