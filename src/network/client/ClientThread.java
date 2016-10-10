@@ -21,13 +21,12 @@ public class ClientThread extends Thread{
 
 	/* socket connected to server and input stream */
 	private ObjectInputStream in;
-	private GameFrame frame;
+	private GameFrame frame = GameFrame.instance();
 	
 	private boolean running;
 
-	public ClientThread(ObjectInputStream in, GameFrame frame) {
+	public ClientThread(ObjectInputStream in) {
 		this.in = in;
-		this.frame = frame;
 	}
 
 
