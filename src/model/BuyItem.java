@@ -45,7 +45,7 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 		boolean no = GameFrame.instance().displayBooleanQuestion(title, text) == 1;
 		
 		if(no){
-			
+			return;
 		}
 		if(p.getInventory().hasRoom()){
 			p.getInventory().addItem(this.item);
