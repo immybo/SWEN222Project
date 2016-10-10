@@ -30,7 +30,7 @@ public class Zone implements Storable, Serializable {
 	private Tile[][] tiles;
 	private List<Item> items;
 	private List<Entity> entities;
-	private List<Character> characters = new ArrayList<Character>();
+	private List<Character> characters;
 
 	/**
 	 * Zones should usually only be constructed from
@@ -555,9 +555,10 @@ public class Zone implements Storable, Serializable {
 			elem.appendChild(e.toXMLElement(doc));
 		
 		elem.setAttribute("noCharacters", characters.size()+"");
-		for(Character c : characters)
-			elem.appendChild(c.toXMLElement(doc));
-		
+		for(Character c : characters){
+			if(!(c instanceof Player))
+				elem.appendChild(c.toXMLElement(doc));
+		}
 		return elem;
 	}
 

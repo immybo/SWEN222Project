@@ -1,5 +1,10 @@
 package model;
 
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+
+import datastorage.StorableFactory;
 import util.Coord;
 import view.DrawDirection;
 
@@ -16,6 +21,10 @@ public class Slime extends Enemy {
 		super(zone, coord, 10);
 	}
 
+	public Slime(Element elem, Zone[] zones) {
+		super(elem, zones);
+	}
+
 	@Override
 	public String getDrawImagePath(DrawDirection d) {
 		DrawDirection drawDir = DrawDirection.getCompositeDirection(d, this.getCoord().getFacing());
@@ -28,5 +37,24 @@ public class Slime extends Enemy {
 		default: throw new IllegalStateException();
 		}
 		return ("images/redSlime" +  dir + ".png");
+	}
+	
+	@Override
+	public Element toXMLElement(Document doc){
+		Element elem = super.toXMLElement(doc, "Slime");
+		return elem;
+	}
+	
+	public static class Factory implements StorableFactory<Slime> {
+		private Zone[] zones;
+		public Factory(Zone[] zones){
+			this.zones = zones;
+		}
+		
+		@Override
+		public Slime fromXMLElement(Element elem) {
+			return new Slime(elem, zones);
+		}
+		
 	}
 }

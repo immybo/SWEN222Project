@@ -138,7 +138,10 @@ public class World implements Storable {
 				zones[i] = new Zone.ZoneFactory().fromXMLElement((Element) elem.getChildNodes().item(i));
 			Player Pupo = new Player.Factory(zones).fromXMLElement((Element) elem.getChildNodes().item(i));
 			Player Yelo = new Player.Factory(zones).fromXMLElement((Element) elem.getChildNodes().item(i+1));
-			return null;
+			World world = new World(name, zones, Pupo, Yelo);
+			Pupo.getZone().addCharacter(Pupo);
+			Yelo.getZone().addCharacter(Yelo);
+			return world;
 		}
 
 	}
