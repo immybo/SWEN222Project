@@ -2,6 +2,8 @@ package model;
 
 import java.awt.Point;
 
+import view.DrawDirection;
+
 /**
  * A sword is a melee-range weapon that 
  * @author Robert Campbell
@@ -21,5 +23,10 @@ public class Sword extends Weapon {
 	@Override
 	public int getDamage() {
 		return 10;
+	}
+	
+	@Override
+	public String getDrawImagePath(DrawDirection d){
+		return "images/sword.png";
 	}
 }
