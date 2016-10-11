@@ -183,6 +183,7 @@ public class Player extends Character implements Storable, Serializable {
 		}
 		
 		Direction nextDir = path[0];
+		this.getCoord().setFacing(nextDir);
 		moveInstant(nextDir, 1);
 	}
 	
