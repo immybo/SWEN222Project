@@ -1,0 +1,59 @@
+WALKTHROUGH
+Pupo and Yelo must be adjacant to eachother here is how to do that.
+Also how to test various features of game. 
+
+
+PUPO (purple guy) INSTRUCTIONS
+1. walk to blue key should pick up automatically
+2. walk to the blue gates and right click the gate WITHOUT the coins and use key.
+3. walk to the totems, 
+4. the totem near the edge of the map adjacant to the orange gate
+5. inspect it to find a red key
+6. use key on the red gate
+7. go through portal
+8. pick up the 2 coins in the map and the blue key.
+9. go back to the first zone through the portal and unlock the blue gate with the coins
+10. pick up all coins
+11. go back through the portal
+12. buy yellow key from shop keeper. 
+13. unlock yellow gate and continue through portal
+14. pick up orange key
+15. back track back to first zone and unlock the gate near the totems
+16. if yelo is there go meet your friend :D
+
+YELO (yellow guy) instructions
+1. go to the portal that is furtherst away
+2. go to sign and inspect (right click) 
+3. answer to this is '1'
+4. pick up purple key
+5. go to the gate that has a sign next to it that will say '1 or 2'
+6. pick up purple key
+7. go to the gate that has 3 totems in the same configuration as the first zone
+should look like:
+[x][_][x]
+[_][_][_]
+[_][_][X]
+where x a totem and the empty spaces are other objects
+8. unlock and go through portal
+9. unlock green gate
+10. if pupo is there aswell then go meet your friend :D
+
+TO TEST OTHER FEATURES:
+to test combat:
+1. at the start of the game, yelo can go to the closest portal instead, teleporting to a boss room
+2. move next to the enemy 
+3. left click to attack.
+4. you can pick up the weapon by walking over it similar to coins or keys and attacking will do more damage.
+5. this particular enemy does not fight back, its a tutorial level. Heh
+
+to test pushing of furniture.
+1. when pupo is that the zone with the signs and the 1-1000 riddle
+2. stand next to a sign and right click and select push.
+3. sign will push if there is room for the object to move
+4. all decorative items can be pushed; totems, shops, signs. However due to the level design only the ones here can move,
+the others do have the push interaction but lack room to move.
+
+ 
+
+
+
