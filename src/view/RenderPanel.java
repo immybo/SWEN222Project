@@ -44,10 +44,63 @@ public class RenderPanel extends JPanel {
     public void setZone(Zone zone) {
         this.zone = zone;
         if(listener != null) listener.setZone(zone);
+        isoTransform = transformForDirection(drawDirection);
     }
 
     public void setInventory(Inventory inventory) {
         this.inventory = inventory;
+    }
+    
+    
+    
+    private AffineTransform transformForDirection(DrawDirection d) {
+    	
+    	if (zone == null) {
+    		return null;
+    	}
+    	double rotation = Math.PI*0.25;
+    	double transX = 512;
+    	double transY = 20;
+    	AffineTransform t = null;
+    	
+    	switch(d) {
+    	case NW:
+    		rotation = Math.PI*0.25;
+    		t = AffineTransform.getRotateInstance(rotation);
+            t.preConcatenate(AffineTransform.getScaleInstance(1,0.574)); //Magic numbers are bad but oh well
+            isoTransform = t;
+    		transX = (getScreenCoordinate(zone.getWidth(),0).getX() - getScreenCoordinate(0,zone.getHeight()).getX())/2;
+    		transY = 20;
+    		break;
+    	case NE:
+    		rotation = 7*(Math.PI*0.25);
+    		t = AffineTransform.getRotateInstance(rotation);
+            t.preConcatenate(AffineTransform.getScaleInstance(1,0.574)); //Magic numbers are bad but oh well
+            isoTransform = t;
+            transX = 0;
+    		transY = ((getScreenCoordinate(0,zone.getHeight()).getY() - getScreenCoordinate(zone.getWidth(),0).getY())/2)+20;
+    		break;
+    	case SE:
+    		rotation = 5*Math.PI*0.25;
+    		t = AffineTransform.getRotateInstance(rotation);
+            t.preConcatenate(AffineTransform.getScaleInstance(1,0.574)); //Magic numbers are bad but oh well
+            isoTransform = t;
+            transX = (getScreenCoordinate(0,zone.getHeight()).getX() - getScreenCoordinate(zone.getWidth(),0).getX())/2;
+            transY = (getScreenCoordinate(0,0).getY() - getScreenCoordinate(zone.getWidth(),zone.getHeight()).getY());
+    		break;
+    	case SW:
+    		rotation = 3*(Math.PI*0.25);
+    		t = AffineTransform.getRotateInstance(rotation);
+            t.preConcatenate(AffineTransform.getScaleInstance(1,0.574)); //Magic numbers are bad but oh well
+            isoTransform = t;
+            transX = (getScreenCoordinate(0,0).getX() - getScreenCoordinate(zone.getWidth(),zone.getHeight()).getX());
+            transY = ((getScreenCoordinate(zone.getWidth(),0).getY() - getScreenCoordinate(0,zone.getHeight()).getY())/2);
+    		break;
+    	}
+    	
+    	
+        t.preConcatenate(AffineTransform.getTranslateInstance(transX,transY));
+        return t;
     }
     
     /**
@@ -55,17 +108,17 @@ public class RenderPanel extends JPanel {
      * Mouse and key input will therefore do nothing.
      */
     public RenderPanel(){
-        isoTransform = AffineTransform.getRotateInstance(Math.PI*0.25);
-        isoTransform.preConcatenate(AffineTransform.getScaleInstance(1,0.574)); //Magic numbers are bad but oh well
-        isoTransform.preConcatenate(AffineTransform.getTranslateInstance(512,20));
+        isoTransform = transformForDirection(drawDirection);
     }
     
     public void rotateClockwise(){
     	drawDirection = DrawDirection.getClockwiseDirection(drawDirection);
+    	isoTransform = transformForDirection(drawDirection);
     	repaint();
     }
     public void rotateAntiClockwise(){
     	drawDirection = DrawDirection.getAnticlockwiseDirection(drawDirection);
+    	isoTransform = transformForDirection(drawDirection);
     	repaint();
     }
     
@@ -145,7 +198,7 @@ public class RenderPanel extends JPanel {
                 continue;
             }
             try {
-                Point2D drawPoint = applyTransform(d.getDrawPosition().getX()*TILE_WIDTH,d.getDrawPosition().getY()*TILE_HEIGHT);
+                Point2D drawPoint = getScreenPosition(d);
                 BufferedImage img = ImageIO.read(new File(filename));
                 g2.drawImage(img, (int)drawPoint.getX(), (int)(drawPoint.getY()-d.getYOffset()), null);
                 //g2.drawString(""+d.getDepthOffset(), (int)drawPoint.getX(), (int)(drawPoint.getY()));
@@ -160,8 +213,15 @@ public class RenderPanel extends JPanel {
         //DRAFT IMAGE
 
     }
+    
+    private Point2D getScreenPosition(Drawable d) {
+        return applyTransform(d.getDrawPosition().getX()*TILE_WIDTH,d.getDrawPosition().getY()*TILE_HEIGHT);
+    }
 
     private Point2D applyTransform(double x, double y) {
+    	if (isoTransform == null) {
+    		return new Point2D.Double(0,0);
+    	}
     	Point2D trans = new Point2D.Double();
     	isoTransform.transform(new Point2D.Double(x,y), trans);
     	return trans;
@@ -189,8 +249,8 @@ public class RenderPanel extends JPanel {
 
     private class DrawableComparator implements Comparator<Drawable> {
         public int compare(Drawable a, Drawable b) {
-        	Point2D drawPointA = applyTransform(a.getDrawPosition().getX()*TILE_WIDTH,a.getDrawPosition().getY()*TILE_HEIGHT);
-        	Point2D drawPointB = applyTransform(b.getDrawPosition().getX()*TILE_WIDTH,b.getDrawPosition().getY()*TILE_HEIGHT);
+        	Point2D drawPointA = getScreenPosition(a);
+        	Point2D drawPointB = getScreenPosition(b);
         	double aDepth = drawPointA.getY()+a.getDepthOffset();
         	double bDepth = drawPointB.getY()+b.getDepthOffset();
             //to avoid rounding stuffing up the difference
