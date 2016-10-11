@@ -52,17 +52,14 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 	@Override
 	public String execute(Player p) {
 		if(p.getInventory().hasRoom()){
-			boolean enoughCoins = false;
-			Coin c = null;
-			for(Item i: p.getInventory().getItems()){
-				if(i instanceof Coin){
-					c = (Coin) i;
-					if(c.getStackSize()>=cost) enoughCoins = true;
+			Coin tempCoin = new Coin();
+			Integer[] coinIndices = p.getInventory().getAllOfType(tempCoin.getClass());
+			if(coinIndices.length >= cost){
+				for(int i=0;i<cost;i++){
+					p.getInventory().removeItem(p.getInventory().getItem(coinIndices[i]));
 				}
 			}
-			if(!enoughCoins) return "You are too poor";
-			if(c.getStackSize()==cost) p.getInventory().removeItem(c);
-			else c.setStackSize(c.getStackSize() - cost);
+			else return "You are too poor";
 			p.getInventory().addItem(this.item);
 			this.entity.removeInteraction(this);
 			return "Youve bought a " +this.itemName + " for " + cost + " coins";

@@ -15,6 +15,7 @@ import view.DrawDirection;
  * Defines a gate which may be opened by a key.
  *
  * @author Robert Campbell
+ * @author Martin Chau
  */
 public class KeyGate extends Gate implements Serializable, Storable {
 	private static final long serialVersionUID = 887504501051715305L;

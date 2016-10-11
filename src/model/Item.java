@@ -18,6 +18,7 @@ import view.Drawable;
  * from an inventory into the world.
  * 
  * @author Robert Campbell
+ * 
  */
 public abstract class Item implements Storable, Serializable, Drawable {
 	private static final long serialVersionUID = -7157946014751399986L;
@@ -196,11 +197,11 @@ public abstract class Item implements Storable, Serializable, Drawable {
 		
 		// Check if there's room in the player's inventory to actually store the item
 		// First, we check if we can stack it on another item
-		Integer[] typeIndices = player.getInventory().getAllOfType(this.getClass());
-		if(this.stackable() && typeIndices.length > 0){
-			Item item = player.getInventory().getItem(typeIndices[0]);
-			item.setStackSize(item.getStackSize() + 1);
+		Item matchItem = player.getInventory().getItemOfType(this.getClass());
+		if(this.stackable() & matchItem != null){
+			matchItem.setStackSize(matchItem.getStackSize() + 1);
 		}
+		
 		// If we can't, we try to place it in a new slot
 		else if(player.getInventory().hasRoom()){
 			player.getInventory().addItem(this);

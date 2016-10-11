@@ -7,6 +7,7 @@ import java.io.Serializable;
  * Defines one of the four cardinal directions that can be moved in.
  * 
  * @author Robert Campbell
+ * @author Martin Chau
  */
 public class Direction implements Serializable {
 	public static final int NORTH = 0;

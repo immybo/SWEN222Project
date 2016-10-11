@@ -16,11 +16,11 @@ import view.DrawDirection;
 public class Coin extends Item {
 	private static final long serialVersionUID = -9106634193261392380L;
 	public Coin(Point worldPosition) {
-		super(worldPosition, true);
+		super(worldPosition, false);
 	}
 	
 	public Coin() {
-		super(true);
+		super(false);
 	}
 	
 	public Coin(Element elem){

@@ -20,6 +20,7 @@ import util.Direction;
  * 'see' or affect things in other zones.
  *
  * @author Robert Campbell
+ * @author Martin Chau
  */
 public class Zone implements Storable, Serializable {
 	private static final long serialVersionUID = 4935905094895442060L;

@@ -20,6 +20,7 @@ import util.Direction;
  * can also sometimes be enemies.
  * 
  * @author Robert Campbell
+ * @author Martin Chau
  */
 public abstract class Character implements Serializable, Storable, Drawable {
 	private static final long serialVersionUID = -8377078297825212109L;
@@ -205,7 +206,7 @@ public abstract class Character implements Serializable, Storable, Drawable {
 	
 	@Override
 	public double getDepthOffset() {
-		return 0.1;
+		return 0.3;
 	}
 	
 	@Override

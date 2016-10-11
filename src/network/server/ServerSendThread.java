@@ -17,6 +17,10 @@ public class ServerSendThread extends Thread {
 		this.characters = characters;
 	}
 	
+	public void setCharacters(Character[] characters){
+		this.characters = characters;
+	}
+	
 	@Override
 	public void run() {
 		boolean running = true;
