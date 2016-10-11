@@ -31,7 +31,6 @@ public class Sword extends Weapon {
 	@Override
 	public void onCollision(Player player){
 		super.onCollision(player);
-		player.getInventory().removeItem(this);
 		player.equipWeapon(this);
 	}
 

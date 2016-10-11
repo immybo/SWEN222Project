@@ -23,7 +23,8 @@ RUNNING THE GAME
 To run the game, first run Server (under the network.server package),
 then run Main (default package) twice. Connect to the server with
 the button in the bottom-right. Both clients must be connected before
-anything will happen.
+anything will happen. LocalClient is a convenience script to
+automatically connect to localhost.
 
 CONTROLS & GAME INFO
 
@@ -34,9 +35,12 @@ there. If the character can't move there, nothing will happen. If you left
 click on an enemy, the character will attempt to attack it.
 
 Right clicking on some objects will bring up a menu of interactions only
-if that player is next to that object.The player can invoke an interaction
+if that player is next to that object. The player can invoke an interaction
 on that object; for example, a gate might have an unlock interaction. Left
 click any of the interactions in the menu to activate it.
+
+Clicks are processed at the base of their tile; e.g., if a lamppost sticks 
+up high, you must click on/near its base to interact with it.
 
 Items are automatically picked up when the player walks over them, if the
 player has room in their inventory.

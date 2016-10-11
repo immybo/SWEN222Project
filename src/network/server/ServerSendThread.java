@@ -26,6 +26,7 @@ public class ServerSendThread extends Thread {
 		boolean running = true;
 		while(running) {
 			try {
+				int currentTick = 0;
 				synchronized (parentServer) {
 					out.writeObject(character.getZone());
 					out.reset();

@@ -245,15 +245,15 @@ public class Zone implements Storable, Serializable {
 		catch(IllegalArgumentException e){
 			return true; // Out of bounds
 		}
-		for(Entity e: getEntities()){
-			if(e.getWorldPosition().getPoint().equals(point)){ // check if entity same position
-				if(!e.isPassable()){ // check if not passable
-					return true;
-				}
-			}
+		Entity entity = this.getEntity(point);
+		boolean isPassable = true;
+		if(entity != null) isPassable = entity.isPassable();
+		if(!isPassable) {
+			return true;
 		}
 		for(Character c: getCharacters()){
 			if(c.getCoord().getPoint().equals(point)){
+				System.out.println(c);
 				return true;
 			}
 		}
@@ -279,7 +279,6 @@ public class Zone implements Storable, Serializable {
 			if(point.equals(i)) nextTo = true;
 		}
 		if(nextTo == false) {
-			System.out.println(p + "//" + point);
 			return null;
 		}
 		Entity matchEntity = null;

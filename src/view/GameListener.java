@@ -108,7 +108,7 @@ public class GameListener implements KeyListener, MouseListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if(zone == null) return;
-		
+		/*
 		try{
 			switch (e.getKeyCode()) {
 			case KeyEvent.VK_W:
@@ -128,7 +128,7 @@ public class GameListener implements KeyListener, MouseListener {
 				break;
 			}
 		}
-		catch(IOException ex){} // Do nothing?
+		catch(IOException ex){} // Do nothing?*/
 	}
 
 	@Override

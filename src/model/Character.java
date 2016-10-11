@@ -103,6 +103,7 @@ public abstract class Character implements Serializable, Storable, Drawable {
 		while(!(nextPoint.equals(newPoint))){
 			nextPoint = Direction.move(nextPoint, dir, 1);
 			if(zone.checkForObstruction(nextPoint)){
+				System.out.println("obs");
 				return false;
 			}
 		}

@@ -45,11 +45,11 @@ public class UseKey extends Interaction implements Serializable {
 			return "Your key doesnt seem to fit";
 		} else {
 			//set the gate to open
-			keyGate.unlock();
-			keyGate.open();
-
+			System.out.println(keyGate.unlock());
+			System.out.println(keyGate.open());
+			System.out.println("poo" + keyGate.isPassable());
 			//keyGate.setPassable(true);
-
+			
 			keyGate.setDrawImagePath(matchKey.getKeyID() + "-open");
 			//remove key from play inventory
 			p.getInventory().removeItem(matchKey);
