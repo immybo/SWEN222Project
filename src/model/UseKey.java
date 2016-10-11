@@ -64,7 +64,7 @@ public class UseKey extends Interaction implements Serializable {
 	public boolean equals(Object o){
 		if(o instanceof UseKey){
 			UseKey uk = (UseKey) o;
-			if(this.keyGate.equals(uk.keyGate))
+			if(this.keyGate.getCoord().equals(uk.keyGate.getCoord()))
 				return super.equals(o);
 		}
 		return false;

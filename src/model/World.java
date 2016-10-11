@@ -413,11 +413,11 @@ public class World implements Storable {
 		zones[2].addEntity(new KeyGate(Gate.State.LOCKED, zones[2], new Coord(new Direction(Direction.EAST),new Point(8,3)), "purple"));
 		zones[2].addEntity(new KeyGate(Gate.State.LOCKED, zones[2], new Coord(new Direction(Direction.EAST),new Point(8,5)), "purple"));
 		zones[2].addEntity(new Portal(zones[2], new Coord(new Direction(Direction.NORTH),new Point(1,1)), "1"));
-		zones[2].addEntity(new Portal(zones[2], new Coord(new Direction(Direction.NORTH),new Point(11,1)), "3"));
-		Furniture fakePortal1 = new Furniture(zones[2],new Coord(new Direction(Direction.NORTH),new Point(11,3)),null,"Dammit this portal's a fake");
+		zones[2].addEntity(new Portal(zones[2], new Coord(new Direction(Direction.NORTH),new Point(10,1)), "3"));
+		Furniture fakePortal1 = new Furniture(zones[2],new Coord(new Direction(Direction.NORTH),new Point(10,3)),null,"Dammit this portal's a fake");
 		fakePortal1.setDrawImagePath("images/portal");
 		zones[2].addEntity(fakePortal1);
-		Furniture fakePortal2 = new Furniture(zones[2],new Coord(new Direction(Direction.NORTH),new Point(11,5)),null,"Dammit this portal's a fake");
+		Furniture fakePortal2 = new Furniture(zones[2],new Coord(new Direction(Direction.NORTH),new Point(10,5)),null,"Dammit this portal's a fake");
 		fakePortal2.setDrawImagePath("images/portal");
 		zones[2].addEntity(fakePortal2);
 		
