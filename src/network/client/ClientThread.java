@@ -40,10 +40,6 @@ public class ClientThread extends Thread{
 		/* FIXME catch EOFException on this read ? */
 		Object readObj = in.readObject();
 		RenderPanel panel = frame.getRenderPanel();
-		
-		if(readObj != null)
-			frame.setAllConnected();
-		
 		if (readObj instanceof Zone) {
 			Zone newZone = (Zone)readObj;
 			panel.setZone(newZone);
