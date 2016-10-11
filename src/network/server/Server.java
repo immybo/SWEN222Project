@@ -24,6 +24,7 @@ public class Server {
 	private World world;
 	private Player[] players;
 	private Thread[] workerThreads;
+	private Thread tickThread;
 	
 	/**
 	 * Simple constructor using default port number
@@ -199,6 +200,9 @@ public class Server {
 			workerThreads[(2 * i)] = sendThread;
 			workerThreads[(2 * i) + 1] = recvThread;
 		}
+		
+		tickThread = new TickThread(this);
+		tickThread.start();
 	}
 	
 	/**

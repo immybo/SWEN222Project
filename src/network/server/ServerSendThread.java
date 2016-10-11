@@ -27,12 +27,6 @@ public class ServerSendThread extends Thread {
 		while(running) {
 			try {
 				synchronized (parentServer) {
-					/* FIXME don't tick inside server thread; don't want 2 ticks at a time */
-					world.tick();
-					if (world.checkForGameWin()) {
-						parentServer.win();
-					}
-					
 					out.writeObject(character.getZone());
 					out.reset();
 				}
