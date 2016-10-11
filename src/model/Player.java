@@ -18,8 +18,6 @@ public class Player extends Character implements Storable, Serializable {
 	public final boolean pupo; //!pupo --> yelo
 	private Inventory inventory;
 	private Weapon equipped;
-
-	private transient Timer movementTimer;
 	
 	private transient Point toMove;
 	private transient Enemy toAttack;
@@ -122,7 +120,6 @@ public class Player extends Character implements Storable, Serializable {
 	 */
 	@Override
 	public boolean moveIn(Direction dir, int amount){
-		if(movementTimer != null) movementTimer.cancel();
 		return moveInstant(dir, amount);
 	}
 	
@@ -181,8 +178,7 @@ public class Player extends Character implements Storable, Serializable {
 		// since we have quite a rough grid and slow ticks, it's fine
 		Direction[] path = getZone().getPath(getCoord().getPoint(), newPoint);
 		if(path == null){
-			if(movementTimer != null)
-				movementTimer.cancel();
+			toMove = null;
 			return; // Couldn't find a path
 		}
 		
