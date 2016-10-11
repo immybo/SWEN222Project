@@ -13,6 +13,14 @@ import datastorage.StorableFactory;
 import util.Coord;
 import util.Direction;
 
+/**
+ * The World contains many Zones and the two Players.
+ * This is the top-level class for representing the game;
+ * i.e. reproducing this will reproduce (most) of the game.
+ *  
+ * @author Robert Campbell
+ * @author Martin Chau
+ */
 public class World implements Storable {
 	private String name;
 	private Zone[] zones;

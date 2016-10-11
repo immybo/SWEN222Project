@@ -13,6 +13,13 @@ import util.Coord;
 import util.Direction;
 import view.DrawDirection;
 
+/**
+ * There are two Players in the game world: Pupo and Yelo.
+ * Each Player may move around, attack enemies, and interact
+ * with objects.
+ * 
+ * @author Robert Campbell
+ */
 public class Player extends Character implements Storable, Serializable {
 	private static final long serialVersionUID = -3708487301391970342L;
 	public final boolean pupo; //!pupo --> yelo

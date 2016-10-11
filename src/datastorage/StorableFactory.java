@@ -7,6 +7,7 @@ import org.w3c.dom.*;
  * XML elements.
  * 
  * @author Robert Campbell
+ * @author Joshua Hurst
  *
  * @param <T> The object type which this factory can construct.
  */

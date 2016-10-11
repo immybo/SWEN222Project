@@ -2,6 +2,11 @@ package view;
 
 import util.Direction;
 
+/**
+ * Defines an isometric direction.
+ * 
+ * @author Hamish Brown
+ */
 public enum DrawDirection {
 	NW,NE,SE,SW;
 	

@@ -1,5 +1,11 @@
 package network;
 
+/**
+ * Defines constants which both the client and server
+ * agree upon.
+ * 
+ * @author David Phillips
+ */
 public class Protocol {
 	
 	/* default TCP port */ 

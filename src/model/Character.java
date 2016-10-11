@@ -15,7 +15,9 @@ import view.Drawable;
 import util.Direction;
 
 /**
- * 
+ * A character defines something that can often move around
+ * through the world. The players are characters. Characters
+ * can also sometimes be enemies.
  * 
  * @author Robert Campbell
  */

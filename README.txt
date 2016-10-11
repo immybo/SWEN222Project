@@ -1,3 +1,9 @@
+TEAM:
+- David Phillips
+- Hamish Brown
+- Joshua Hurst
+- Martin Chau
+- Robert Campbell
   _____ _               _       _                 _                      
  |_   _| |__   ___     / \   __| __   _____ _ __ | |_ _   _ _ __ ___ ___ 
    | | | '_ \ / _ \   / _ \ / _` \ \ / / _ | '_ \| __| | | | '__/ _ / __|
@@ -25,6 +31,10 @@ then run Main (default package) twice. Connect to the server with
 the button in the bottom-right. Both clients must be connected before
 anything will happen. LocalClient is a convenience script to
 automatically connect to localhost.
+
+IMPORTANT NOTE: You should also read Walkthrough.txt, a walkthrough of the
+first level, so that you can test all of the game's features. Only one level
+is provided.
 
 CONTROLS & GAME INFO
 

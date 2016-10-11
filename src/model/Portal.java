@@ -10,7 +10,7 @@ import view.DrawDirection;
 /**
  * Type of Entity that when interacted with will teleport the player to the other portal in the world.
  *
- * @author Aikon
+ * @author Martin Chau
  */
 
 public class Portal extends Entity implements Storable{
