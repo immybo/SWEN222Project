@@ -297,7 +297,12 @@ public class Server {
 	 */
 	protected void setWorld(World newWorld) {
 		this.world = newWorld;
-		workerThreads[0].setPlayer(newWorld.getPupo());
-		workerThreads[1].setPlayer(newWorld.getYelo());
-	}
+        players[0] = world.getPupo();
+        players[1] = world.getYelo();
+        ((ServerSendThread) this.sendThread).setCharacters(players);
+        ((ServerRecvThread) this.workerThreads[0]).setPlayer(players[0]);
+        ((ServerRecvThread) this.workerThreads[1]).setPlayer(players[1]);
+        System.out.println("World set");
+
+    }
 }
