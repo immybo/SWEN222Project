@@ -23,7 +23,7 @@ public class Server {
 	private int clientCount;
 	private World world;
 	private Player[] players;
-	private Thread[] workerThreads;
+	private ServerRecvThread[] workerThreads;
 	private TickThread tickThread;
 	private Thread sendThread;
 	
@@ -181,10 +181,10 @@ public class Server {
 		System.out.println("All clients connected");
 		
 		/* spawn two threads for each client */ 
-		workerThreads = new Thread[totalPlayers];
+		workerThreads = new ServerRecvThread[totalPlayers];
 		for (int i = 0; i < totalPlayers; i++) {
 			/* create+start a receiving thread for this client */
-			Thread recvThread = new ServerRecvThread(this, ins[i], outs[i], players[i]);
+			ServerRecvThread recvThread = new ServerRecvThread(this, ins[i], outs[i], players[i]);
 			recvThread.start();
 			
 			/* store reference to the thread away */
@@ -297,5 +297,7 @@ public class Server {
 	 */
 	protected void setWorld(World newWorld) {
 		this.world = newWorld;
+		workerThreads[0].setPlayer(newWorld.getPupo());
+		workerThreads[1].setPlayer(newWorld.getYelo());
 	}
 }

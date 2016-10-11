@@ -53,6 +53,10 @@ public class ServerRecvThread extends Thread {
 		this.player = player;
 	}
 	
+	public void setPlayer(Player p){
+		player = p;
+	}
+	
 	/**
 	 * Process any data being sent to us from the client
 	 * @return false on failure, true otherwise
