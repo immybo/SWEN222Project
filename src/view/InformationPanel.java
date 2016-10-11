@@ -4,6 +4,9 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import model.Inventory;
+import model.Item;
+import model.Player;
 import network.NetworkError;
 import network.client.Client;
 
@@ -34,6 +37,7 @@ public class InformationPanel extends JPanel {
 	private GameFrame gameFrame;
 	
 	private JPanel iconPanel;
+	private JTextArea inventoryTextArea;
 
 	public InformationPanel(GameFrame gameFrame){
 		this.gameFrame = gameFrame;
@@ -111,15 +115,39 @@ public class InformationPanel extends JPanel {
 		buttonPanel.add(rotateAntiButton, 5);
 
 		this.add(buttonPanel, BorderLayout.SOUTH);
+		
+		this.inventoryTextArea = new JTextArea();
+		inventoryTextArea.setEditable(false);
+		this.add(inventoryTextArea, BorderLayout.CENTER);
 	}
 	
 	public void setClient(Client newClient){
 		client = newClient;
 	}
+	
+	
 
 	@Override
-	public void paint(Graphics g){
-		super.paint(g);
+	public void repaint() {
+		if (gameFrame != null && gameFrame.getRenderPanel() != null 
+				&& gameFrame.getRenderPanel().getPlayer() != null
+				&& gameFrame.getRenderPanel().getPlayer().getInventory() != null) {
+				showInventory(gameFrame.getRenderPanel().getPlayer().getInventory());
+		}
+		super.repaint();
+	}
+	public void showInventory(Inventory inventory) {
+		StringBuilder sb = new StringBuilder();
+		for (Item i : inventory.getItems()) {
+			if (i != null) {
+				sb.append(i.getStackSize());
+				sb.append(" ");
+				sb.append(i.toString());
+				sb.append("\n");
+			}
+		}
+		//System.out.println(sb.toString());
+		inventoryTextArea.setText(sb.toString());
 	}
 
 	private void exitGame(){

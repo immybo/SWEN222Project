@@ -40,6 +40,10 @@ public class Key extends Item implements Storable{
 		return "images/" +keyID + "Key.png";
 	}
 	
+	public String toString() {
+		return keyID+" Key";
+	}
+	
 	
 	@Override
 	public Element toXMLElement(Document doc){

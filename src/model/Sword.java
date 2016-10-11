@@ -50,6 +50,10 @@ public class Sword extends Weapon {
 		return elem;
 	}
 	
+	public String toString() {
+		return "Sword";
+	}
+	
 	public static class Factory implements StorableFactory<Sword> {
 		@Override
 		public Sword fromXMLElement(Element elem) {

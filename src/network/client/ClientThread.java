@@ -63,7 +63,8 @@ public class ClientThread extends Thread{
 				break;
 			}
 		}
-		panel.repaint();
+		frame.repaint();
+		frame.getInformationPanel().repaint();
 		return;
 	}
 	
