@@ -19,6 +19,7 @@ import view.DrawDirection;
  * with objects.
  * 
  * @author Robert Campbell
+ * @author Martin Chau
  */
 public class Player extends Character implements Storable, Serializable {
 	private static final long serialVersionUID = -3708487301391970342L;

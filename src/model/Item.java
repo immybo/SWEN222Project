@@ -18,6 +18,7 @@ import view.Drawable;
  * from an inventory into the world.
  * 
  * @author Robert Campbell
+ * 
  */
 public abstract class Item implements Storable, Serializable, Drawable {
 	private static final long serialVersionUID = -7157946014751399986L;
