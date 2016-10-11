@@ -22,13 +22,15 @@ public class Client {
 	private ObjectInputStream in;
 	private ClientThread clientThread;
 	private UncaughtExceptionHandler errorHandler;
+	private GameFrame frame;
 	
 	/**
 	 * Constructor that also creates a window for the game
 	 * @param host
 	 */
-	public Client(String host){
+	public Client(GameFrame frame, String host){
 		this(host, Protocol.DEFAULT_PORT);
+		this.frame = frame;
 	}
 	
 	/**
@@ -91,7 +93,7 @@ public class Client {
 				throw new NetworkError("Handshaking with server failed");
 			}
 			System.out.println("Starting client thread");
-			this.clientThread = new ClientThread(in);
+			this.clientThread = new ClientThread(in, this.frame);
 			this.clientThread.setUncaughtExceptionHandler(errorHandler);
 			this.clientThread.start();
 		} catch (IOException e) {
