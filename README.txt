@@ -36,6 +36,12 @@ IMPORTANT NOTE: You should also read Walkthrough.txt, a walkthrough of the
 first level, so that you can test all of the game's features. Only one level
 is provided.
 
+KNOWN ISSUES:
+The game will go off sync sometimes between the 2 clients resulting in clients 	having different world information.
+Push interaction is there for most decorative items: totem, shop, sign, fakeportal
+	however they do not currently work
+
+
 CONTROLS & GAME INFO
 
 You can left click anywhere on the map, and the character will attempt to move

@@ -46,13 +46,6 @@ to test combat:
 4. you can pick up the weapon by walking over it similar to coins or keys and attacking will do more damage.
 5. this particular enemy does not fight back, its a tutorial level. Heh
 
-to test pushing of furniture.
-1. when pupo is that the zone with the signs and the 1-1000 riddle
-2. stand next to a sign and right click and select push.
-3. sign will push if there is room for the object to move
-4. all decorative items can be pushed; totems, shops, signs. However due to the level design only the ones here can move,
-the others do have the push interaction but lack room to move.
-
  
 
 
