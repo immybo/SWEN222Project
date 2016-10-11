@@ -41,8 +41,9 @@ The game will go off sync sometimes between the 2 clients resulting in clients 	
 Push interaction is there for most decorative items: totem, shop, sign, fakeportal
 	however they do not currently work
 The load game button has a bit of a delay before it works (sometimes). A 
-System.out message is given when the world is loaded. Regardless, the actual
-data storage package works; this is an issue with integration with the GUI/networking.
+System.out message is given when the world is loaded. Saving might also
+take a while. Regardless, the actual data storage package works;
+this is an issue with integration with the GUI/networking.
 
 CONTROLS & GAME INFO
 
