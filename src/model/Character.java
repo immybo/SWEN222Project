@@ -206,7 +206,7 @@ public abstract class Character implements Serializable, Storable, Drawable {
 	
 	@Override
 	public double getDepthOffset() {
-		return 0.1;
+		return 0.3;
 	}
 	
 	@Override

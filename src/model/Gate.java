@@ -148,11 +148,7 @@ public abstract class Gate extends Entity implements Storable, Serializable {
 
     @Override
     public double getDepthOffset() {
-        if (state == State.OPEN) {
-            return 0;
-        } else {
-            return 0.6;
-        }
+        return 0.1;
     }
 
     @Override
