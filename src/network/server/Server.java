@@ -228,7 +228,9 @@ public class Server {
 			}
 		}
 		/* broadcast went out; stop. */
-		stop();
+		/* Actually, don't stop because the packet probably hasn't been flushed out of the socket */
+		/* FIXME implement ack packet for messages */
+		//stop();
 	}
 	
 	/**
