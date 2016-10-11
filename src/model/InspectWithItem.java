@@ -25,7 +25,6 @@ public class InspectWithItem extends Interaction implements Storable, Serializab
 	public InspectWithItem(Entity entity, Item item, String giveDescription, String altDescription){
 		this.entity = entity;
 		this.item = item;
-		item.onPickUp();
 		this.giveDescription = giveDescription;
 		this.altDescription = altDescription;
 	}

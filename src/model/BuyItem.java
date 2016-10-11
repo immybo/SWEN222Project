@@ -34,7 +34,6 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 	public BuyItem(Entity entity, Item item, String itemName, int cost){
 		this.entity = entity;
 		this.item = item;
-		item.onPickUp();
 		this.itemName = itemName;
 		this.cost = cost;
 	}
