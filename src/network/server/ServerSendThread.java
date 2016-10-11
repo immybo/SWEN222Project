@@ -4,21 +4,17 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import model.Character;
-import model.World;
 import network.Protocol;
-import network.Protocol.Event;
 
 public class ServerSendThread extends Thread {
-	private Character character;
-	private ObjectOutputStream out;
 	private Server parentServer;
-	private World world;
+	private ObjectOutputStream[] outputStreams;
+	private Character[] characters;
 	
-	public ServerSendThread(Server parentServer, ObjectOutputStream out, Character character, World world) throws IOException {
-		this.character = character;
+	public ServerSendThread(Server parentServer, ObjectOutputStream[] outputStreams, Character[] characters) {
 		this.parentServer = parentServer;
-		this.out = out;
-		this.world = world;
+		this.outputStreams = outputStreams;
+		this.characters = characters;
 	}
 	
 	@Override
@@ -26,10 +22,20 @@ public class ServerSendThread extends Thread {
 		boolean running = true;
 		while(running) {
 			try {
-				int currentTick = 0;
-				synchronized (parentServer) {
-					out.writeObject(character.getZone());
-					out.reset();
+				/* send each client its zone information */
+				for (int i = 0; i < outputStreams.length; i++) {
+					ObjectOutputStream o = outputStreams[i];
+					
+					/* synchronise on the server instance to stop modification
+					 * by other threads, eg. world tick and client uplink */
+					synchronized (parentServer) {
+						/* send the applicable zone to the right player */
+						o.writeObject(characters[i].getZone());
+						
+						/* reset the object stream to avoid it being too "smart"
+						 * and caching zone state */
+						o.reset();
+					}
 				}
 				sleep(Protocol.UPDATE_DELAY);
 			} catch (InterruptedException | IOException e) {

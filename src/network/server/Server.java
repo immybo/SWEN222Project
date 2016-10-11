@@ -25,6 +25,7 @@ public class Server {
 	private Player[] players;
 	private Thread[] workerThreads;
 	private Thread tickThread;
+	private Thread sendThread;
 	
 	/**
 	 * Simple constructor using default port number
@@ -143,7 +144,7 @@ public class Server {
 		
 		clientSocks = new Socket[totalPlayers];
 		outs = new ObjectOutputStream[totalPlayers];
-		ins= new ObjectInputStream[totalPlayers];
+		ins = new ObjectInputStream[totalPlayers];
 		
 		
 		/* initialise the main server listener socket */
@@ -180,29 +181,20 @@ public class Server {
 		System.out.println("All clients connected");
 		
 		/* spawn two threads for each client */ 
-		workerThreads = new Thread[2*totalPlayers];
+		workerThreads = new Thread[totalPlayers];
 		for (int i = 0; i < totalPlayers; i++) {
-			Thread sendThread;
-			Thread recvThread;
-			try {
-				sendThread = new ServerSendThread(this, outs[i], players[i], world); 
-			} catch (IOException e) {
-				e.printStackTrace();
-				System.err.println("Error creating game state updater thread, bailing");
-				stop();
-				return;
-			}
-			
-			recvThread = new ServerRecvThread(this, ins[i], outs[i], players[i]);
-			
-			sendThread.start();
+			/* create+start a receiving thread for this client */
+			Thread recvThread = new ServerRecvThread(this, ins[i], outs[i], players[i]);
 			recvThread.start();
-			workerThreads[(2 * i)] = sendThread;
-			workerThreads[(2 * i) + 1] = recvThread;
+			
+			/* store reference to the thread away */
+			this.workerThreads[i] = recvThread;
 		}
 		
-		tickThread = new TickThread(this);
-		tickThread.start();
+		this.sendThread = new ServerSendThread(this, outs, players); 
+		this.tickThread = new TickThread(this);
+		this.sendThread.start();
+		this.tickThread.start();
 	}
 	
 	/**
@@ -243,7 +235,7 @@ public class Server {
 	 * Wait for all clients to disconnect
 	 */
 	public void waitForDisconnect() {
-	/* wait for server threads to exit/error-out/whatever */
+		/* wait for server threads to exit/error-out/whatever */
 		for (int i = 0; i < clientCount; i++) {
 			try {
 				workerThreads[i].join();
@@ -251,7 +243,22 @@ public class Server {
 				/* we don't really care */
 				e.printStackTrace();
 			}
-		}	
+		}
+		
+		/* join the downlink thread */
+		try {
+			sendThread.join();
+		} catch(InterruptedException e) {
+			/* don't care */
+		}
+		
+		/* join the world tick thread */
+		try {
+			/* FIXME tell the thread to stop */
+			tickThread.join();
+		} catch (InterruptedException e) {
+			/* don't care */
+		}
 	}
 	
 	/**
