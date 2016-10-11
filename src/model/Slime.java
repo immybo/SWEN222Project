@@ -16,7 +16,7 @@ import view.DrawDirection;
  */
 public class Slime extends Enemy {
 	private static final long serialVersionUID = 1218720728494030495L;
-
+	
 	public Slime(Zone zone, Coord coord) {
 		super(zone, coord, 10);
 	}

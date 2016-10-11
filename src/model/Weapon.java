@@ -17,6 +17,12 @@ public abstract class Weapon extends Item{
 		super(stackable);
 	}
 	
+	/**
+	 * Constructor for a weapon
+	 * 
+	 * @param worldPosition Position in world
+	 * @param stackable Whether the weapon is stackable
+	 */
 	public Weapon(Point worldPosition, boolean stackable){
 		super(worldPosition, stackable);
 	}

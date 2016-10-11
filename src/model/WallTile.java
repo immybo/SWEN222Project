@@ -20,6 +20,7 @@ public class WallTile extends Tile {
 		super(position);
 	}
 	
+	@Override
 	public boolean collides(){
 		return true;
 	}

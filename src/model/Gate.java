@@ -30,7 +30,14 @@ public abstract class Gate extends Entity implements Storable, Serializable {
 	}
 
 	private State state;
-
+	
+	/**
+	 * Constructor for the gate
+	 * 
+	 * @param initial Inital state of gate on creation
+	 * @param zone Zone the gate is in
+	 * @param worldPosition Position in zone
+	 */
 	public Gate(State initial, Zone zone, Coord worldPosition){
 		super(zone, worldPosition, null);
 		state = initial;

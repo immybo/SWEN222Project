@@ -20,7 +20,14 @@ public class KeyGate extends Gate implements Serializable, Storable {
 	private static final long serialVersionUID = 887504501051715305L;
 	private String keyID;
 	private boolean passable = false;
-
+	
+	/**
+	 * Constructor for a keyGate
+	 * @param initial State the keyGate created with
+	 * @param zone Zone the keyGate is in
+	 * @param worldPosition Position of keyGate
+	 * @param keyID Unique code that the gate can be unlocked with
+	 */
 	public KeyGate(State initial, Zone zone, Coord worldPosition, String keyID) {
 		super(initial, zone, worldPosition);
 		this.keyID = keyID;
@@ -91,6 +98,10 @@ public class KeyGate extends Gate implements Serializable, Storable {
 		return passable;
 	}
 	
+	/**
+	 * Manually set the keyGate passability to the provided boolean
+	 * @param passable Boolean of passability, true for passable.
+	 */
 	public void setPassable(boolean passable){
 		this.passable = passable;
 	}

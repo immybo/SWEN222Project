@@ -28,7 +28,13 @@ public class Player extends Character implements Storable, Serializable {
 	
 	private transient Point toMove;
 	private transient Enemy toAttack;
-	
+	/**
+	 * Constructor for a player/ main character
+	 * 
+	 * @param zone Zone player is in 
+	 * @param coord Position of player
+	 * @param isPupo True for pupo, False for yelo
+	 */
 	public Player(Zone zone, Coord coord, boolean isPupo) {
 		super (zone, coord);
 		this.pupo = isPupo;
@@ -72,7 +78,10 @@ public class Player extends Character implements Storable, Serializable {
 	public void attack(Enemy victim){
 		toAttack = victim;
 	}
-	
+	/**
+	 * Manually equip the provided weapon
+	 * @param newWeapon Weapon to be equipped
+	 */
 	public void equipWeapon(Weapon newWeapon){
 		if(!inventory.containsItem(newWeapon))
 			throw new IllegalArgumentException("Can't equip a weapon that isn't in a player's inventory!");

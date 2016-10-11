@@ -18,7 +18,13 @@ import view.Drawable;
  */
 public abstract class Entity extends Interactable implements Serializable, Drawable, Storable {
 	private static final long serialVersionUID = 3586592516798073269L;
-
+	/**
+	 * Constructor for an entity
+	 * 
+	 * @param zone Zone that the entity is in
+	 * @param worldPosition Position of the entity
+	 * @param inventory Inventory if it has one
+	 */
 	public Entity(Zone zone, Coord worldPosition, Inventory inventory) {
 		this.zone = zone;
 		this.worldPosition = worldPosition;
@@ -81,7 +87,11 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 	public Zone getZone(){
 		return zone;
 	}
-	
+	/**
+	 * Returns whether or not this entity is able to be moved through,
+	 * 
+	 * @return True if the object is able to be moved through, false otherwise
+	 */
 	public abstract boolean isPassable();
 
 	private String drawImagePath;
@@ -90,7 +100,14 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 	public String getDrawImagePath(DrawDirection d) {
 		return this.drawImagePath;
 	}
-
+	
+	/**
+	 * Specifies the imagePath for the drawer, 
+	 * if the subclass has directional drawing the path should not end in .png
+	 * e.g shopKeeper has directional drawing hence his path might be "images/shopKeeper"
+	 * 
+	 * @param drawImagePath The path for the image
+	 */
 	public void setDrawImagePath(String drawImagePath) {
 		this.drawImagePath = drawImagePath;
 

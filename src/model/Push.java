@@ -21,17 +21,13 @@ import util.Coord;
  *
  */
 public class Push extends Interaction implements Storable, Serializable {
-	private static final long serialVersionUID = 3600681222909171302L; // TODO
-																		// this
-																		// has
-																		// the
-																		// same
-																		// id as
-																		// inspect
-																		// with
-																		// item
-	private Entity entity;
-
+	private static final long serialVersionUID = 3600681222909171302L;
+	private Entity entity; 
+	
+	/**
+	 * Constructor for the push interaction
+	 * @param entity Entity to push
+	 */
 	public Push(Entity entity) {
 		this.entity = entity;
 	}
