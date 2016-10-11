@@ -43,6 +43,7 @@ public class ServerRecvThread extends Thread {
 	 */
 	public ServerRecvThread(Server parentServer, ObjectInputStream in, ObjectOutputStream out, Player player) {
 		this.in = in;
+		this.out = out;
 		this.parentServer = parentServer;
 		this.player = player;
 	}
@@ -110,11 +111,8 @@ public class ServerRecvThread extends Thread {
 					System.err.println("Received malformed interaction in interact command");
 					break;
 				}
-				System.err.println("Server event receiver: not calling unimplemented interaction method");
 				Interaction interaction = (Interaction)readObj;
-				interaction.execute(player);
-				/* check for feedback message */
-				String message = interaction.getMessageText();
+				String message = interaction.execute(player);
 				if (message != null && message.length() != 0) {
 					out.writeObject(Event.POPUP_MESSAGE);
 					out.writeUTF(message);
