@@ -45,8 +45,8 @@ public class UseKey extends Interaction implements Serializable {
 			return "Your key doesnt seem to fit";
 		} else {
 			//set the gate to open
-			keyGate.unlock();
-			keyGate.open();
+			keyGate.setPassable(true);
+			System.out.println("kg-" + keyGate.isPassable());
 			//remove key from play inventory
 			p.getInventory().removeItem(matchKey);
 			//remove interaction from gate
