@@ -24,6 +24,7 @@ import model.Zone;
  * to and from an XML document.
  *
  * @author Robert Campbell
+ * @author Joshua Hurst
  */
 public class XMLInterface {
 	private XMLInterface(){}

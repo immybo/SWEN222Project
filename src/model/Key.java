@@ -9,10 +9,19 @@ import datastorage.Storable;
 import datastorage.StorableFactory;
 import view.DrawDirection;
 
+/**
+ * A Key is an Item which can be used to open specific KeyGates.
+ * 
+ * @author Martin Chau
+ */
 public class Key extends Item implements Storable{
 	private static final long serialVersionUID = -6877497241147657342L;
 	private String keyID;
-
+	/**
+	 * Constructor for the key
+	 * @param worldPosition Position of key
+	 * @param keyID Unique code of the key
+	 */
 	public Key(Point worldPosition, String keyID) {
 		super(worldPosition, false);
 		this.keyID = keyID;

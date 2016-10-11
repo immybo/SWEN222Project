@@ -7,6 +7,7 @@ import org.w3c.dom.*;
  * an XML format.
  * 
  * @author Robert Campbell
+ * @author Joshua Hurst
  */
 public interface Storable {
 	/**

@@ -15,8 +15,8 @@ import network.Protocol.Event;
 
 /**
  * Client worker thread for listening to the server's socket, with client sending stuff to the server
- * @author karam
- *
+ * 
+ * @author Joshua Hurst
  */
 public class ClientThread extends Thread{
 

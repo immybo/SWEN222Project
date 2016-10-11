@@ -9,9 +9,10 @@ import datastorage.StorableFactory;
 import view.DrawDirection;
 
 /**
- * A sword is a melee-range weapon that 
+ * A sword is a melee-range weapon that absolutely
+ * demolishes slimes.
+ * 
  * @author Robert Campbell
- *
  */
 public class Sword extends Weapon {
 	private static final long serialVersionUID = 7703183004816103712L;

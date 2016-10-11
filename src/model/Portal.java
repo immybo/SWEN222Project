@@ -10,14 +10,20 @@ import view.DrawDirection;
 /**
  * Type of Entity that when interacted with will teleport the player to the other portal in the world.
  *
- * @author Aikon
+ * @author Martin Chau
  */
 
 public class Portal extends Entity implements Storable{
 	private static final long serialVersionUID = -8322710806750756876L;
 	private Portal pairPortal;
 	private String portalID;
-
+	/**
+	 * Constructor for a portal
+	 * 
+	 * @param zone Zone the portal is in
+	 * @param worldPosition Position of the portal
+	 * @param portalID Unique code to link with another portal. 
+	 */
 	public Portal(Zone zone, Coord worldPosition, String portalID) {
 		super(zone, worldPosition, null);
 		this.portalID = portalID;

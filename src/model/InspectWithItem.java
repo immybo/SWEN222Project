@@ -10,7 +10,9 @@ import datastorage.Storable;
 import datastorage.StorableFactory;
 
 /**
- * An interaction where when interacted will show a message and give an item. This interaction can only happen once and is a substitute for "Inspect". After the interaction has run, it will replace itself wtih
+ * An interaction where when interacted will show a message and give an item. 
+ * This interaction can only happen once and is a substitute for "Inspect". 
+ * After the interaction has run, it will replace itself with an inspect interaction
  *
  * @author Martin Chau
  *
@@ -21,7 +23,15 @@ public class InspectWithItem extends Interaction implements Storable, Serializab
 	private Item item;
 	private String giveDescription;
 	private String altDescription;
-
+	
+	/**
+	 * Constructor for InspectWithItem
+	 * 
+	 * @param entity Entity that has this interaction
+	 * @param item Item to give upon inspection
+	 * @param giveDescription Description to show to player on successful execute
+	 * @param altDescription Description of inspect after successful execute
+	 */
 	public InspectWithItem(Entity entity, Item item, String giveDescription, String altDescription){
 		this.entity = entity;
 		this.item = item;

@@ -1,12 +1,15 @@
 package view;
 
-
-
 import java.awt.geom.Point2D;
 import java.io.Serializable;
 
 import util.PointD;
 
+/**
+ * Denotes an object which can be drawn.
+ * 
+ * @author Hamish Brown
+ */
 public interface Drawable {
 
     /**

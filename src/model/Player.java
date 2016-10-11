@@ -13,6 +13,13 @@ import util.Coord;
 import util.Direction;
 import view.DrawDirection;
 
+/**
+ * There are two Players in the game world: Pupo and Yelo.
+ * Each Player may move around, attack enemies, and interact
+ * with objects.
+ * 
+ * @author Robert Campbell
+ */
 public class Player extends Character implements Storable, Serializable {
 	private static final long serialVersionUID = -3708487301391970342L;
 	public final boolean pupo; //!pupo --> yelo
@@ -21,7 +28,13 @@ public class Player extends Character implements Storable, Serializable {
 	
 	private transient Point toMove;
 	private transient Enemy toAttack;
-	
+	/**
+	 * Constructor for a player/ main character
+	 * 
+	 * @param zone Zone player is in 
+	 * @param coord Position of player
+	 * @param isPupo True for pupo, False for yelo
+	 */
 	public Player(Zone zone, Coord coord, boolean isPupo) {
 		super (zone, coord);
 		this.pupo = isPupo;
@@ -65,7 +78,10 @@ public class Player extends Character implements Storable, Serializable {
 	public void attack(Enemy victim){
 		toAttack = victim;
 	}
-	
+	/**
+	 * Manually equip the provided weapon
+	 * @param newWeapon Weapon to be equipped
+	 */
 	public void equipWeapon(Weapon newWeapon){
 		if(!inventory.containsItem(newWeapon))
 			throw new IllegalArgumentException("Can't equip a weapon that isn't in a player's inventory!");

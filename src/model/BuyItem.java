@@ -25,7 +25,7 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 	private int cost;
 	
 	/**
-	 * 
+	 * Constructor for the BuyItem interaction
 	 * @param entity Entity that you can purchase from
 	 * @param item Item that is bought
 	 * @param itemName Name of item to be bought

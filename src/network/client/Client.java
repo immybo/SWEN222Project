@@ -14,6 +14,13 @@ import network.NetworkError;
 import network.Protocol;
 import network.Protocol.Event;
 
+/**
+ * A Client is something which the view may interact
+ * with in order to send commands to the server. Every
+ * client application has one.
+ * 
+ * @author David Phillips
+ */
 public class Client {
 	private String host;
 	private int port;

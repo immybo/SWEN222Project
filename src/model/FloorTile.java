@@ -21,6 +21,7 @@ public class FloorTile extends Tile {
 		super(position);
 	}
 	
+	@Override
 	public boolean collides(){
 		return false;
 	}

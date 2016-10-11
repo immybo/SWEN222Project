@@ -13,6 +13,14 @@ import datastorage.StorableFactory;
 import util.Coord;
 import util.Direction;
 
+/**
+ * The World contains many Zones and the two Players.
+ * This is the top-level class for representing the game;
+ * i.e. reproducing this will reproduce (most) of the game.
+ *  
+ * @author Robert Campbell
+ * @author Martin Chau
+ */
 public class World implements Storable {
 	private String name;
 	private Zone[] zones;
@@ -65,7 +73,7 @@ public class World implements Storable {
 			zone.tick();
 		}
 	}
-
+	
 	public static World testWorld(){
 		Zone[] newZones = new Zone[1];
 		//make just a test zone 3x9 big
@@ -180,7 +188,11 @@ public class World implements Storable {
 	}
 	
 	
-	
+	/**
+	 * Constructs the first level, information for which can be found in the excel sheet.
+	 * 
+	 * @return First level for demonstration
+	 */
 	public static World firstLevel(){
 		Zone[] zones = new Zone[5];
 		
@@ -615,12 +627,26 @@ public class World implements Storable {
 		return new World("Demonstration Level", zones, pupo, yelo);
 	}
 	
+	/**
+	 * Helper method to add walls to an array
+	 * @param tiles Array of tiles to add to
+	 * @param amount Amount to add across x
+	 * @param startX X value to start at
+	 * @param startY Y value to start at
+	 */
 	public static void addWall(Tile[][] tiles, int amount, int startX, int startY){
 		for(int i = 0; i<amount; i++){
 			tiles[startY][startX+i] = new WallTile(new Point(startX + i,startY));
 		}
 	}
 	
+	/**
+	 * Helper method to add floors to an array
+	 * @param tiles Array of tiles to add to
+	 * @param amount Amount to add across x
+	 * @param startX X value to start at
+	 * @param startY Y value to start at
+	 */
 	public static void addFloor(Tile[][] tiles, int amount, int startX, int startY){
 		for(int i = 0; i<amount; i++){
 			tiles[startY][startX+i] = new FloorTile(new Point(startX + i,startY));

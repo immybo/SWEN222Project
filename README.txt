@@ -1,3 +1,9 @@
+TEAM:
+- David Phillips
+- Hamish Brown
+- Joshua Hurst
+- Martin Chau
+- Robert Campbell
   _____ _               _       _                 _                      
  |_   _| |__   ___     / \   __| __   _____ _ __ | |_ _   _ _ __ ___ ___ 
    | | | '_ \ / _ \   / _ \ / _` \ \ / / _ | '_ \| __| | | | '__/ _ / __|
@@ -26,18 +32,21 @@ the button in the bottom-right. Both clients must be connected before
 anything will happen. LocalClient is a convenience script to
 automatically connect to localhost.
 
+IMPORTANT NOTE: You should also read Walkthrough.txt, a walkthrough of the
+first level, so that you can test all of the game's features. Only one level
+is provided.
+
 CONTROLS & GAME INFO
 
-W and S move the controlled character forwards and backwards. A and D
-rotate the character counterclockwise and clockwise. Alternatively, you
-can left click anywhere on the map, and the character will attempt to move
+You can left click anywhere on the map, and the character will attempt to move
 there. If the character can't move there, nothing will happen. If you left
 click on an enemy, the character will attempt to attack it.
 
 Right clicking on some objects will bring up a menu of interactions only
 if that player is next to that object. The player can invoke an interaction
 on that object; for example, a gate might have an unlock interaction. Left
-click any of the interactions in the menu to activate it.
+click any of the interactions in the menu to activate it. This basically
+includes everything the player can do except for moving and attacking.
 
 Clicks are processed at the base of their tile; e.g., if a lamppost sticks 
 up high, you must click on/near its base to interact with it.
@@ -52,4 +61,5 @@ different zones.
 OBJECTIVE
 
 Once Pupo and Yelo are on adjacent tiles to one another, the game will end
-in victory.
+in victory. This will pop up a message and... nothing much else will happen;
+we didn't implement an exciting end to our game.

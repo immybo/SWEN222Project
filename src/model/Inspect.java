@@ -10,7 +10,8 @@ import datastorage.StorableFactory;
 import view.GameFrame;
 
 /**
- * The simplest type of interaction that most if not all interactables will have, showing a string description when called.
+ * The simplest type of interaction that most if not all interactables will have, 
+ * showing a string description when executed
  *
  * @author Martin Chau
  *
@@ -19,6 +20,10 @@ public class Inspect extends Interaction implements Serializable, Storable {
 	private static final long serialVersionUID = 2533033331746954099L;
 	private String description;
 	
+	/**
+	 * Constructor for the inspect interaction
+	 * @param description Description to show player when executed
+	 */
 	public Inspect(String description){
 		this.description = description;
 	}

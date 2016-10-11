@@ -20,7 +20,7 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 
 /**
- * Created by Hamish Brown on 28/09/2016.
+ * @author Hamish Brown
  */
 public class RenderPanel extends JPanel {
 	private static final int TILE_HEIGHT = 64;

@@ -15,7 +15,9 @@ import view.Drawable;
 import util.Direction;
 
 /**
- * 
+ * A character defines something that can often move around
+ * through the world. The players are characters. Characters
+ * can also sometimes be enemies.
  * 
  * @author Robert Campbell
  */
@@ -195,19 +197,19 @@ public abstract class Character implements Serializable, Storable, Drawable {
 		elem.setAttribute("zoneID", zone.getID() + "");
 		return elem;
 	}
-
+	
+	@Override
 	public PointD getDrawPosition() {
 		return new PointD(coord.getPoint().getX(), coord.getPoint().getY());
 	}
-
+	
+	@Override
 	public double getDepthOffset() {
-		 // makes it just above the floor
 		return 0.1;
 	}
 	
 	@Override
 	public int getYOffset() {
-		// FIXME someone document this
 		return 39;
 	}
 	
