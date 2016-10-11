@@ -1,5 +1,7 @@
 package model;
 
+import java.io.Serializable;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -18,7 +20,7 @@ import view.DrawDirection;
  *
  * @author Robert Campbell
  */
-public abstract class Gate extends Entity implements Storable {
+public abstract class Gate extends Entity implements Storable, Serializable {
 	private static final long serialVersionUID = -532830362301640709L;
 
 	public enum State {

@@ -83,9 +83,4 @@ public class KeyGate extends Gate implements Serializable, Storable {
 		}
 
 	}
-
-	@Override
-	public boolean isPassable() {
-		return super.isPassable();
-	}
 }
