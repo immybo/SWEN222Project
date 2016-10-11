@@ -543,7 +543,7 @@ public class Zone implements Storable, Serializable {
 		elem.setAttribute("height", tiles.length+"");
 		for(int x = 0; x < tiles[0].length; x++){
 			for(int y = 0; y < tiles.length; y++){
-				System.out.println("tile " + x+" "+y);
+				System.out.println("tile " + x+" "+y + " " + this.getName());
 				elem.appendChild(tiles[y][x].toXMLElement(doc));
 			}
 		}

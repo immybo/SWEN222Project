@@ -310,7 +310,9 @@ public class World implements Storable {
 		totem2.setDrawImagePath("images/totem");
 		Furniture totemWithItem = new Furniture(zones[0],new Coord(new Direction(Direction.NORTH),new Point(8,1)),null,"Shouldnt be here");
 		totemWithItem.removeInteraction(totemWithItem.getInteractions()[0]);
-		totemWithItem.addInteraction(new InspectWithItem(totemWithItem, new Key(null, "red"), "Hey, theres a red key in here", "Some sort of totem, nothing inside"));
+		Key redKey = new Key(null, "red");
+		redKey.onPickUp();
+		totemWithItem.addInteraction(new InspectWithItem(totemWithItem, redKey, "Hey, theres a red key in here", "Some sort of totem, nothing inside"));
 		totemWithItem.setDrawImagePath("images/totem");
 		zones[0].addEntity(totem1);
 		zones[0].addEntity(totem2);
@@ -493,12 +495,12 @@ public class World implements Storable {
 		toAdd=2;addFloor(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=7;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		//y=13
-		y=12;x=0;
+		y=13;x=0;
 		toAdd=5;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=2;addFloor(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=7;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		//y=14
-		y=12;x=0;
+		y=14;x=0;
 		toAdd=5;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=2;addFloor(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=7;addWall(tiles,toAdd,x,y);x=x+toAdd;
@@ -570,27 +572,27 @@ public class World implements Storable {
 		toAdd=5;addFloor(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		//y=2
-		y=1;x=0;
+		y=2;x=0;
 		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=5;addFloor(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		//y=3
-		y=1;x=0;
+		y=3;x=0;
 		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=5;addFloor(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		//y=4
-		y=1;x=0;
+		y=4;x=0;
 		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=5;addFloor(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		//y=5
-		y=1;x=0;
+		y=5;x=0;
 		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=5;addFloor(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=1;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		//y=6
-		y=1;x=0;
+		y=6;x=0;
 		toAdd=3;addWall(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=1;addFloor(tiles,toAdd,x,y);x=x+toAdd;
 		toAdd=3;addWall(tiles,toAdd,x,y);x=x+toAdd;
