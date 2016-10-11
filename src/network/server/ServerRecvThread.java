@@ -7,13 +7,18 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.NetworkInterface;
 
 import model.Character;
 import model.Enemy;
+import model.Entity;
 import model.Player;
+import model.Portal;
 import model.Interaction;
+import model.KeyGate;
 import network.Protocol;
 import network.Protocol.Event;
+import util.Coord;
 
 /**
  * Server worker thread for handling a single client

@@ -15,7 +15,26 @@ import datastorage.Storable;
  */
 public abstract class Interaction implements Storable, Serializable {
 	private static final long serialVersionUID = -8279745242900716669L;
+	private Entity entity;
 
+	/**
+	 * Returns the target entity of this interaction
+	 * 
+	 * @return
+	 */
+	public Entity getEntity() {
+		return this.entity;
+	}
+	
+	/**
+	 * Set the target entity of this interaction
+	 * 
+	 * @return
+	 */
+	public void setEntity(Entity entity) {
+		this.entity = entity;
+	}
+	
 	/**
 	 * Returns the human-readable text of this interaction.
 	 * Note that this does not necessarily return the same

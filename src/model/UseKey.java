@@ -15,12 +15,11 @@ import datastorage.Storable;
  */
 public class UseKey extends Interaction implements Serializable {
 	private static final long serialVersionUID = 2006816371515001453L;
-	private KeyGate keyGate;
 	
 	public UseKey(KeyGate keyGate){
-		this.keyGate = keyGate;
+		setEntity(keyGate);
 	}
-
+	
 	@Override
 	public String getText() {
 		return "Use Key";
@@ -28,6 +27,9 @@ public class UseKey extends Interaction implements Serializable {
 
 	@Override
 	public String execute(Player p) {
+		// get keygate
+		KeyGate keyGate = (KeyGate)getEntity();
+		
 		// get player inventory
 		Item[] pInven = p.getInventory().getItems();
 		Key matchKey = null;
@@ -60,7 +62,7 @@ public class UseKey extends Interaction implements Serializable {
 	public boolean equals(Object o){
 		if(o instanceof UseKey){
 			UseKey uk = (UseKey) o;
-			if(this.keyGate.getCoord().equals(uk.keyGate.getCoord()))
+			if(getEntity().getCoord().equals(uk.getEntity().getCoord()))
 				return super.equals(o);
 		}
 		return false;
