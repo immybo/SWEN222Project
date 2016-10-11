@@ -47,9 +47,6 @@ public class ClientThread extends Thread{
 		} else if (readObj instanceof Inventory) {
 			Inventory newInv = (Inventory)readObj;
 			panel.setInventory(newInv);
-		} else if (readObj instanceof Player) {
-			Player newPlayer = (Player)readObj;
-			panel.setPlayer(newPlayer);
 		} else if (readObj instanceof Event) {
 			Event packetType = (Event)readObj;
 			switch (packetType) {

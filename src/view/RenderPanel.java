@@ -31,7 +31,7 @@ public class RenderPanel extends JPanel {
     private AffineTransform isoTransform;
     private GameListener listener;
     private DrawDirection drawDirection = DrawDirection.NW;
-    private Player player;
+    private long playerID;
     
     private JPopupMenu interactionMenu;
 
@@ -49,11 +49,21 @@ public class RenderPanel extends JPanel {
         this.inventory = inventory;
     }
     
-    public void setPlayer(Player player){
-    	this.player = player;
+    /**
+     * Get the player the view controls
+     * @return
+     */
+    protected Player getPlayer() {
+		return (Player)zone.getCharacterFromID(playerID);
     }
     
-    
+    /**
+     * Set the player the view controls using an ID
+     * @param id
+     */
+	public void setPlayer(long id) {
+		this.playerID = id;
+	}
     
     private AffineTransform transformForDirection(DrawDirection d) {
     	
@@ -267,24 +277,4 @@ public class RenderPanel extends JPanel {
             }
         }
     }
-
-    /**
-     * Get the player the view controls
-     * @return
-     */
-    protected Player getPlayer() {
-    	return this.player;
-    }
-    
-    /**
-     * Set the player the view controls using an ID
-     * @param id
-     */
-	public void setPlayer(long id) {
-		Character c = zone.getCharacterFromID(id);
-		if (!(c instanceof Player)) {
-			System.err.println("Character not instance of a player, bail");
-		}
-		this.player = (Player)c;
-	}
 }
