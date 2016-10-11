@@ -239,7 +239,7 @@ public class RenderPanel extends JPanel {
     public Point getWorldCoordinate(Point screenCoordinate) throws NoninvertibleTransformException{
     	Point2D inverseTrans = new Point2D.Double();
     	isoTransform.createInverse().transform(new Point2D.Double(screenCoordinate.x, screenCoordinate.y), inverseTrans);
-    	return new Point((int)(inverseTrans.getX()/TILE_WIDTH), (int)(inverseTrans.getY()/TILE_HEIGHT));
+    	return new Point((int)(inverseTrans.getX()/TILE_WIDTH - 0.5), (int)(inverseTrans.getY()/TILE_HEIGHT + 0.5));
     }
     
     public Point getScreenCoordinate(double worldX, double worldY){
