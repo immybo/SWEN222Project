@@ -111,13 +111,26 @@ public class ServerRecvThread extends Thread {
 				player.rotate(false);
 				break;
 			case INTERACT:
+				/* read and validate next object */
 				readObj = in.readObject();
 				if (readObj == null || !(readObj instanceof Interaction)) {
 					System.err.println("Received malformed interaction in interact command");
 					break;
 				}
+				
+				/* perform the cast. */
 				Interaction interaction = (Interaction)readObj;
+				
+				/* translate the interaction's target object into an object from the world */
+				if (interaction.getEntity() != null) {
+					long id = interaction.getEntity().getID();
+					Entity newTarget = player.getZone().getEntityFromID(id);
+					interaction.setEntity(newTarget);
+				}
+				
 				String message = interaction.execute(player);
+				
+				/* send any message from the interaction back to client */
 				if (message != null && message.length() != 0) {
 					out.writeObject(Event.POPUP_MESSAGE);
 					out.writeUTF(message);

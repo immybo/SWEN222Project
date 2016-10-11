@@ -638,5 +638,13 @@ public class Zone implements Storable, Serializable {
 	public String getName(){
 		return this.name;
 	}
+
+	public Entity getEntityFromID(long id) {
+		for (Entity e : getEntities()) {
+			if (e.getID() == id)
+				return e;
+		}
+		return null;
+	}
 	
 }
