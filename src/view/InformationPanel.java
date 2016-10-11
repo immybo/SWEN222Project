@@ -62,11 +62,15 @@ public class InformationPanel extends JPanel {
 
 		saveButton = new JButton("Save Game");
 		saveButton.addActionListener((ActionEvent e)->{
+			if(gameFrame.getRenderPanel() == null) return;
+			
 			saveGame();
 		});
 
 		loadButton = new JButton("Load Game");
 		loadButton.addActionListener((ActionEvent e)->{
+			if(gameFrame.getRenderPanel() == null) return;
+			
 			int result = JOptionPane.showConfirmDialog(this.getParent(), "Are you sure you want to exit this game and load another?",
 					"", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 			if(result == 0)
@@ -75,12 +79,14 @@ public class InformationPanel extends JPanel {
 		
 		rotateButton = new JButton("<- Rotate View");
 		rotateButton.addActionListener((ActionEvent e)->{
-			gameFrame.getRenderPanel().rotateAntiClockwise();
+			if(gameFrame.getRenderPanel() != null)
+				gameFrame.getRenderPanel().rotateAntiClockwise();
 		});
 		
 		rotateAntiButton = new JButton("Rotate View ->");
 		rotateAntiButton.addActionListener((ActionEvent e)->{
-			gameFrame.getRenderPanel().rotateClockwise();
+			if(gameFrame.getRenderPanel() != null)
+				gameFrame.getRenderPanel().rotateClockwise();
 		});
 		
 		try{

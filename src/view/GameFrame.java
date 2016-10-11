@@ -1,5 +1,6 @@
 package view;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import model.World;
@@ -8,6 +9,8 @@ import network.NetworkError;
 import network.client.Client;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
 
@@ -36,26 +39,84 @@ public class GameFrame extends JFrame {
     // For example, their inventory, health
     private InformationPanel informationPanel;
 	private Client client;
+	
+	private JPanel splashScreenPanel;
+	private boolean allConnected;
 
     /**
      * Internal constructor for GameFrame.
      */
     private GameFrame(){
-        setSizeDefault();
-        this.setTitle("The Adventures of Pupo and Yelo");
+    	allConnected = false;
+    	
         this.setLayout(new BorderLayout());
         this.setDefaultCloseOperation(EXIT_ON_CLOSE);
         
-        canvas = new RenderPanel();
-        informationPanel = new InformationPanel(this);
-
-        this.add(canvas, BorderLayout.CENTER);
-        this.add(informationPanel, BorderLayout.EAST);
+		setSizeDefault();
+		
+        this.setTitle("The Adventures of Pupo and Yelo");
         
-        ImageIcon img = new ImageIcon("images/icon.png");
+        ImageIcon img = new ImageIcon("images/pupoIcon.png");
         this.setIconImage(img.getImage());
 
+        informationPanel = new InformationPanel(this);
+        this.add(informationPanel, BorderLayout.EAST);
+        
+        canvas = new RenderPanel();
+    	
+    	try {
+			splashScreenPanel = new JPanel(){
+				private final BufferedImage image = ImageIO.read(new File("images/splashScreen.png"));
+				
+				@Override
+				public void paint(Graphics g){
+					super.paint(g);
+					g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
+					
+					g.setColor(Color.WHITE);
+					
+					String drawString = "";
+					if(client == null){
+						drawString = "Please connect to a server.";
+					} else {
+						drawString = "Waiting for other player.";
+					}
+					
+					g.setFont(new Font("Arial", Font.BOLD, 32));
+					
+					int width = this.getWidth();
+					int height = this.getHeight();
+
+					int stringWidth = g.getFontMetrics().stringWidth(drawString);
+					int stringX = (width - stringWidth) / 2;
+					int stringY = height - 50;
+					
+					g.drawString(drawString, stringX, stringY);
+				}
+			};
+			
+	    	this.add(splashScreenPanel, BorderLayout.CENTER);
+	    	pack();
+	    	
+		} catch (IOException e) {
+			initialiseFrameForGame();
+		}
+    }
+    
+    public void setAllConnected(){
+    	if(!allConnected){
+    		allConnected = true;
+	    	initialiseFrameForGame();
+    	}
+    }
+    
+    private void initialiseFrameForGame(){
+    	splashScreenPanel.setVisible(false);
+    	this.remove(splashScreenPanel);
+        this.add(canvas, BorderLayout.CENTER);
+    	canvas.setVisible(true);
         pack();
+        repaint();
     }
 
     /**
@@ -67,6 +128,10 @@ public class GameFrame extends JFrame {
     	Dimension prefSize = this.getPreferredSize();
         informationPanel.setPreferredSize(new Dimension(
                 (int)(prefSize.getWidth()*INFORMATION_PANEL_WIDTH), (int)prefSize.getHeight()
+        ));
+        
+        splashScreenPanel.setPreferredSize(new Dimension(
+                (int)(prefSize.getWidth()*(1-INFORMATION_PANEL_WIDTH)), (int)prefSize.getHeight()
         ));
         canvas.setPreferredSize(new Dimension(
                 (int)(prefSize.getWidth()*(1-INFORMATION_PANEL_WIDTH)), (int)prefSize.getHeight()
@@ -150,6 +215,7 @@ public class GameFrame extends JFrame {
 			}
 		});
 		client.run();
+		repaint();
 	}
 	
 	/**
