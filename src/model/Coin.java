@@ -40,6 +40,10 @@ public class Coin extends Item {
 		return elem;
 	}
 	
+	public String toString() {
+		return "Coin";
+	}
+	
 	public static class Factory implements StorableFactory<Coin> {
 		@Override
 		public Coin fromXMLElement(Element elem) {
