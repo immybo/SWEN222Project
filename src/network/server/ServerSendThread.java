@@ -26,9 +26,11 @@ public class ServerSendThread extends Thread {
 		boolean running = true;
 		while(running) {
 			try {
+				int currentTick = 0;
 				synchronized (parentServer) {
 					/* FIXME don't tick inside server thread; don't want 2 ticks at a time */
-					world.tick();
+					if(currentTick % 4 == 0)
+						world.tick();
 					if (world.checkForGameWin()) {
 						parentServer.win();
 					}

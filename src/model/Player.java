@@ -165,6 +165,7 @@ public class Player extends Character implements Storable, Serializable {
 	 */
 	public void moveToPoint(Point newPoint){
 		toMove = newPoint;
+		tick();
 	}
 	
 	/**
