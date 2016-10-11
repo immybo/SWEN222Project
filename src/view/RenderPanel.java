@@ -1,9 +1,5 @@
 package view;
-import model.Interactable;
-import model.Interaction;
-import model.Inventory;
-import model.Zone;
-import model.ZoneDrawInfo;
+import model.*;
 import network.client.Client;
 import util.PointD;
 
@@ -168,14 +164,6 @@ public class RenderPanel extends JPanel {
         Graphics2D g2 = (Graphics2D)g; //so we can do the fancy transform stuff
         g2.setColor(Color.GRAY);
         g2.fillRect(0, 0, getWidth(), getHeight());
-//        g2.setTransform(isoTransform);
-//        for (int i = 0;i < 10; i++) {
-//            for (int j = 0; j < 10; j++) {
-//                g2.drawRect(i*20,j*20,20,20);
-//            }
-//        }
-
-
 
         //DRAFT IMAGE
         if (zone == null) {
@@ -189,8 +177,6 @@ public class RenderPanel extends JPanel {
         drawQueue.addAll(zone.getItems());
         drawQueue.addAll(zone.getCharacters());
 
-
-
         while (!drawQueue.isEmpty()) {
         	Drawable d = drawQueue.poll();
             String filename = d.getDrawImagePath(drawDirection);
@@ -202,6 +188,16 @@ public class RenderPanel extends JPanel {
                 BufferedImage img = ImageIO.read(new File(filename));
                 g2.drawImage(img, (int)drawPoint.getX(), (int)(drawPoint.getY()-d.getYOffset()), null);
                 //g2.drawString(""+d.getDepthOffset(), (int)drawPoint.getX(), (int)(drawPoint.getY()));
+                
+                if(d instanceof Enemy){
+                	Enemy enemy = (Enemy)d;
+                	double proportion = (double)enemy.getRemainingHealth() / enemy.getMaxHealth();
+
+                	g2.setColor(proportion > 0.66 ? Color.GREEN : proportion > 0.33 ? Color.YELLOW : Color.RED);
+                	g2.fillRect((int)drawPoint.getX() + 20, (int)drawPoint.getY() - 40, (int)(50*proportion), 10);
+                	g2.setColor(Color.BLACK);
+                	g2.drawRect((int)drawPoint.getX() + 20, (int)drawPoint.getY() - 40, 50, 10);
+                }
             } catch (IOException e) {
                 System.err.println("Renderer: Image "+filename+" not found");
             }
