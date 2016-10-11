@@ -38,16 +38,15 @@ is provided.
 
 CONTROLS & GAME INFO
 
-W and S move the controlled character forwards and backwards. A and D
-rotate the character counterclockwise and clockwise. Alternatively, you
-can left click anywhere on the map, and the character will attempt to move
+You can left click anywhere on the map, and the character will attempt to move
 there. If the character can't move there, nothing will happen. If you left
 click on an enemy, the character will attempt to attack it.
 
 Right clicking on some objects will bring up a menu of interactions only
 if that player is next to that object. The player can invoke an interaction
 on that object; for example, a gate might have an unlock interaction. Left
-click any of the interactions in the menu to activate it.
+click any of the interactions in the menu to activate it. This basically
+includes everything the player can do except for moving and attacking.
 
 Clicks are processed at the base of their tile; e.g., if a lamppost sticks 
 up high, you must click on/near its base to interact with it.
@@ -62,4 +61,5 @@ different zones.
 OBJECTIVE
 
 Once Pupo and Yelo are on adjacent tiles to one another, the game will end
-in victory.
+in victory. This will pop up a message and... nothing much else will happen;
+we didn't implement an exciting end to our game.
