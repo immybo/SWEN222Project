@@ -12,6 +12,7 @@ import datastorage.Storable;
  * Must be attached to an entity
  *
  * @author Robert Campbell
+ * @author Martin Chau
  */
 public abstract class Interaction implements Storable, Serializable {
 	private static final long serialVersionUID = -8279745242900716669L;

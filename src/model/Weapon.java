@@ -31,5 +31,8 @@ public abstract class Weapon extends Item{
 		super(elem);
 	}
 	
+	/**
+	 * Returns the damage value of this weapon
+	 */
 	public abstract int getDamage();
 }
