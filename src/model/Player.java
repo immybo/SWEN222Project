@@ -140,7 +140,8 @@ public class Player extends Character implements Storable, Serializable {
 		if(ok){
 			for(Item item : getZone().getItems(this.getCoord().getPoint())){
 				item.onCollision(this);
-				getZone().removeItem(item);
+				if(item.getPosition() == null)
+					getZone().removeItem(item);
 			}
 		}
 		
