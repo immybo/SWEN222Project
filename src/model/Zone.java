@@ -248,9 +248,12 @@ public class Zone implements Storable, Serializable {
 		Entity entity = this.getEntity(point);
 		boolean isPassable = true;
 		if(entity != null) isPassable = entity.isPassable();
-		if(!isPassable) return true;
+		if(!isPassable) {
+			return true;
+		}
 		for(Character c: getCharacters()){
 			if(c.getCoord().getPoint().equals(point)){
+				System.out.println(c);
 				return true;
 			}
 		}
@@ -276,7 +279,6 @@ public class Zone implements Storable, Serializable {
 			if(point.equals(i)) nextTo = true;
 		}
 		if(nextTo == false) {
-			System.out.println(p + "//" + point);
 			return null;
 		}
 		Entity matchEntity = null;

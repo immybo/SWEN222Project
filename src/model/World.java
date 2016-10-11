@@ -604,6 +604,8 @@ public class World implements Storable {
 		//Slime 
 		Slime slime1 = new Slime(zones[4], new Coord(new Direction(Direction.SOUTH),new Point(3,3)));
 		zones[4].addCharacter(slime1);
+		//Sword
+		zones[4].addItem(new Sword(new Point(5,5)));
 		
 		//characters
 		Player pupo = new Player(zones[0], new Coord(new Direction(Direction.EAST), new Point(1,1)), true);
