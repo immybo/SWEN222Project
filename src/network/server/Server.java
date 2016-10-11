@@ -24,7 +24,7 @@ public class Server {
 	private World world;
 	private Player[] players;
 	private Thread[] workerThreads;
-	private Thread tickThread;
+	private TickThread tickThread;
 	private Thread sendThread;
 	
 	/**
@@ -254,7 +254,7 @@ public class Server {
 		
 		/* join the world tick thread */
 		try {
-			/* FIXME tell the thread to stop */
+			tickThread.setRunning(false);
 			tickThread.join();
 		} catch (InterruptedException e) {
 			/* don't care */
