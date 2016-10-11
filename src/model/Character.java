@@ -51,9 +51,11 @@ public abstract class Character implements Serializable, Storable, Drawable {
 	protected Character(Element elem, Zone[] zones) {
 		this.coord = Coord.fromString(elem.getAttribute("coord"));
 		long zoneID = Long.parseLong(elem.getAttribute("zoneID"));
-		for (Zone z : zones) {
-			if (z.getID() == zoneID)
-				this.zone = z;
+		for (int i = 0; i < zones.length ; i++) {
+			if (zones[i].getID() == zoneID){
+				this.zone = zones[i];
+				break;
+			}
 		}
 		this.id = nextID++;
 	}

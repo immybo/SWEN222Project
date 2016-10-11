@@ -81,7 +81,6 @@ public class Zone implements Storable, Serializable {
 		int i = 0;
 		NodeList children = elem.getChildNodes();
 		for(; i < width*height; i++){
-			String positionString = children.item(i).getNodeName().substring(4);
 			int x = Integer.parseInt(((Element)children.item(i)).getAttribute("xpos"));
 			int y = Integer.parseInt(((Element)children.item(i)).getAttribute("ypos"));
 			tiles[y][x] = factory.fromXMLElement((Element)children.item(i));
@@ -108,9 +107,6 @@ public class Zone implements Storable, Serializable {
 			this.characters.add(character);
 		}
 
-		// Make sure IDs don't overlap
-		if(id >= nextID)
-			nextID = id + 1;
 	}
 	
 	public int getWidth(){
@@ -543,7 +539,6 @@ public class Zone implements Storable, Serializable {
 		elem.setAttribute("height", tiles.length+"");
 		for(int x = 0; x < tiles[0].length; x++){
 			for(int y = 0; y < tiles.length; y++){
-				System.out.println("tile " + x+" "+y + " " + this.getName());
 				elem.appendChild(tiles[y][x].toXMLElement(doc));
 			}
 		}
@@ -575,24 +570,40 @@ public class Zone implements Storable, Serializable {
 	public boolean equals(Object other){
 		if(other instanceof Zone){
 			Zone zone = (Zone)other;
-
+			System.out.println(this.name + " " + zone.name);
 			// If the basic attributes are the same, they can't be the same
+			System.out.println("Name");
 			if(!zone.name.equals(name))
 				return false;
+			System.out.println("Tiles");
 			if(zone.tiles[0].length != tiles[0].length || zone.tiles.length != tiles.length)
 				return false;
 
 			// Otherwise just make sure every single tile is equal in both
 			for(int x = 0; x < tiles[0].length; x++){
 				for(int y = 0; y < tiles.length; y++){
+					
 					if(!zone.tiles[y][x].equals(tiles[y][x])){
 						return false;
 					}
 				}
 			}
-			if(!this.entities.equals(zone.entities)) return false;
+			System.out.println("Entities");
+			if(!(zone.entities.containsAll(this.entities)))return false;
+			//if(!this.entities.equals(zone.entities)) return false;
+			/*for(Entity e : this.entities){
+				System.out.println(e.toString());
+				if(!zone.entities.contains(e))return false;
+			}
+			System.out.println("First half done");
+			for(Entity e : zone.entities){
+				if(!this.entities.contains(e))return false;
+			}*/
+			System.out.println("items");
 			if(!this.items.equals(zone.items)) return false;
+			System.out.println("characters");
 			if(!this.characters.equals(zone.characters)) return false;
+			
 			return true;
 		}
 		return false;

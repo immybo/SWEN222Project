@@ -56,7 +56,7 @@ public class InspectWithItem extends Interaction implements Storable, Serializab
 	public boolean equals(Object o){
 		if(o instanceof InspectWithItem){
 			InspectWithItem i = (InspectWithItem) o;
-			if(this.entity.equals(i.entity) && this.item.equals(i.item)
+			if(this.entity.getCoord().equals(i.entity.getCoord()) && this.item.equals(i.item)
 					&& this.giveDescription.equals(i.giveDescription) && this.altDescription.equals(i.altDescription)){
 				return super.equals(o);
 			}
@@ -80,7 +80,7 @@ public class InspectWithItem extends Interaction implements Storable, Serializab
 			String giveDescription = elem.getAttribute("giveDescription");
 			String altDescription = elem.getAttribute("altDescription");
 			NodeList nl = elem.getChildNodes();
-			Item item = new Item.Factory().fromNode(nl.item(1));
+			Item item = new Item.Factory().fromNode(nl.item(0));
 			return new InspectWithItem(item, giveDescription, altDescription);
 		}
 	}

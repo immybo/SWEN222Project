@@ -22,12 +22,16 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 	public Entity(Zone zone, Coord worldPosition, Inventory inventory) {
 		this.zone = zone;
 		this.worldPosition = worldPosition;
-		this.inventory = inventory;
+		if(inventory == null)
+			this.inventory = new Inventory(0);
+		else
+			this.inventory = inventory;
 	}
 
 	protected Entity(Element elem, Zone[] zones){
 		this.worldPosition = Coord.fromString(elem.getAttribute("coord"));
 		long zoneID = Long.parseLong(elem.getAttribute("zoneID"));
+		this.drawImagePath = elem.getAttribute("draw");
 		for (Zone z : zones) {
 			if (z.getID() == zoneID)
 				this.zone = z;
@@ -111,6 +115,7 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 		Element elem = doc.createElement(type);
 		elem.setAttribute("zoneID", zone.getID()+"");
 		elem.setAttribute("coord", worldPosition.toString());
+		elem.setAttribute("draw", drawImagePath);
 		if(inventory!=null)
 			elem.appendChild(inventory.toXMLElement(doc));
 		for(Interaction inter : this.getInteractions()){
@@ -130,7 +135,7 @@ public abstract class Entity extends Interactable implements Serializable, Drawa
 		}
 		if(o instanceof Entity){
 			Entity e = (Entity) o;
-			if(this.zone.equals(e.zone) && this.worldPosition.equals(e.worldPosition) && this.inventory.equals(e.inventory)){
+			if(this.zone.getID() == e.zone.getID() && this.worldPosition.equals(e.worldPosition) && this.inventory.equals(e.inventory)){
 				return super.equals(o);
 			}
 		}

@@ -2,6 +2,9 @@ package model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 import datastorage.Storable;
 
@@ -55,7 +58,7 @@ public abstract class Interactable implements Serializable, Storable {
 	public boolean equals(Object o){
 		if(o instanceof Interactable){
 			Interactable i = (Interactable) o;
-			return this.interactions.equals(i.interactions);
+			return this.interactions.containsAll(i.interactions);// && i.interactions.containsAll(this.interactions);
 		}
 		return false;
 	}

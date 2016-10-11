@@ -244,20 +244,23 @@ public abstract class Item implements Storable, Serializable, Drawable {
 	
 	public static class Factory implements StorableFactory<Item> {
 
-		@Override
-		public Item fromXMLElement(Element elem) {
-			return null;
-		}
+		
 		
 		public Item fromNode(Node n){
 			switch(n.getNodeName()){
 			case "Key":
-				return new Key.Factory().fromXMLElement((Element) n);
+				return new Key.KeyFactory().fromXMLElement((Element) n);
 			case "Coin":
 				return new Coin.Factory().fromXMLElement((Element) n);
 			case "Sword":
 				return new Sword.Factory().fromXMLElement((Element) n);
 			}
+			return null;
+		}
+
+		@Override
+		public Item fromXMLElement(Element elem) {
+			// TODO Auto-generated method stub
 			return null;
 		}
 	}

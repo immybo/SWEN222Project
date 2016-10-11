@@ -70,7 +70,7 @@ public class UsePortal extends Interaction implements Serializable {
 	public boolean equals(Object o){
 		if(o instanceof UsePortal){
 			UsePortal up = (UsePortal) o;
-			if(this.portal.equals(up.portal))
+			if(this.portal.getCoord().equals(up.portal.getCoord()))
 				return super.equals(o);
 		}
 		return false;

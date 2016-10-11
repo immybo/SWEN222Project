@@ -35,6 +35,7 @@ public class World implements Storable {
 		// get all portals
 		List<Portal> portals = new ArrayList<Portal>();
 		for(Zone z: zones){
+			if(z == null) continue;
 			List<Entity> entities = z.getEntities();
 			for(Entity e: entities){
 				if(e instanceof Portal){
@@ -135,7 +136,7 @@ public class World implements Storable {
 		@Override
 		public World fromXMLElement(Element elem) {
 			String name = elem.getAttribute("name");
-			Zone[] zones = new Zone[elem.getChildNodes().getLength()];
+			Zone[] zones = new Zone[elem.getChildNodes().getLength()-2];
 			int i = 0;
 			for(; i < elem.getChildNodes().getLength() - 2 ; i++ )
 				zones[i] = new Zone.ZoneFactory().fromXMLElement((Element) elem.getChildNodes().item(i));

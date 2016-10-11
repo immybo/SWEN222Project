@@ -79,7 +79,7 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 	public boolean equals(Object o){
 		if(o instanceof BuyItem){
 			BuyItem i = (BuyItem) o;
-			if(this.entity.equals(i.entity) && this.item.equals(i.item)
+			if(this.entity.getCoord().equals(i.entity.getCoord()) && this.item.equals(i.item)
 					&& this.itemName.equals(i.itemName) && this.cost == i.cost){
 				return super.equals(o);
 			}
@@ -103,7 +103,7 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 			String itemName = elem.getAttribute("itemName");
 			int cost = Integer.parseInt(elem.getAttribute("cost"));
 			NodeList nl = elem.getChildNodes();
-			Item item = new Item.Factory().fromNode(nl.item(1));
+			Item item = new Item.Factory().fromNode(nl.item(0));
 			return new BuyItem(item, itemName, cost);
 		}
 	}
