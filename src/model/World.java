@@ -652,5 +652,12 @@ public class World implements Storable {
 			tiles[startY][startX+i] = new FloorTile(new Point(startX + i,startY));
 		}
 	}
+	public Zone getZoneByID(long id) {
+		for (Zone z : getZones()) {
+			if (z.getID() == id)
+				return z;
+		}
+		return null;
+	}
 
 }

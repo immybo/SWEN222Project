@@ -14,6 +14,8 @@ import model.Enemy;
 import model.Entity;
 import model.Player;
 import model.Portal;
+import model.UsePortal;
+import model.Zone;
 import model.Interaction;
 import model.KeyGate;
 import network.Protocol;
@@ -120,6 +122,25 @@ public class ServerRecvThread extends Thread {
 				
 				/* perform the cast. */
 				Interaction interaction = (Interaction)readObj;
+				
+				/* special case for portals. fix their zones */
+				if (interaction instanceof UsePortal) {
+					UsePortal up = (UsePortal)interaction;
+					Portal from = up.getPortal();
+					Portal to = from.getPairPortal();
+					from.getZone();
+					
+					/* construct two new portals based off old ones,
+					 * but set zone properly */
+					Zone fromZone = parentServer.getWorld().getZoneByID(from.getZone().getID());
+					Zone toZone = parentServer.getWorld().getZoneByID(to.getZone().getID());
+					
+					Portal fixedFrom = new Portal(fromZone, from.getCoord(), from.getPortalID());
+					Portal fixedTo = new Portal(toZone, to.getCoord(), to.getPortalID());
+					fixedFrom.setPairPortal(fixedTo);
+					fixedTo.setPairPortal(fixedFrom);
+					interaction = new UsePortal(fixedFrom);
+				}
 				
 				/* translate the interaction's target object into an object from the world */
 				if (interaction.getEntity() != null) {

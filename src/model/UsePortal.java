@@ -29,6 +29,10 @@ public class UsePortal extends Interaction implements Serializable {
 	public UsePortal(Portal portal){
 		this.portal = portal;
 	}
+	
+	public Portal getPortal() {
+		return this.portal;
+	}
 
 	@Override
 	public String getText() {
