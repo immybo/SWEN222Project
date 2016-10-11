@@ -6,6 +6,10 @@ import org.w3c.dom.*;
  * Defines a class which can construct objects from
  * XML elements.
  * 
+ * Implements the AbstractFactory pattern (kind of!).
+ * Certainly implements the Factory pattern for a lot
+ * of classes.
+ * 
  * @author Robert Campbell
  * @author Joshua Hurst
  *
