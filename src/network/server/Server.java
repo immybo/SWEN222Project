@@ -160,6 +160,7 @@ public class Server {
 				if (doHandshake(ins[clientCount], outs[clientCount])) {
 					System.out.println("Magic phrase exchange succeeded");
 					clientSocks[clientCount] = client;
+					outs[clientCount].writeObject(players[clientCount].getZone());
 					outs[clientCount].writeObject(Event.YOUR_CHARACTER_ID);
 					outs[clientCount].writeLong(players[clientCount].getID());
 					clientCount++;
