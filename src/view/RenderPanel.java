@@ -31,7 +31,7 @@ public class RenderPanel extends JPanel {
     private AffineTransform isoTransform;
     private GameListener listener;
     private DrawDirection drawDirection = DrawDirection.NW;
-    protected Player player;
+    private Player player;
     
     private JPopupMenu interactionMenu;
 
@@ -262,6 +262,18 @@ public class RenderPanel extends JPanel {
         }
     }
 
+    /**
+     * Get the player the view controls
+     * @return
+     */
+    protected Player getPlayer() {
+    	return this.player;
+    }
+    
+    /**
+     * Set the player the view controls using an ID
+     * @param id
+     */
 	public void setPlayer(long id) {
 		Character c = zone.getCharacterFromID(id);
 		if (!(c instanceof Player)) {
