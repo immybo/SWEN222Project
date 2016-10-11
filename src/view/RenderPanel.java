@@ -80,33 +80,29 @@ public class RenderPanel extends JPanel {
     		rotation = Math.PI*0.25;
     		t = AffineTransform.getRotateInstance(rotation);
             t.preConcatenate(AffineTransform.getScaleInstance(1,0.574)); //Magic numbers are bad but oh well
-            isoTransform = t;
-    		transX = (getScreenCoordinate(zone.getWidth(),0).getX() - getScreenCoordinate(0,zone.getHeight()).getX())/2;
+    		transX = (getTransformedCoordinate(t,zone.getWidth(),0).getX() - getTransformedCoordinate(t,0,zone.getHeight()).getX())/2;
     		transY = 20;
     		break;
     	case NE:
     		rotation = 7*(Math.PI*0.25);
     		t = AffineTransform.getRotateInstance(rotation);
             t.preConcatenate(AffineTransform.getScaleInstance(1,0.574)); //Magic numbers are bad but oh well
-            isoTransform = t;
             transX = 0;
-    		transY = ((getScreenCoordinate(0,zone.getHeight()).getY() - getScreenCoordinate(zone.getWidth(),0).getY())/2)+20;
+    		transY = ((getTransformedCoordinate(t,0,zone.getHeight()).getY() - getTransformedCoordinate(t,zone.getWidth(),0).getY())/2)+20;
     		break;
     	case SE:
     		rotation = 5*Math.PI*0.25;
     		t = AffineTransform.getRotateInstance(rotation);
             t.preConcatenate(AffineTransform.getScaleInstance(1,0.574)); //Magic numbers are bad but oh well
-            isoTransform = t;
-            transX = (getScreenCoordinate(0,zone.getHeight()).getX() - getScreenCoordinate(zone.getWidth(),0).getX())/2;
-            transY = (getScreenCoordinate(0,0).getY() - getScreenCoordinate(zone.getWidth(),zone.getHeight()).getY());
+            transX = (getTransformedCoordinate(t,0,zone.getHeight()).getX() - getTransformedCoordinate(t,zone.getWidth(),0).getX())/2;
+            transY = (getTransformedCoordinate(t,0,0).getY() - getTransformedCoordinate(t,zone.getWidth(),zone.getHeight()).getY());
     		break;
     	case SW:
     		rotation = 3*(Math.PI*0.25);
     		t = AffineTransform.getRotateInstance(rotation);
             t.preConcatenate(AffineTransform.getScaleInstance(1,0.574)); //Magic numbers are bad but oh well
-            isoTransform = t;
-            transX = (getScreenCoordinate(0,0).getX() - getScreenCoordinate(zone.getWidth(),zone.getHeight()).getX());
-            transY = ((getScreenCoordinate(zone.getWidth(),0).getY() - getScreenCoordinate(0,zone.getHeight()).getY())/2);
+            transX = (getTransformedCoordinate(t,0,0).getX() - getTransformedCoordinate(t,zone.getWidth(),zone.getHeight()).getX());
+            transY = ((getTransformedCoordinate(t,zone.getWidth(),0).getY() - getTransformedCoordinate(t,0,zone.getHeight()).getY())/2);
     		break;
     	}
     	
@@ -241,6 +237,15 @@ public class RenderPanel extends JPanel {
     	return trans;
     }
     
+    private Point2D applyGivenTransform(AffineTransform t, double x, double y) {
+    	if (t == null) {
+    		return new Point2D.Double(0,0);
+    	}
+    	Point2D trans = new Point2D.Double();
+    	t.transform(new Point2D.Double(x,y), trans);
+    	return trans;
+    }
+    
     /**
      * Transforms a coordinate from one on the screen to one
      * in the world, according to the transformation applied
@@ -256,8 +261,8 @@ public class RenderPanel extends JPanel {
     	return new Point((int)(inverseTrans.getX()/TILE_WIDTH - 0.5), (int)(inverseTrans.getY()/TILE_HEIGHT + 0.5));
     }
     
-    public Point getScreenCoordinate(double worldX, double worldY){
-    	Point2D transformed = applyTransform(worldX * TILE_WIDTH, worldY * TILE_HEIGHT);
+    public Point getTransformedCoordinate(AffineTransform t, double worldX, double worldY){
+    	Point2D transformed = applyGivenTransform(t,worldX * TILE_WIDTH, worldY * TILE_HEIGHT);
     	return new Point((int)transformed.getX(), (int)transformed.getY());
     }
 
