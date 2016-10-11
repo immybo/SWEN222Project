@@ -104,16 +104,14 @@ public class World implements Storable {
 		interaction.execute(player);
 	}
 
-	/**
-	 * Creates an XML element of this world, appending child nodes of each of the zones, and the players
-	 * @param doc Doc in which the element will be saved
-	 * @return Element - The element created from this world
-	 */
 	@Override
 	public Element toXMLElement(Document doc) {
 		Element elem = doc.createElement("World");
 		elem.setAttribute("name", name);
+		int i = 0;
 		for(Zone z : zones){
+			System.out.println("Zone " + i);
+			i++;
 			elem.appendChild(z.toXMLElement(doc));
 		}
 		elem.appendChild(Pupo.toXMLElement(doc));
@@ -132,14 +130,7 @@ public class World implements Storable {
 	public Zone[] getZones(){
 		return this.zones;
 	}
-	
-	/**
-	 * A Factory to create a world object, and all associated objects
-	 * from the passed XML element
-	 * 
-	 * @author karam
-	 *
-	 */
+
 	public static class Factory implements StorableFactory<World> {
 
 		@Override

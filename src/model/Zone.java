@@ -262,13 +262,24 @@ public class Zone implements Storable, Serializable {
 
 	/**
 	 * Checks a specific point in this zone for an interactable.
-	 * 
+	 * Will not return anything if the player is not next to the interactable
+	 * @param player The player that is checking
 	 * @param point The point to check.
 	 * @return An interactable that was found at the point, or null if none was found.
 	 */
-	public Interactable getInteractable(Point point){
+	public Interactable getInteractable(Player player, Point point){
+		Point p = player.getCoord().getPoint();
+		ArrayList<Point> points = new ArrayList<Point>();
+		boolean nextTo = false;
+		points.add(new Point(p.x-1, p.y));
+		points.add(new Point(p.x+1, p.y));
+		points.add(new Point(p.x, p.y-1));
+		points.add(new Point(p.x, p.y+1));
+		for(Point i: points){
+			if(point.equals(i)) nextTo = true;
+		}
+		if(nextTo == false) return null;
 		Entity matchEntity = null;
-
 		//check all entities for correct position
 		for(Entity e: entities){
 			if(e.getWorldPosition().getPoint().equals(point)){
@@ -570,9 +581,12 @@ public class Zone implements Storable, Serializable {
 	public boolean equals(Object other){
 		if(other instanceof Zone){
 			Zone zone = (Zone)other;
+			System.out.println(this.name + " " + zone.name);
 			// If the basic attributes are the same, they can't be the same
+			System.out.println("Name");
 			if(!zone.name.equals(name))
 				return false;
+			System.out.println("Tiles");
 			if(zone.tiles[0].length != tiles[0].length || zone.tiles.length != tiles.length)
 				return false;
 
@@ -585,8 +599,20 @@ public class Zone implements Storable, Serializable {
 					}
 				}
 			}
+			System.out.println("Entities");
 			if(!(zone.entities.containsAll(this.entities)))return false;
+			//if(!this.entities.equals(zone.entities)) return false;
+			/*for(Entity e : this.entities){
+				System.out.println(e.toString());
+				if(!zone.entities.contains(e))return false;
+			}
+			System.out.println("First half done");
+			for(Entity e : zone.entities){
+				if(!this.entities.contains(e))return false;
+			}*/
+			System.out.println("items");
 			if(!this.items.equals(zone.items)) return false;
+			System.out.println("characters");
 			if(!this.characters.equals(zone.characters)) return false;
 			
 			return true;

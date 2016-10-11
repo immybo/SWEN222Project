@@ -38,13 +38,6 @@ public class BuyItem extends Interaction implements Storable, Serializable {
 		this.cost = cost;
 	}
 	
-	/**
-	 * Alternative constructor for loading, Entity then is set to the relevant entity
-	 * 
-	 * @param item Item that is bought
-	 * @param itemName Name of item to be bought
-	 * @param cost
-	 */
 	public BuyItem(Item item, String itemName, int cost) {
 		this.item = item;
 		this.itemName = itemName;
