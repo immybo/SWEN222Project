@@ -51,6 +51,7 @@ public class RenderPanel extends JPanel {
     
     public void setPlayer(Player player){
     	this.player = player;
+    	this.zone = player.getZone(); //TODO TEMP
     }
     
     
