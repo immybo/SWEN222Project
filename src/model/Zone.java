@@ -278,7 +278,10 @@ public class Zone implements Storable, Serializable {
 		for(Point i: points){
 			if(point.equals(i)) nextTo = true;
 		}
-		if(nextTo == false) return null;
+		if(nextTo == false) {
+			System.out.println(p + "//" + point);
+			return null;
+		}
 		Entity matchEntity = null;
 		//check all entities for correct position
 		for(Entity e: entities){
@@ -581,12 +584,9 @@ public class Zone implements Storable, Serializable {
 	public boolean equals(Object other){
 		if(other instanceof Zone){
 			Zone zone = (Zone)other;
-			System.out.println(this.name + " " + zone.name);
 			// If the basic attributes are the same, they can't be the same
-			System.out.println("Name");
 			if(!zone.name.equals(name))
 				return false;
-			System.out.println("Tiles");
 			if(zone.tiles[0].length != tiles[0].length || zone.tiles.length != tiles.length)
 				return false;
 
@@ -599,20 +599,8 @@ public class Zone implements Storable, Serializable {
 					}
 				}
 			}
-			System.out.println("Entities");
 			if(!(zone.entities.containsAll(this.entities)))return false;
-			//if(!this.entities.equals(zone.entities)) return false;
-			/*for(Entity e : this.entities){
-				System.out.println(e.toString());
-				if(!zone.entities.contains(e))return false;
-			}
-			System.out.println("First half done");
-			for(Entity e : zone.entities){
-				if(!this.entities.contains(e))return false;
-			}*/
-			System.out.println("items");
 			if(!this.items.equals(zone.items)) return false;
-			System.out.println("characters");
 			if(!this.characters.equals(zone.characters)) return false;
 			
 			return true;

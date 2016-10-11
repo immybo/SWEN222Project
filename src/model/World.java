@@ -110,7 +110,6 @@ public class World implements Storable {
 		elem.setAttribute("name", name);
 		int i = 0;
 		for(Zone z : zones){
-			System.out.println("Zone " + i);
 			i++;
 			elem.appendChild(z.toXMLElement(doc));
 		}
