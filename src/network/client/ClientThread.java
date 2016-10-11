@@ -49,6 +49,10 @@ public class ClientThread extends Thread{
 		} else if (readObj instanceof Event) {
 			Event packetType = (Event)readObj;
 			switch (packetType) {
+			case YOUR_CHARACTER_ID:
+				long ourID = in.readLong();
+				frame.getRenderPanel().setPlayer(ourID);
+				break;
 			case POPUP_MESSAGE:
 				String message = in.readUTF();
 				frame.showMessageBox(message);

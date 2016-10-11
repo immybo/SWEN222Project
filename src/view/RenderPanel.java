@@ -1,5 +1,6 @@
 package view;
 import model.*;
+import model.Character;
 import network.client.Client;
 import util.PointD;
 
@@ -30,6 +31,7 @@ public class RenderPanel extends JPanel {
     private AffineTransform isoTransform;
     private GameListener listener;
     private DrawDirection drawDirection = DrawDirection.NW;
+    protected Player player;
     
     private JPopupMenu interactionMenu;
 
@@ -260,5 +262,11 @@ public class RenderPanel extends JPanel {
         }
     }
 
-
+	public void setPlayer(long id) {
+		Character c = zone.getCharacterFromID(id);
+		if (!(c instanceof Player)) {
+			System.err.println("Character not instance of a player, bail");
+		}
+		this.player = (Player)c;
+	}
 }
