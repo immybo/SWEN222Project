@@ -79,7 +79,7 @@ public class GameListener implements KeyListener, MouseListener {
 		}
 		// Check for interactables to get the menu of
 		else if(e.getButton() == MouseEvent.BUTTON3){
-			Interactable interactable = zone.getInteractable(null, clickWorldPoint);
+			Interactable interactable = zone.getInteractable(panel.getPlayer(), clickWorldPoint);
 			if(interactable != null)
 				panel.displayInteractionMenu(e.getPoint(), interactable);
 		}
