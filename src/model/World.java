@@ -547,9 +547,9 @@ public class World implements Storable {
 		Furniture fakePortal3 = new Furniture(zones[3],new Coord(new Direction(Direction.NORTH),new Point(6,1)),null,"Dammit this portal's a fake");
 		fakePortal3.setDrawImagePath("images/portal");
 		Furniture fakePortal4 = new Furniture(zones[3],new Coord(new Direction(Direction.NORTH),new Point(2,5)),null,"Dammit this portal's a fake");
-		fakePortal3.setDrawImagePath("images/portal");
+		fakePortal4.setDrawImagePath("images/portal");
 		Furniture fakePortal5 = new Furniture(zones[3],new Coord(new Direction(Direction.NORTH),new Point(7,10)),null,"Dammit this portal's a fake");
-		fakePortal3.setDrawImagePath("images/portal");
+		fakePortal5.setDrawImagePath("images/portal");
 		zones[3].addEntity(totem3);
 		zones[3].addEntity(totem4);
 		zones[3].addEntity(totem5);

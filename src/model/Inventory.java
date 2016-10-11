@@ -146,6 +146,21 @@ public class Inventory implements Storable, Serializable {
 		}
 		return elements.toArray(new Integer[0]);
 	}
+	
+	/**
+	 * Returns the first item found that matches the type
+	 *
+	 * @param type The class whose item will be returned.
+	 * @return item that matches
+	 */
+	public Item getItemOfType(Class<? extends Item> type){
+		for(int i = 0; i< items.length; i++){
+			if(items[i] != null && items[i].getClass().equals(type)){
+				return items[i];
+			}
+		}
+		return null;
+	}
 
 	public int getStorageCapacity(){
 		return storageCapacity;
