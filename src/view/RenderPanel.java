@@ -176,7 +176,9 @@ public class RenderPanel extends JPanel {
         PriorityQueue<Drawable> drawQueue = new PriorityQueue<>(11,new DrawableComparator());
         drawQueue.addAll(zone.getTiles());
         drawQueue.addAll(zone.getEntities());
-        drawQueue.addAll(zone.getItems());
+        for(Item item : zone.getItems())
+        	if(!item.inInventory() && item.getPosition() != null)
+        		drawQueue.add(item);
         drawQueue.addAll(zone.getCharacters());
 
         while (!drawQueue.isEmpty()) {
