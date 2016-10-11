@@ -107,6 +107,10 @@ public class GameFrame extends JFrame {
     	return canvas;
     }
     
+    public InformationPanel getInformationPanel() {
+    	return informationPanel;
+    }
+    
     /**
      * Displays a dialog box with boolean options
      * to the user.

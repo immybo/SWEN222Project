@@ -4,6 +4,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import model.Inventory;
+import model.Player;
 import network.NetworkError;
 import network.client.Client;
 
@@ -34,6 +36,7 @@ public class InformationPanel extends JPanel {
 	private GameFrame gameFrame;
 	
 	private JPanel iconPanel;
+	private InventoryPanel inventoryPanel;
 
 	public InformationPanel(GameFrame gameFrame){
 		this.gameFrame = gameFrame;
@@ -111,6 +114,10 @@ public class InformationPanel extends JPanel {
 		buttonPanel.add(rotateAntiButton, 5);
 
 		this.add(buttonPanel, BorderLayout.SOUTH);
+		
+		this.inventoryPanel = new InventoryPanel();
+		this.add(inventoryPanel,BorderLayout.CENTER);
+		
 	}
 	
 	public void setClient(Client newClient){
@@ -118,8 +125,22 @@ public class InformationPanel extends JPanel {
 	}
 
 	@Override
-	public void paint(Graphics g){
-		super.paint(g);
+	public void repaint() {
+		if (gameFrame != null && gameFrame.getRenderPanel() != null) {
+			Player p = gameFrame.getRenderPanel().getPlayer();
+			if (p == null) {
+				System.out.println("RenderPanel's Player is null");
+			} else {
+				Inventory inv = p.getInventory();
+				if (inv != null){
+					inventoryPanel.showInventory(inv);
+				} else {
+					System.out.println("Player's inventory is null");
+					
+				}
+			}
+		}
+		super.repaint();
 	}
 
 	private void exitGame(){
