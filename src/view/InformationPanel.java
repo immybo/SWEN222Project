@@ -129,11 +129,27 @@ public class InformationPanel extends JPanel {
 	}
 
 	private void loadGame(){
-		System.out.println("Load game button pressed");
+		String name = JOptionPane.showInputDialog("What filename would you like to load from?");
+		if(name == null || name.length() == 0){
+			gameFrame.displayMessage("Invalid filename.");
+		}
+		try {
+			client.loadWorld(name);
+		} catch (IOException e) {
+			gameFrame.displayMessage("Could not load from file.");
+		}
 	}
 
 	private void saveGame(){
-		System.out.println("Save game button pressed");
+		String name = JOptionPane.showInputDialog("What filename would you like to save to?");
+		if(name == null || name.length() == 0){
+			gameFrame.displayMessage("Invalid filename.");
+		}
+		try {
+			client.saveWorld(name);
+		} catch (IOException e) {
+			gameFrame.displayMessage("Could not save to file.");
+		}
 	}
 
 	private void moveForward(){
