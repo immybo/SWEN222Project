@@ -42,6 +42,7 @@ public class Protocol {
 		
 		/* downlink messages */
 		POPUP_MESSAGE,
+		YOUR_CHARACTER_ID,
 		
 		/* game state actions */
 		GAME_SAVE,

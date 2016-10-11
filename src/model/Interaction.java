@@ -9,6 +9,7 @@ import datastorage.Storable;
 /**
  * Defines something with a user-readable string
  * that may be executed with regards to a game.
+ * Must be attached to an entity
  *
  * @author Robert Campbell
  */

@@ -140,7 +140,7 @@ public class GameFrame extends JFrame {
 		if (client != null) {
 			client.disconnect();
 		}
-		client = new Client(hostname);
+		client = new Client(this, hostname);
 		informationPanel.setClient(client);
 		getRenderPanel().attachToClient(client);
 		client.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {

@@ -126,6 +126,16 @@ public class Player extends Character implements Storable, Serializable {
 		return moveInstant(dir, amount);
 	}
 	
+	@Override
+	public boolean moveForward(){
+		return moveIn(this.getCoord().getFacing(), 1);
+	}
+	
+	@Override
+	public boolean moveBackwards(){
+		return moveIn(Direction.oppositeDirection(this.getCoord().getFacing()), 1);
+	}
+	
 	/**
 	 * Instantly moves this player in the given direction
 	 * by the given amount.
@@ -140,7 +150,8 @@ public class Player extends Character implements Storable, Serializable {
 		if(ok){
 			for(Item item : getZone().getItems(this.getCoord().getPoint())){
 				item.onCollision(this);
-				getZone().removeItem(item);
+				if(item.getPosition() == null)
+					getZone().removeItem(item);
 			}
 		}
 		

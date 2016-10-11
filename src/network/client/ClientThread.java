@@ -21,12 +21,13 @@ public class ClientThread extends Thread{
 
 	/* socket connected to server and input stream */
 	private ObjectInputStream in;
-	private GameFrame frame = GameFrame.instance();
+	private GameFrame frame;
 	
 	private boolean running;
 
-	public ClientThread(ObjectInputStream in) {
+	public ClientThread(ObjectInputStream in, GameFrame frame) {
 		this.in = in;
+		this.frame = frame;
 	}
 
 
@@ -48,6 +49,10 @@ public class ClientThread extends Thread{
 		} else if (readObj instanceof Event) {
 			Event packetType = (Event)readObj;
 			switch (packetType) {
+			case YOUR_CHARACTER_ID:
+				long ourID = in.readLong();
+				frame.getRenderPanel().setPlayer(ourID);
+				break;
 			case POPUP_MESSAGE:
 				String message = in.readUTF();
 				frame.showMessageBox(message);

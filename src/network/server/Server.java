@@ -9,6 +9,7 @@ import java.net.Socket;
 
 import model.World;
 import network.Protocol;
+import network.Protocol.Event;
 import network.NetworkError;
 import model.Player;
 
@@ -159,6 +160,8 @@ public class Server {
 				if (doHandshake(ins[clientCount], outs[clientCount])) {
 					System.out.println("Magic phrase exchange succeeded");
 					clientSocks[clientCount] = client;
+					outs[clientCount].writeObject(Event.YOUR_CHARACTER_ID);
+					outs[clientCount].writeLong(players[clientCount].getID());
 					clientCount++;
 				} else {
 					System.err.println("Magic phrase exchange failed, disconnecting client");

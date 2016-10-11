@@ -27,6 +27,13 @@ public class Sword extends Weapon {
 	public Sword(Element elem) {
 		super(elem);
 	}
+	
+	@Override
+	public void onCollision(Player player){
+		super.onCollision(player);
+		player.getInventory().removeItem(this);
+		player.equipWeapon(this);
+	}
 
 	@Override
 	public int getDamage() {
