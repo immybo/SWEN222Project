@@ -49,6 +49,10 @@ public class RenderPanel extends JPanel {
         this.inventory = inventory;
     }
     
+    public void setPlayer(Player player){
+    	this.player = player;
+    }
+    
     
     
     private AffineTransform transformForDirection(DrawDirection d) {

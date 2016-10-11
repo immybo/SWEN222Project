@@ -35,6 +35,8 @@ public class ServerSendThread extends Thread {
 					
 					out.writeObject(character.getZone());
 					out.reset();
+					out.writeObject(character);
+					out.reset();
 				}
 				sleep(Protocol.UPDATE_DELAY);
 			} catch (InterruptedException | IOException e) {
