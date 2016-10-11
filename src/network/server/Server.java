@@ -220,6 +220,20 @@ public class Server {
 		System.out.println("stopped");
 	}
 	
+	
+	protected void win() {
+		for (int i = 0; i < outs.length; i++) {
+			try {
+				outs[i].writeObject(Event.POPUP_MESSAGE);
+				outs[i].writeUTF("You're winner!");
+			} catch (IOException e) {
+				/* do no thing */
+			}
+		}
+		/* broadcast went out; stop. */
+		stop();
+	}
+	
 	/**
 	 * Wait for all clients to disconnect
 	 */
