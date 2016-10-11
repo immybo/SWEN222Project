@@ -33,10 +33,10 @@ can left click anywhere on the map, and the character will attempt to move
 there. If the character can't move there, nothing will happen. If you left
 click on an enemy, the character will attempt to attack it.
 
-Right clicking on some objects will bring up a menu of interactions that
-the player can invoke on that object; for example, a gate might have
-an unlock interaction. Left click any of the interactions in the menu to
-activate it.
+Right clicking on some objects will bring up a menu of interactions only
+if that player is next to that object.The player can invoke an interaction
+on that object; for example, a gate might have an unlock interaction. Left
+click any of the interactions in the menu to activate it.
 
 Items are automatically picked up when the player walks over them, if the
 player has room in their inventory.

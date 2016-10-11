@@ -90,7 +90,7 @@ public class GameTests extends TestCase {
 		pupo.rotate(true);
 		assertTrue(pupo.moveForward());
 		assertFalse(pupo.moveForward()); // run into gate
-		Interactable interactable = pupo.getZone().getInteractable(Direction.move(pupo.getCoord().getPoint(), pupo.getCoord().getFacing(), 1));
+		Interactable interactable = pupo.getZone().getInteractable(pupo,Direction.move(pupo.getCoord().getPoint(), pupo.getCoord().getFacing(), 1));
 		if(interactable == null) fail();
 		Interaction toDo = null;
 		for(Interaction i: interactable.getInteractions()){
@@ -108,7 +108,7 @@ public class GameTests extends TestCase {
 		Zone originZone = pupo.getZone();
 		assertTrue(pupo.moveForward());
 		assertFalse(pupo.moveForward()); // should have run into portal, smash face
-		Interactable interactable = pupo.getZone().getInteractable(Direction.move(pupo.getCoord().getPoint(), pupo.getCoord().getFacing(), 1));
+		Interactable interactable = pupo.getZone().getInteractable(pupo,Direction.move(pupo.getCoord().getPoint(), pupo.getCoord().getFacing(), 1));
 		if(interactable == null) fail();
 		Interaction toDo = null;
 		for(Interaction i: interactable.getInteractions()){
